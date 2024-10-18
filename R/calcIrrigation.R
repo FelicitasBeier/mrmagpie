@@ -44,10 +44,11 @@ calcIrrigation <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de", crop
 
   # Load LPJmL to MAgPIE mapping to aggregate to MAgPIE crops
   mapping   <- toolGetMapping("MAgPIE_LPJmL.csv",
-                              type = "sectoral", where = "mappingfolder")
+                              type = "sectoral", where = "mrlandcore")
   # Aggregate to MAgPIE crops
-  airrigMAG <- toolAggregate(airrigLPJ, mapping,
-                             from = "LPJmL", to = "MAgPIE", dim = 3.1, partrel = TRUE)
+  airrigMAG <- toolAggregate(x = airrigLPJ, rel = mapping,
+                             dim = 3.1, partrel = TRUE,
+                             from = "LPJmL5", to = "MAgPIE")
   # Remove pasture (pasture is not irrigated in MAgPIE)
   airrigMAG <- airrigMAG[, , "pasture", invert = TRUE]
   # Remove negative airrig

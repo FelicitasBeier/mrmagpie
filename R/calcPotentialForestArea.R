@@ -29,12 +29,9 @@ calcPotentialForestArea <- function(refData = "lpj", countryLevel = FALSE, cells
                                     lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de"),
                                     climatetype = "MRI-ESM2-0:ssp370") {
   if (refData == "lpj") {
-    vegc <- calcOutput("LPJmL_new",
-      version = lpjml["natveg"],
-      climatetype = climatetype,
-      subtype = "vegc", stage = "harmonized2020",
-      aggregate = FALSE
-    )
+    vegc <- calcOutput("LPJmL_new", version = lpjml["natveg"], climatetype = climatetype,
+                       subtype = "vegc", stage = "harmonized2020",
+                       aggregate = FALSE)
 
     potForest <- toolConditionalReplace(vegc, c("<20", ">=20"), c(0, 1))
 
