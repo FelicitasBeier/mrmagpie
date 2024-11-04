@@ -18,7 +18,7 @@ calcClusterBase <- function(clusterdata = "yield_airrig",
   if (clusterdata == "yield_airrig") {
 
     d$yld    <- calcOutput("Yields", source = c(lpjml = lpjml[["crop"]]),
-                           cells = "lpjcell", selectyears = 1995, aggregate = FALSE)
+                           selectyears = 1995, aggregate = FALSE)
     d$irrig  <- calcOutput("Irrigation", lpjml = lpjml, cells = "lpjcell",
                            years = 1995, aggregate = FALSE)
     d$td     <- calcOutput("TransportTime", cells = "lpjcell",
@@ -30,7 +30,7 @@ calcClusterBase <- function(clusterdata = "yield_airrig",
   } else if (clusterdata == "yield_increment") {
 
     yield    <- calcOutput("Yields", source = c(lpjml = lpjml[["crop"]]),
-                           cells = "lpjcell", selectyears = 1995, aggregate = FALSE)
+                           selectyears = 1995, aggregate = FALSE)
     d$yld    <- collapseNames(yield[, , "rainfed"])
     d$irrig  <- (collapseNames(yield[, , "irrigated"][, , "pasture", invert = TRUE])
                  - collapseNames(yield[, , "rainfed"][, , "pasture", invert = TRUE]))

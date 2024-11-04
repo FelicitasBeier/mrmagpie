@@ -168,12 +168,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   } else if (grepl("india", dev)) {
 
     calcOutput("Yields", source = c(lpjml = lpjml[["crop"]], isimip = isimip),
-               cells = cells, aggregate = FALSE,
+               aggregate = FALSE,
                climatetype = climatetype, round = 2, years = lpjYears, file = paste0("lpj_yields_0.5.mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
 
 
-    calcOutput("Yields", aggregate = "cluster", cells = cells,
+    calcOutput("Yields", aggregate = "cluster",
                source = c(lpjml = lpjml[["crop"]], isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears, file = paste0("lpj_yields_", ctype, ".mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
@@ -181,11 +181,11 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   } else {
 
     calcOutput("Yields", source = c(lpjml = lpjml[["crop"]], isimip = isimip),
-               aggregate = FALSE, cells = cells,
+               aggregate = FALSE,
                climatetype = climatetype, round = 2, years = lpjYears, file = paste0("lpj_yields_0.5.mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
-    calcOutput("Yields", aggregate = "cluster", cells = cells,
+    calcOutput("Yields", aggregate = "cluster",
                source = c(lpjml = lpjml[["crop"]], isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears, file = paste0("lpj_yields_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
