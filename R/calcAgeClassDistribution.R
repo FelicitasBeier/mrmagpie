@@ -1,10 +1,10 @@
 #' @title calcAgeClassDistribution
-#' @description This function calculates the share of each age class in secondary forests in each
-#'              MAgPIE simulation cluster based on Global Forest Age Dataset from Poulter et al. 2019
+#' @description This function calculates forest area in 15 age classes based on the
+#' Global Forest Age Dataset (GFAD) from Poulter et al. 2019
 #' @param cells lpjcell for 67420 cells or magpiecell for 59199 cells
 #'
 #' @return magpie object in cluster resolution
-#' @author Abhijeet Mishra, Felicitas Beier
+#' @author Abhijeet Mishra, Felicitas Beier, Florian Humpenoeder
 #'
 #' @examples
 #' \dontrun{
@@ -23,26 +23,18 @@ calcAgeClassDistribution <- function(cells = "lpjcell") {
   cb <- toolGetMapping("LPJ_CellBelongingsToCountries.csv",
                        type = "cell", where = "mrcommons")
   cellArea <- (111e3 * 0.5) * (111e3 * 0.5) * cos(cb$lat / 180 * pi)
-  cellArea <- as.magpie(cellArea, spatial = 1)
+  cellArea <- as.magpie(cellArea, spatial = 1) /  1e10 # convert to Mha
   getItems(cellArea, dim = 1, raw = TRUE) <- paste(mapping$coords, mapping$iso, sep = ".")
   getSets(cellArea) <- c("x", "y", "iso", "year", "data")
 
   ######################
-  forestArea <- poulterDataset * cellArea
+  out <- poulterDataset * cellArea
 
-  forestArea <- dimSums(forestArea, dim = 3.1)
+  out <- dimSums(out, dim = 3.1)
 
-  getNames(forestArea) <- gsub(pattern = "X",
-                               replacement = "class",
-                               x = getNames(forestArea))
-
-  ## Set age classes to 0 where forest does not exist
-  ## Only checking where zero forest area exists
-  zeroForestArea <- dimSums(forestArea, dim = 3)
-  acDistribution <- forestArea / zeroForestArea
-  acDistribution[magclass::where((setYears(zeroForestArea, "y2000")) == 0)$true$regions, , ] <- 0
-
-  out <- acDistribution
+  getNames(out) <- gsub(pattern = "X",
+                        replacement = "class",
+                        x = getNames(out))
 
   if (cells == "magpiecell") {
     out      <- toolCoord2Isocell(out, cells = cells)
@@ -50,9 +42,9 @@ calcAgeClassDistribution <- function(cells = "lpjcell") {
   }
 
   return(list(x = out,
-              weight = cellArea,
-              unit = "1",
-              description = "Fraction of each age class in secondary forest from each spatially
-                             explicit cell as described in Poulter age classes",
+              weight = NULL,
+              unit = "Mha",
+              description = "Forest area in 15 age classes based the Global Forest Age
+                Dataset (GFAD) from Poulter et al. 2019",
               isocountries = FALSE))
 }

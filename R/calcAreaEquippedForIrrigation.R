@@ -105,7 +105,7 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
       out <- dimSums(out, dim = c("x", "y"))
     } else {
       mapping <- toolGetMapping(name = "CountryToCellMapping.rds",
-                                where = "mrcommons")
+                                where = "mstools")
       out <- toolAggregate(out, rel = mapping,
                            from = "celliso", to = "iso", dim = 1)
     }
