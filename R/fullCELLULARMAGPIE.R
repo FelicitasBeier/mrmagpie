@@ -372,31 +372,31 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   # 42 water demand
   calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-             cells = cells, aggregate = "cluster", round = 6,
+             aggregate = "cluster", round = 6,
              file = paste0("lpj_airrig_", ctype, ".mz"))
 
   # dummy Growing Period
   calcOutput("GrowingPeriod", lpjml = lpjml, years = lpjYears,
              climatetype = climatetype, yield_ratio = 0.1,
-             aggregate = FALSE, cells = cells,
+             aggregate = FALSE,
              round = 2, file = "lpj_grper_0.5.mz")
 
   # 43 water availability
   calcOutput("AvlWater", lpjml = lpjml, years = lpjYears,
              climatetype = climatetype, seasonality = "grper",
-             aggregate = "cluster",  cells = cells,
+             aggregate = "cluster",
              round = 6, file = paste0("lpj_watavail_grper_", ctype, ".mz"))
   calcOutput("AvlWater", lpjml = lpjml, years = lpjYears,
              climatetype = climatetype, seasonality = "total",
-             aggregate = "cluster", cells = cells,
+             aggregate = "cluster",
              round = 6, file = paste0("lpj_watavail_total_", ctype, ".mz"))
 
   calcOutput("EFRSmakthin", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-             aggregate = "cluster", cells = cells,
+             aggregate = "cluster",
              round = 6, seasonality = "grper",
              file = paste0("lpj_envflow_grper_", ctype, ".mz"))
   calcOutput("EFRSmakthin", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-             aggregate = "cluster", cells = cells,
+             aggregate = "cluster",
              round = 6, seasonality = "total",
              file = paste0("lpj_envflow_total_", ctype, ".mz"))
 

@@ -5,17 +5,15 @@
 \title{calcEFRSmakthin}
 \usage{
 calcEFRSmakthin(
-  lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de", crop =
-    "ggcmi_phase3_nchecks_9ca735cb"),
-  climatetype = "GSWP3-W5E5:historical",
+  lpjml = "lpjml5.9.5-m1",
+  climatetype = "MRI-ESM2-0:ssp370",
   stage = "harmonized2020",
   LFR_val = 0.1,
   HFR_LFR_less10 = 0.2,
   HFR_LFR_10_20 = 0.15,
   HFR_LFR_20_30 = 0.07,
   HFR_LFR_more30 = 0,
-  seasonality = "grper",
-  cells = "lpjcell"
+  seasonality = "grper"
 )
 }
 \arguments{
@@ -41,8 +39,6 @@ with LFR>30percent of total water}
 
 \item{seasonality}{grper (default): EFR in growing period per year; total:
 EFR throughout the year; monthly: monthly EFRs}
-
-\item{cells}{lpjcell for 67420 cells or magpiecell for 59199 cells}
 }
 \value{
 magpie object in cellular resolution

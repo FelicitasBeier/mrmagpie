@@ -17,13 +17,12 @@
 #'                       with LFR>30percent of total water
 #' @param seasonality grper (default): EFR in growing period per year; total:
 #'                    EFR throughout the year; monthly: monthly EFRs
-#' @param cells       lpjcell for 67420 cells or magpiecell for 59199 cells
 #'
 #' @import magclass
 #' @import madrat
 #' @importFrom stats quantile
 #' @importFrom mstools toolHarmonize2Baseline
-#' @importFrom mrlandcore toolLPJmLVersion
+#' @importFrom mrlandcore toolLPJmLHarmonization
 #'
 #' @return magpie object in cellular resolution
 #' @author Felicitas Beier, Abhijeet Mishra
@@ -33,21 +32,14 @@
 #' calcOutput("EFRSmakthin", aggregate = FALSE)
 #' }
 #'
-calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
-                                      crop = "ggcmi_phase3_nchecks_9ca735cb"),
-                            climatetype = "GSWP3-W5E5:historical", stage = "harmonized2020",
+calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:ssp370",
+                            stage = "harmonized2020",
                             LFR_val = 0.1, HFR_LFR_less10 = 0.2, HFR_LFR_10_20 = 0.15, # nolint
                             HFR_LFR_20_30 = 0.07, HFR_LFR_more30 = 0.00,               # nolint
-                            seasonality = "grper", cells = "lpjcell") {
-  # Create settings for LPJmL from version and climatetype argument
-  cfgNatveg <- toolLPJmLVersion(version = lpjml["natveg"], climatetype = climatetype)
-  cfgCrop   <- toolLPJmLVersion(version = lpjml["crop"],   climatetype = climatetype)
-
-  lpjmlReadin  <- c(natveg = unname(cfgNatveg$readin_version),
-                    crop   = unname(cfgCrop$readin_version))
-
-  lpjmlBaseline <- c(natveg = unname(cfgNatveg$baseline_version),
-                     crop   = unname(cfgCrop$baseline_version))
+                            seasonality = "grper") {
+  # extract LPJmL config information
+  cfg <- toolLPJmLHarmonization(lpjmlversion = lpjml,
+                                climatetype = climatetype)
 
   if (stage %in% c("raw", "smoothed")) {
     ############################################################
@@ -56,9 +48,9 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     ############################################################
 
     ### Monthly Discharge
-    monthlyDischargeMagpie <- calcOutput("LPJmL_new", version = lpjmlReadin["natveg"],
-                                         climatetype = climatetype, subtype = "mdischarge",
-                                         aggregate = FALSE, stage = "raw")
+    monthlyDischargeMagpie <- calcOutput("LPJmLtransform", subtype = "pnv:discharge",
+                                         lpjmlversion = lpjml, climatetype = climatetype,
+                                         stage = "raw:cut", aggregate = FALSE)
     # Extract years for quantile calculation
     years <- getYears(monthlyDischargeMagpie, as.integer = TRUE)
     years <- seq(years[1] + 7, years[length(years)], by = 1)
@@ -92,9 +84,9 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     rm(monthlyDischargeMagpie)
 
     ### Read in smoothed monthly discharge
-    monthlyDischargeMagpie <- calcOutput("LPJmL_new", version = lpjmlReadin["natveg"],
-                                         climatetype = climatetype, subtype = "mdischarge",
-                                         aggregate = FALSE, stage = "smoothed")
+    monthlyDischargeMagpie <- calcOutput("LPJmLtransform", subtype = "pnv:discharge",
+                                         lpjmlversion = lpjml, climatetype = climatetype,
+                                         stage = "smoothed:cut", aggregate = FALSE)
 
     # Transform to array (faster calculation)
     lfrQuant <- as.array(collapseNames(lfrQuant))
@@ -118,9 +110,9 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     #        from available water per month        #
     ################################################
     ### Available water per month (smoothed)
-    avlWaterMonth <- calcOutput("AvlWater", lpjml = lpjmlReadin, climatetype = climatetype,
+    avlWaterMonth <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
                                 seasonality = "monthly", stage = "smoothed",
-                                aggregate = FALSE, cells = "lpjcell")
+                                aggregate = FALSE)
 
     # Transform to array for faster calculation
     avlWaterMonth <- as.array(collapseNames(avlWaterMonth))
@@ -170,9 +162,9 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
       efrTotal <- dimSums(efr, dim = 3)
 
       # Read in available water (for Smakthin calculation)
-      avlWaterTotal <- calcOutput("AvlWater", lpjml = lpjmlReadin, climatetype = climatetype,
+      avlWaterTotal <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
                                   seasonality = "total", stage = "smoothed",
-                                  aggregate = FALSE, cells = "lpjcell")
+                                  aggregate = FALSE)
 
       # Reduce EFR to 50% of available water where it exceeds this threshold (according to Smakhtin 2004)
       efrTotal[which(efrTotal / avlWaterTotal > 0.5)] <-
@@ -198,18 +190,18 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
       efrDay   <- efr / monthDayMagpie
 
       # Growing days per month
-      growDays <- calcOutput("GrowingPeriod", lpjml = lpjmlReadin, climatetype = climatetype,
+      growDays <- calcOutput("GrowingPeriod", lpjml = lpjml, climatetype = climatetype,
                              stage = "smoothed", yield_ratio = 0.1,
-                             aggregate = FALSE, cells = "lpjcell")
+                             aggregate = FALSE)
 
       # Available water in growing period
       efrGrper <- efrDay * growDays
       # Available water in growing period per year
       efrGrper <- dimSums(efrGrper, dim = 3)
       # Read in available water (for Smakthin calculation)
-      avlWaterGrper <- calcOutput("AvlWater", lpjml = lpjmlReadin, climatetype = climatetype,
+      avlWaterGrper <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
                                   seasonality = "grper", stage = "smoothed",
-                                  aggregate = FALSE, cells = "lpjcell")
+                                  aggregate = FALSE)
 
       # Reduce EFR to 50% of available water where it exceeds this threshold (according to Smakhtin 2004)
       efrGrper[which(efrGrper / avlWaterGrper > 0.5)] <-
@@ -225,52 +217,56 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     }
 
   } else if (stage == "harmonized") {
-    # Load baseline and climate EFR:
-    baseline <- calcOutput("EFRSmakthin", lpjml = lpjmlBaseline, climatetype = cfgNatveg$baseline_hist,
-                           seasonality = seasonality, stage = "smoothed",
+    # load historical baseline
+    baseline <- calcOutput("EFRSmakthin", stage = "smoothed",
+                           lpjml = lpjml, climatetype = cfg$baselineHist,
+                           seasonality = seasonality,
                            LFR_val = LFR_val,
                            HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
                            HFR_LFR_20_30 = HFR_LFR_20_30, HFR_LFR_more30 = HFR_LFR_more30,
-                           aggregate = FALSE, cells = "lpjcell")
+                           aggregate = FALSE)
 
-    if (climatetype == cfgNatveg$baseline_hist) {
-
+    if (climatetype == cfg$baselineHist) {
+      # no further harmonization required when climatetype is historical baseline
       out <- baseline
 
     } else {
-
-      x   <- calcOutput("EFRSmakthin", lpjml = lpjmlReadin, climatetype = climatetype,
+      # load smoothed future scenario
+      x   <- calcOutput("EFRSmakthin", lpjml = lpjml, climatetype = climatetype,
                         seasonality = seasonality, stage = "smoothed",
                         LFR_val = LFR_val,
                         HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
                         HFR_LFR_20_30 = HFR_LFR_20_30, HFR_LFR_more30 = HFR_LFR_more30,
-                        aggregate = FALSE, cells = "lpjcell")
-      # Harmonize to baseline
-      out <- toolHarmonize2Baseline(x = x, base = baseline, ref_year = cfgNatveg$ref_year_hist)
+                        aggregate = FALSE)
+      # harmonize future scenario to baseline
+      out <- toolHarmonize2Baseline(x = x, base = baseline, ref_year = cfg$refYearHist)
     }
 
   } else if (stage == "harmonized2020") {
-
-    baseline2020 <- calcOutput("EFRSmakthin", lpjml = lpjmlBaseline, climatetype = cfgNatveg$baseline_gcm,
-                               seasonality = seasonality, stage = "harmonized",
+    # load harmonized baseline GCM scenario
+    baseline2020 <- calcOutput("EFRSmakthin", stage = "harmonized",
+                               lpjml = lpjml, climatetype = cfg$baselineGcm,
+                               seasonality = seasonality,
                                LFR_val = LFR_val,
                                HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
                                HFR_LFR_20_30 = HFR_LFR_20_30, HFR_LFR_more30 = HFR_LFR_more30,
-                               aggregate = FALSE, cells = "lpjcell")
+                               aggregate = FALSE)
 
-    if (climatetype == cfgNatveg$baseline_gcm) {
-
+    if (climatetype == cfg$baselineGcm) {
+      # no further harmonization required if climatetype is baseline GCM
       out <- baseline2020
 
     } else {
-
-      x        <- calcOutput("EFRSmakthin", lpjml = lpjmlReadin, climatetype = climatetype,
-                             seasonality = seasonality, stage = "smoothed",
+      # load smoothed future scenario
+      x        <- calcOutput("EFRSmakthin", stage = "smoothed",
+                             lpjml = lpjml, climatetype = climatetype,
+                             seasonality = seasonality,
                              LFR_val = LFR_val,
                              HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
                              HFR_LFR_20_30 = HFR_LFR_20_30, HFR_LFR_more30 = HFR_LFR_more30,
-                             aggregate = FALSE, cells = "lpjcell")
-      out      <- toolHarmonize2Baseline(x, baseline2020, ref_year = cfgNatveg$ref_year_gcm)
+                             aggregate = FALSE)
+      # harmonize future scenario to baseline
+      out <- toolHarmonize2Baseline(x, baseline2020, ref_year = cfg$refYearGcm)
     }
 
   } else {
@@ -278,10 +274,6 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
   }
 
   description <- paste0("EFR according to Smakthin method in ", seasonality)
-
-  if (cells == "magpiecell") {
-    out <- toolCoord2Isocell(out, cells = cells)
-  }
 
   return(list(x = out,
               weight = NULL,
