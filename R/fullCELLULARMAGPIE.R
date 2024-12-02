@@ -257,26 +257,28 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              round = roundArea, file = paste0("SNVTargetCropland_", ctype, ".mz"))
 
   # 31 past
-  calcOutput("GrasslandBiomass",  round = 3, file = "f31_grass_bio_hist.cs3",
-             cells = cells, aggregate = "region")
-  calcOutput("LUH2v2", aggregate = "cluster", landuse_types = "LUH2v2",
-             cellular = TRUE, cells = cells,
-             file = paste0("f31_LUH2v2_", ctype, ".mz"))
-  # hard coded climate scenario for harmonization of data
-  calcOutput("GrasslandsYields", lpjml = lpjml[["grass"]], climatetype = "MRI-ESM2-0:ssp126",
-             subtype = "/co2/Nreturn0p5", # nolint
-             lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
-             file = paste0("f31_grassl_yld_", ctype, ".mz"), years = magYears,
-             cells = cells, aggregate = "cluster")
-  calcOutput("GrasslandsYields", lpjml = lpjml[["grass"]], climatetype = "MRI-ESM2-0:ssp126",
-             subtype = "/co2/Nreturn0p5", # nolint
-             lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
-             file = paste0("f31_grassl_yld.mz"), years = magYears,
-             cells = cells, aggregate = FALSE)
-  calcOutput("MaxPastureSuit", climatetype = climatetype, lpjml =  lpjml[["natveg"]], cells = cells,
-             file = paste0("f31_max_managed_pasture_", ctype, ".mz"), years = magYears, aggregate = "cluster")
-  calcOutput("MaxPastureSuit", climatetype = climatetype, lpjml =  lpjml[["natveg"]], cells = cells,
-             file = "f31_max_managed_pasture.mz", years = magYears, aggregate = FALSE)
+  if (grepl("+grasslandRealization", dev)) {
+    calcOutput("GrasslandBiomass",  round = 3, file = "f31_grass_bio_hist.cs3",
+               cells = cells, aggregate = "region")
+    calcOutput("LUH2v2", aggregate = "cluster", landuse_types = "LUH2v2",
+               cellular = TRUE, cells = cells,
+               file = paste0("f31_LUH2v2_", ctype, ".mz"))
+    # hard coded climate scenario for harmonization of data
+    calcOutput("GrasslandsYields", lpjml = lpjml[["grass"]], climatetype = "MRI-ESM2-0:ssp126",
+               subtype = "/co2/Nreturn0p5", # nolint
+               lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
+               file = paste0("f31_grassl_yld_", ctype, ".mz"), years = magYears,
+               cells = cells, aggregate = "cluster")
+    calcOutput("GrasslandsYields", lpjml = lpjml[["grass"]], climatetype = "MRI-ESM2-0:ssp126",
+               subtype = "/co2/Nreturn0p5", # nolint
+               lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
+               file = paste0("f31_grassl_yld.mz"), years = magYears,
+               cells = cells, aggregate = FALSE)
+    calcOutput("MaxPastureSuit", climatetype = climatetype, lpjml =  lpjml[["natveg"]], cells = cells,
+               file = paste0("f31_max_managed_pasture_", ctype, ".mz"), years = magYears, aggregate = "cluster")
+    calcOutput("MaxPastureSuit", climatetype = climatetype, lpjml =  lpjml[["natveg"]], cells = cells,
+               file = "f31_max_managed_pasture.mz", years = magYears, aggregate = FALSE)
+  }
 
   if (grepl("+PastrMngtLevels", dev)) {
     calcOutput("PastrMngtLevels", climatetype = paste0("MRI-ESM2-0", ":", climatescen),
@@ -340,14 +342,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              file = paste0("forestageclasses_", ctype, ".mz"))
 
   calcOutput("PotentialForestArea",
-    refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
-    aggregate = FALSE, round = roundArea, file = "pot_forest_area_0.5.mz"
-  )
+             refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
+             aggregate = FALSE, round = roundArea, file = "pot_forest_area_0.5.mz")
 
   calcOutput("PotentialForestArea",
-    refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
-    aggregate = "cluster", round = roundArea, file = paste0("pot_forest_area_", ctype, ".mz")
-  )
+             refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
+             aggregate = "cluster", round = roundArea, file = paste0("pot_forest_area_", ctype, ".mz"))
 
   # 37 labour prod
   calcOutput("LabourProdImpactEmu", aggregate = "cluster", cells = cells, subtype = "impact",
