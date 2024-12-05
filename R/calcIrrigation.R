@@ -29,7 +29,7 @@ calcIrrigation <- function(lpjml = "lpjml5.9.5-m1",
   local_options(magclass_sizeLimit = 1e+12)
 
   # Read in airrig (irrigation water applied additionally to rainfall where irrigation takes place):
-  airrigLPJ <- collapseNames(calcOutput("LPJmLharmonize", subtype = "cft_airrig",
+  airrigLPJ <- collapseNames(calcOutput("LPJmLharmonize", subtype = "crops:cft_airrig",
                                         lpjmlversion = lpjml, climatetype = climatetype,
                                         aggregate = FALSE))
 
