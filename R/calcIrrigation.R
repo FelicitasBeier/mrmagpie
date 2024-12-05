@@ -56,8 +56,6 @@ calcIrrigation <- function(lpjml = "lpjml5.9.5-m1",
                                       years = "y1995", round = 6,
                                       irrigation = TRUE, aggregate = FALSE),
                            dim = 3.2)
-  map <- toolGetMappingCoord2Country()
-  getItems(totalCropland, dim = 1, raw = TRUE) <- paste(map$coords, map$iso, sep = ".")
   getSets(totalCropland) <- c("x", "y", "iso", "year", "irrigation")
 
   weightCropArea <- collapseNames(totalCropland[, , "irrigated"]) +
