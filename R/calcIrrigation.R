@@ -37,7 +37,7 @@ calcIrrigation <- function(lpjml = "lpjml5.9.5-m1",
   mapping <- toolGetMapping("MAgPIE_LPJmL.csv", type = "sectoral", where = "mrlandcore")
   # Aggregate to MAgPIE crops
   airrigMAG <- toolAggregate(x = airrigLPJ, rel = mapping,
-                             dim = 3.1, partrel = TRUE,
+                             dim = "crop", partrel = TRUE,
                              from = "LPJmL5", to = "MAgPIE")
   # Remove pasture (pasture is not irrigated in MAgPIE)
   airrigMAG <- airrigMAG[, , "pasture", invert = TRUE]
