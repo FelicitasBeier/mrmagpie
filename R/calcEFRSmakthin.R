@@ -193,6 +193,8 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
       growDays <- calcOutput("GrowingPeriod", lpjml = lpjml, climatetype = climatetype,
                              stage = "smoothed", yield_ratio = 0.1,
                              aggregate = FALSE)
+      getItems(growDays, dim = 3) <- c(1:12)
+      getSets(growDays) <- c("x", "y", "iso", "year", "month")
 
       # Available water in growing period
       efrGrper <- efrDay * growDays
