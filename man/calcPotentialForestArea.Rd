@@ -6,26 +6,23 @@
 \usage{
 calcPotentialForestArea(
   refData = "lpj",
-  countryLevel = FALSE,
-  cells = "lpjcell",
-  lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de"),
-  climatetype = "MRI-ESM2-0:ssp370"
+  lpjml = "lpjml5.9.5-m1",
+  climatetype = "MRI-ESM2-0:ssp370",
+  countryLevel = FALSE
 )
 }
 \arguments{
 \item{refData}{Determines the reference data that the estimated potential
 forest area is derived from (currently only "lpj")}
 
-\item{countryLevel}{Whether output shall be at country level.
-Requires aggregate=FALSE in calcOutput.}
-
-\item{cells}{magpiecell (59199 cells) or lpjcell (67420 cells)}
-
 \item{lpjml}{Defines LPJmL version for crop/grass and natveg specific inputs.
 Only relevant, if refData = "lpj".}
 
 \item{climatetype}{Switch between different GCM climate scenarios.
 Only relevant, if refData = "lpj".}
+
+\item{countryLevel}{Whether output shall be at country level.
+Requires aggregate=FALSE in calcOutput.}
 }
 \value{
 magpie object in cellular resolution
@@ -38,7 +35,6 @@ Calculates the area than can be potentially covered by forests,
 \dontrun{
 calcOutput("PotentialForestArea", aggregate = FALSE)
 }
-
 }
 \author{
 Patrick v. Jeetze
