@@ -13,7 +13,7 @@
 #'                     Requires aggregate=FALSE in calcOutput.
 #'
 #' @return magpie object in cellular resolution
-#' @author Patrick v. Jeetze
+#' @author Patrick v. Jeetze, Michael Crawford
 #'
 #' @examples
 #' \dontrun{

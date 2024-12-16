@@ -37,5 +37,5 @@ calcOutput("PotentialForestArea", aggregate = FALSE)
 }
 }
 \author{
-Patrick v. Jeetze
+Patrick v. Jeetze, Michael Crawford
 }

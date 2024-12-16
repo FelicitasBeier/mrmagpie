@@ -15,7 +15,7 @@ calcCarbon(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:ssp370")
 magpie object in cellular resolution
 }
 \description{
-This function extracts carbon densities from LPJ to MAgPIE
+Extract the carbon densities used in MAgPIE from a set of LPJmL runs
 }
 \examples{
 \dontrun{
@@ -24,5 +24,5 @@ calcOutput("Carbon", aggregate = FALSE)
 
 }
 \author{
-Kristine Karstens, Patrick v. Jeetze
+Kristine Karstens, Patrick v. Jeetze, Michael Crawford
 }
