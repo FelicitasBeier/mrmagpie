@@ -137,7 +137,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
                         seasonality = seasonality, stage = "smoothed",
                         aggregate = FALSE)
       # Harmonize to baseline
-      out <- toolHarmonize2Baseline(x = x, base = baseline, ref_year = cfg$baselineHist)
+      out <- toolHarmonize2Baseline(x = x, base = baseline, ref_year = cfg$refYearHist)
     }
 
   } else if (stage == "harmonized2020") {
