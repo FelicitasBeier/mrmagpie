@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: If you use this software, please cite it using the metadata from this file.
 type: software
 title: 'mrmagpie: madrat based MAgPIE Input Data Library'
-version: 1.53.0
-date-released: '2024-11-21'
+version: 1.54.0
+date-released: '2024-12-16'
 abstract: Provides functions for MAgPIE country and cellular input data generation.
 authors:
 - family-names: Karstens

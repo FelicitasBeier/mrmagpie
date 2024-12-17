@@ -4,25 +4,18 @@
 \alias{calcCarbon}
 \title{calcCarbon}
 \usage{
-calcCarbon(
-  lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de", crop =
-    "ggcmi_phase3_nchecks_9ca735cb"),
-  climatetype = "GSWP3-W5E5:historical",
-  cells = "lpjcell"
-)
+calcCarbon(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:ssp370")
 }
 \arguments{
 \item{lpjml}{Defines LPJmL version for crop/grass and natveg specific inputs}
 
 \item{climatetype}{Switch between different GCM climate scenarios}
-
-\item{cells}{"magpiecell" for 59199 cells or "lpjcell" for 67420 cells}
 }
 \value{
 magpie object in cellular resolution
 }
 \description{
-This function extracts carbon densities from LPJ to MAgPIE
+Extract the carbon densities used in MAgPIE from a set of LPJmL runs
 }
 \examples{
 \dontrun{
@@ -31,5 +24,5 @@ calcOutput("Carbon", aggregate = FALSE)
 
 }
 \author{
-Kristine Karstens, Patrick v. Jeetze
+Kristine Karstens, Patrick v. Jeetze, Michael Crawford
 }
