@@ -95,9 +95,12 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
       growDays <- calcOutput("GrowingPeriod", lpjml = lpjml, climatetype = climatetype,
                              stage = "smoothed", yield_ratio = 0.1,
                              aggregate = FALSE)
+      getItems(growDays, dim = 3) <- c(1:12)
+      getSets(growDays) <- c("x", "y", "iso", "year", "month")
+      yrs <- intersect(getItems(growDays, dim = 2), getItems(efr, dim = 2))
 
       # Available water in growing period
-      efrGrper <- efrDay * growDays
+      efrGrper <- efrDay[, yrs, ] * growDays[, yrs, ]
       # Available water in growing period per year
       efrGrper <- dimSums(efrGrper, dim = 3)
       # Read in available water (for Smakthin calculation)

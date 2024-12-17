@@ -5,9 +5,8 @@
 \title{calcEFRRockstroem}
 \usage{
 calcEFRRockstroem(
-  lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de", crop =
-    "ggcmi_phase3_nchecks_9ca735cb"),
-  climatetype = "GSWP3-W5E5:historical",
+  lpjml = "lpjml5.9.5-m1",
+  climatetype = "MRI-ESM2-0:ssp370",
   stage = "harmonized2020",
   seasonality = "grper"
 )
