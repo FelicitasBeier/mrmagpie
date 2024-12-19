@@ -18,7 +18,7 @@
 calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
                               climatetype = "MRI-ESM2-0:ssp370") {
 
-  soilcLayerNatveg <- calcOutput("LPJmLharmonize",
+  soilcLayerNatveg <- calcOutput("LPJmLHarmonize",
                                  lpjmlversion = lpjml,
                                  climatetype  = climatetype,
                                  subtype      = "grass:soilc_layer",

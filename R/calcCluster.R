@@ -34,7 +34,7 @@
 #' @importFrom madrat calcOutput
 
 calcCluster <- function(ctype, regionscode = madrat::regionscode(), seed = 42, weight = NULL,
-                        lpjml = c(natveg = "LPJmL4", crop = "LPJmL5"), clusterdata = "yield_airrig") {
+                        lpjml = "lpjml5.9.5-m1", clusterdata = "yield_airrig") {
 
   mode <- substr(ctype, 0, 1)
   ncluster <- as.integer(substring(ctype, 2))

@@ -39,17 +39,18 @@ In case of questions / problems please contact Kristine Karstens <karstens@pik-p
 
 To cite package **mrmagpie** in publications use:
 
-Karstens K, Dietrich J, Chen D, Windisch M, Alves M, Beier F, Köberle A, v. Jeetze P, Mishra A, Humpenoeder F, Sauer P (2024). _mrmagpie: madrat based MAgPIE Input Data Library_. doi:10.5281/zenodo.4319612 <https://doi.org/10.5281/zenodo.4319612>, R package version 1.54.0, <https://github.com/pik-piam/mrmagpie>.
+Karstens K, Dietrich J, Chen D, Windisch M, Alves M, Beier F, Köberle A, v. Jeetze P, Mishra A, Humpenoeder F, Sauer P (2024). "mrmagpie: madrat based MAgPIE Input Data Library." doi:10.5281/zenodo.4319612 <https://doi.org/10.5281/zenodo.4319612>, Version: 1.54.0, <https://github.com/pik-piam/mrmagpie>.
 
 A BibTeX entry for LaTeX users is
 
  ```latex
-@Manual{,
+@Misc{,
   title = {mrmagpie: madrat based MAgPIE Input Data Library},
   author = {Kristine Karstens and Jan Philipp Dietrich and David Chen and Michael Windisch and Marcos Alves and Felicitas Beier and Alexandre Köberle and Patrick {v. Jeetze} and Abhijeet Mishra and Florian Humpenoeder and Pascal Sauer},
-  year = {2024},
-  note = {R package version 1.54.0},
-  url = {https://github.com/pik-piam/mrmagpie},
   doi = {10.5281/zenodo.4319612},
+  date = {2024-12-20},
+  year = {2024},
+  url = {https://github.com/pik-piam/mrmagpie},
+  note = {Version: 1.54.0},
 }
 ```

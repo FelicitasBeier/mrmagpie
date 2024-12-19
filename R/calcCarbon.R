@@ -27,7 +27,7 @@ calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
   .getLPJmLCPools <- function(run, pools) {
 
     poolData <- lapply(pools, function(pool) {
-      out <- calcOutput("LPJmLharmonize",
+      out <- calcOutput("LPJmLHarmonize",
                         lpjmlversion = lpjml,
                         climatetype  = climatetype,
                         subtype      = paste(run, pool, sep = ":"),

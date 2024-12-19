@@ -10,32 +10,25 @@
 #' @importFrom magclass wrap read.magpie ndata
 #' @importFrom madrat toolGetMapping
 
-calcClusterBase <- function(clusterdata = "yield_airrig",
-                            lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
-                                      crop = "ggcmi_phase3_nchecks_9ca735cb")) {
+calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1") {
   d <- list()
   # read in data which should be used to determine cluster
   if (clusterdata == "yield_airrig") {
 
-    d$yld    <- calcOutput("Yields", datasource = c(lpjml = lpjml[["crop"]]),
-                           selectyears = 1995, aggregate = FALSE)
-    d$irrig  <- calcOutput("Irrigation", lpjml = lpjml, cells = "lpjcell",
-                           years = 1995, aggregate = FALSE)
-    d$td     <- calcOutput("TransportTime", cells = "lpjcell",
-                           aggregate = FALSE)[, , rep(1, floor(ndata(d$yld) / 2))]
-    gridpop <- collapseNames(calcOutput("GridPop", source = "Gao", urban = FALSE,
-                                        aggregate = FALSE, years = 1995)[, , "SSP2"])
+    d$yld    <- calcOutput("Yields", datasource = lpjml, selectyears = 1995, aggregate = FALSE)
+    d$irrig  <- calcOutput("Irrigation", lpjml = lpjml, years = 1995, aggregate = FALSE)
+    d$td     <- calcOutput("TransportTime", aggregate = FALSE)[, , rep(1, floor(ndata(d$yld) / 2))]
+    gridpop  <- collapseNames(calcOutput("GridPop", source = "Gao", urban = FALSE,
+                                         aggregate = FALSE, years = 1995)[, , "SSP2"])
     d$gp  <- gridpop[, , rep(1, floor(ndata(d$yld) / 2))]
 
   } else if (clusterdata == "yield_increment") {
 
-    yield    <- calcOutput("Yields", datasource = c(lpjml = lpjml[["crop"]]),
-                           selectyears = 1995, aggregate = FALSE)
+    yield    <- calcOutput("Yields", datasource = lpjml, selectyears = 1995, aggregate = FALSE)
     d$yld    <- collapseNames(yield[, , "rainfed"])
     d$irrig  <- (collapseNames(yield[, , "irrigated"][, , "pasture", invert = TRUE])
                  - collapseNames(yield[, , "rainfed"][, , "pasture", invert = TRUE]))
-    d$td     <- calcOutput("TransportTime", cells = "lpjcell",
-                           aggregate = FALSE)[, , rep(1, ndata(d$yld))]
+    d$td     <- calcOutput("TransportTime", aggregate = FALSE)[, , rep(1, ndata(d$yld))]
     gridpop <- collapseNames(calcOutput("GridPop", source = "Gao", urban = FALSE,
                                         aggregate = FALSE, years = 1995)[, , "SSP2"])
     d$gp  <- gridpop[, , rep(1, floor(ndata(d$yld)))]

@@ -26,7 +26,7 @@ calcPotentialForestArea <- function(refData      = "lpj",
                                     countryLevel = FALSE) {
   if (refData == "lpj") {
     vegc <- calcOutput(
-      "LPJmLharmonize",
+      "LPJmLHarmonize",
       lpjmlversion = lpjml,
       climatetype  = climatetype,
       subtype      = "pnv:vegc",

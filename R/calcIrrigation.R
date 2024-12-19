@@ -16,7 +16,6 @@
 #' }
 #'
 #' @importFrom magpiesets findset
-#' @importFrom mrlandcore toolLPJmLVersion
 #' @importFrom mstools toolGetMappingCoord2Country toolCoord2Isocell
 #' @importFrom madrat toolGetMapping calcOutput toolAggregate
 #' @importFrom magclass dimSums getItems getSets collapseNames
@@ -29,7 +28,7 @@ calcIrrigation <- function(lpjml = "lpjml5.9.5-m1",
   local_options(magclass_sizeLimit = 1e+12)
 
   # Read in airrig (irrigation water applied additionally to rainfall where irrigation takes place):
-  airrigLPJ <- collapseNames(calcOutput("LPJmLharmonize", subtype = "crops:cft_airrig",
+  airrigLPJ <- collapseNames(calcOutput("LPJmLHarmonize", subtype = "crops:cft_airrig",
                                         lpjmlversion = lpjml, climatetype = climatetype,
                                         aggregate = FALSE))
 
@@ -52,8 +51,7 @@ calcIrrigation <- function(lpjml = "lpjml5.9.5-m1",
   # Clustering weight:
   totalCropland <- dimSums(calcOutput("Croparea",
                                       sectoral = "kcr", physical = TRUE,
-                                      cellular = TRUE, cells = "lpjcell",
-                                      years = "y1995", round = 6,
+                                      cellular = TRUE, years = "y1995", round = 6,
                                       irrigation = TRUE, aggregate = FALSE),
                            dim = 3.2)
   getSets(totalCropland) <- c("x", "y", "iso", "year", "irrigation")

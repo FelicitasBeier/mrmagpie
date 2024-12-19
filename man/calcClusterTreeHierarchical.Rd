@@ -8,7 +8,7 @@ calcClusterTreeHierarchical(
   regionscode,
   mode = "h",
   weight = NULL,
-  lpjml = c(natveg = "LPJmL4", crop = "LPJmL5"),
+  lpjml = "lpjml5.9.5-m1",
   clusterdata = "yield_airrig"
 )
 }

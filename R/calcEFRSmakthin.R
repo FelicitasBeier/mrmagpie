@@ -22,7 +22,7 @@
 #' @import madrat
 #' @importFrom stats quantile
 #' @importFrom mstools toolHarmonize2Baseline
-#' @importFrom mrlandcore toolLPJmLHarmonization
+#' @importFrom mrlandcore toolLPJmLHarmonize
 #'
 #' @return magpie object in cellular resolution
 #' @author Felicitas Beier, Abhijeet Mishra
@@ -38,8 +38,8 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
                             HFR_LFR_20_30 = 0.07, HFR_LFR_more30 = 0.00,               # nolint
                             seasonality = "grper") {
   # extract LPJmL config information
-  cfg <- toolLPJmLHarmonization(lpjmlversion = lpjml,
-                                climatetype = climatetype)
+  cfg <- toolLPJmLHarmonize(lpjmlversion = lpjml,
+                            climatetype = climatetype)
 
   if (stage %in% c("raw", "smoothed")) {
     ############################################################
@@ -48,7 +48,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     ############################################################
 
     ### Monthly Discharge
-    monthlyDischargeMagpie <- calcOutput("LPJmLtransform", subtype = "pnv:discharge",
+    monthlyDischargeMagpie <- calcOutput("LPJmLTransform", subtype = "pnv:discharge",
                                          lpjmlversion = lpjml, climatetype = climatetype,
                                          stage = "raw:cut", aggregate = FALSE)
     # Extract years for quantile calculation
@@ -84,7 +84,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     rm(monthlyDischargeMagpie)
 
     ### Read in smoothed monthly discharge
-    monthlyDischargeMagpie <- calcOutput("LPJmLtransform", subtype = "pnv:discharge",
+    monthlyDischargeMagpie <- calcOutput("LPJmLTransform", subtype = "pnv:discharge",
                                          lpjmlversion = lpjml, climatetype = climatetype,
                                          stage = "smoothed:cut", aggregate = FALSE)
 

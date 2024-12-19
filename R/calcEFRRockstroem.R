@@ -14,7 +14,7 @@
 #' @import madrat
 #' @importFrom stats quantile
 #' @importFrom mstools toolHarmonize2Baseline
-#' @importFrom mrlandcore toolLPJmLHarmonization
+#' @importFrom mrlandcore toolLPJmLHarmonize
 #'
 #' @return magpie object in cellular resolution
 #' @author Felicitas Beier, Jens Heinke
@@ -28,8 +28,8 @@
 calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:ssp370",
                               stage = "harmonized2020", seasonality = "grper") {
   # extract LPJmL config information
-  cfg <- toolLPJmLHarmonization(lpjmlversion = lpjml,
-                                climatetype = climatetype)
+  cfg <- toolLPJmLHarmonize(lpjmlversion = lpjml,
+                            climatetype = climatetype)
 
   #############################################################################
   # Definition of planetary boundary (PB) according to Rockström et al. 2023: #

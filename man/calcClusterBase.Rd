@@ -4,11 +4,7 @@
 \alias{calcClusterBase}
 \title{calcClusterBase}
 \usage{
-calcClusterBase(
-  clusterdata = "yield_airrig",
-  lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de", crop =
-    "ggcmi_phase3_nchecks_9ca735cb")
-)
+calcClusterBase(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1")
 }
 \arguments{
 \item{clusterdata}{similarity data to be used to determine clusters:

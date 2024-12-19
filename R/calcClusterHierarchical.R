@@ -31,7 +31,7 @@
 #' @seealso \code{\link{calcCluster}}, \code{\link{calcClusterKMeans}}
 #' @export
 
-calcClusterHierarchical <- function(regionscode, ncluster, lpjml = c(natveg = "LPJmL4", crop = "LPJmL5"),
+calcClusterHierarchical <- function(regionscode, ncluster, lpjml = "lpjml5.9.5-m1",
                                     clusterdata = "yield_airrig", mode = "h", weight = NULL) {
 
   fullfit <- attributes(calcOutput("ClusterTreeHierarchical", regionscode = regionscode, mode = mode, weight = weight,
