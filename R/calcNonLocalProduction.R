@@ -12,13 +12,13 @@
 calcNonLocalProduction <- function(cells = "lpjcell") {
 
   productionPri  <- calcOutput("Production",  products = "kcr",
-                               cellular = TRUE, cells = cells,
+                               cellular = TRUE,
                                aggregate = FALSE)
   productionLi   <- calcOutput("Production", products = "kli",
-                               cellular = TRUE, cells = cells,
+                               cellular = TRUE,
                                aggregate = FALSE)
   productionPast <- calcOutput("Production", products = "pasture", cellular = TRUE,
-                               cells = cells, aggregate = FALSE)
+                               aggregate = FALSE)
   productionPast <- add_dimension(productionPast,   dim = 3.1, add = "Item", nm = "pasture")
   production <- collapseNames(mbind(productionPri, productionLi)[, , "dm"])
   production <- mbind(production, collapseNames(productionPast[, , "dm"], collapsedim  = 2))
