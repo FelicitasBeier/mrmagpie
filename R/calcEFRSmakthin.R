@@ -49,7 +49,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
 
     ### Monthly Discharge
     monthlyDischargeMagpie <- calcOutput("LPJmLTransform", subtype = "pnv:discharge",
-                                         lpjmlversion = lpjml, climatetype = climatetype,
+                                         lpjmlversion = cfg$readinVersion, climatetype = climatetype,
                                          stage = "raw:cut", aggregate = FALSE)
     # Extract years for quantile calculation
     years <- getYears(monthlyDischargeMagpie, as.integer = TRUE)
@@ -85,7 +85,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
 
     ### Read in smoothed monthly discharge
     monthlyDischargeMagpie <- calcOutput("LPJmLTransform", subtype = "pnv:discharge",
-                                         lpjmlversion = lpjml, climatetype = climatetype,
+                                         lpjmlversion = cfg$readinVersion, climatetype = climatetype,
                                          stage = "smoothed:cut", aggregate = FALSE)
 
     # Transform to array (faster calculation)
@@ -110,7 +110,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     #        from available water per month        #
     ################################################
     ### Available water per month (smoothed)
-    avlWaterMonth <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
+    avlWaterMonth <- calcOutput("AvlWater", lpjml = cfg$readinVersion, climatetype = climatetype,
                                 seasonality = "monthly", stage = "smoothed",
                                 aggregate = FALSE)
 
@@ -162,7 +162,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
       efrTotal <- dimSums(efr, dim = 3)
 
       # Read in available water (for Smakthin calculation)
-      avlWaterTotal <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
+      avlWaterTotal <- calcOutput("AvlWater", lpjml = cfg$readinVersion, climatetype = climatetype,
                                   seasonality = "total", stage = "smoothed",
                                   aggregate = FALSE)
 
@@ -190,7 +190,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
       efrDay   <- efr / monthDayMagpie
 
       # Growing days per month
-      growDays <- calcOutput("GrowingPeriod", lpjml = lpjml, climatetype = climatetype,
+      growDays <- calcOutput("GrowingPeriod", lpjml = cfg$readinVersion, climatetype = climatetype,
                              stage = "smoothed", yield_ratio = 0.1,
                              aggregate = FALSE)
       getItems(growDays, dim = 3) <- c(1:12)
@@ -202,7 +202,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
       # Available water in growing period per year
       efrGrper <- dimSums(efrGrper, dim = 3)
       # Read in available water (for Smakthin calculation)
-      avlWaterGrper <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
+      avlWaterGrper <- calcOutput("AvlWater", lpjml = cfg$readinVersion, climatetype = climatetype,
                                   seasonality = "grper", stage = "smoothed",
                                   aggregate = FALSE)
 
@@ -222,7 +222,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
   } else if (stage == "harmonized") {
     # load historical baseline
     baseline <- calcOutput("EFRSmakthin", stage = "smoothed",
-                           lpjml = lpjml, climatetype = cfg$baselineHist,
+                           lpjml = cfg$readinVersion, climatetype = cfg$baselineHist,
                            seasonality = seasonality,
                            LFR_val = LFR_val,
                            HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
@@ -235,7 +235,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
 
     } else {
       # load smoothed future scenario
-      x   <- calcOutput("EFRSmakthin", lpjml = lpjml, climatetype = climatetype,
+      x   <- calcOutput("EFRSmakthin", lpjml = cfg$readinVersion, climatetype = cfg$climatetype,
                         seasonality = seasonality, stage = "smoothed",
                         LFR_val = LFR_val,
                         HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
@@ -248,7 +248,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
   } else if (stage == "harmonized2020") {
     # load harmonized baseline GCM scenario
     baseline2020 <- calcOutput("EFRSmakthin", stage = "harmonized",
-                               lpjml = lpjml, climatetype = cfg$baselineGcm,
+                               lpjml = cfg$readinVersion, climatetype = cfg$baselineGcm,
                                seasonality = seasonality,
                                LFR_val = LFR_val,
                                HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,
@@ -262,7 +262,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     } else {
       # load smoothed future scenario
       x        <- calcOutput("EFRSmakthin", stage = "smoothed",
-                             lpjml = lpjml, climatetype = climatetype,
+                             lpjml = cfg$readinVersion, climatetype = cfg$climatetype,
                              seasonality = seasonality,
                              LFR_val = LFR_val,
                              HFR_LFR_less10 = HFR_LFR_less10, HFR_LFR_10_20 = HFR_LFR_10_20,

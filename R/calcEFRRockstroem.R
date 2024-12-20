@@ -42,7 +42,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
 
   if (stage %in% c("raw", "smoothed")) {
     # Available water per month (smoothed)
-    avlWaterMonth <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
+    avlWaterMonth <- calcOutput("AvlWater", lpjml = cfg$readinVersion, climatetype = climatetype,
                                 seasonality = "monthly", stage = "smoothed",
                                 aggregate = FALSE)
 
@@ -64,7 +64,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
       efrTotal <- dimSums(efr, dim = 3)
 
       # Read in available water (for Smakthin calculation)
-      avlWaterTotal <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
+      avlWaterTotal <- calcOutput("AvlWater", lpjml = cfg$readinVersion, climatetype = climatetype,
                                   seasonality = "total", stage = "smoothed",
                                   aggregate = FALSE)
 
@@ -92,7 +92,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
       efrDay   <- efr / monthDayMagpie
 
       # Growing days per month
-      growDays <- calcOutput("GrowingPeriod", lpjml = lpjml, climatetype = climatetype,
+      growDays <- calcOutput("GrowingPeriod", lpjml = cfg$readinVersion, climatetype = climatetype,
                              stage = "smoothed", yield_ratio = 0.1,
                              aggregate = FALSE)
       getItems(growDays, dim = 3) <- c(1:12)
@@ -104,7 +104,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
       # Available water in growing period per year
       efrGrper <- dimSums(efrGrper, dim = 3)
       # Read in available water (for Smakthin calculation)
-      avlWaterGrper <- calcOutput("AvlWater", lpjml = lpjml, climatetype = climatetype,
+      avlWaterGrper <- calcOutput("AvlWater", lpjml = cfg$readinVersion, climatetype = climatetype,
                                   seasonality = "grper", stage = "smoothed",
                                   aggregate = FALSE)
 
@@ -123,7 +123,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
 
   } else if (stage == "harmonized") {
     # Load baseline and climate EFR:
-    baseline <- calcOutput("EFRRockstroem", lpjml = lpjml, climatetype = cfg$baselineHist,
+    baseline <- calcOutput("EFRRockstroem", lpjml = cfg$readinVersion, climatetype = cfg$baselineHist,
                            seasonality = seasonality, stage = "smoothed",
                            aggregate = FALSE)
 
@@ -133,7 +133,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
 
     } else {
 
-      x   <- calcOutput("EFRRockstroem", lpjml = lpjml, climatetype = climatetype,
+      x   <- calcOutput("EFRRockstroem", lpjml = cfg$readinVersion, climatetype = cfg$climatetype,
                         seasonality = seasonality, stage = "smoothed",
                         aggregate = FALSE)
       # Harmonize to baseline
@@ -142,7 +142,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
 
   } else if (stage == "harmonized2020") {
 
-    baseline2020 <- calcOutput("EFRRockstroem", lpjml = lpjml, climatetype = cfg$baselineGcm,
+    baseline2020 <- calcOutput("EFRRockstroem", lpjml = cfg$readinVersion, climatetype = cfg$baselineGcm,
                                seasonality = seasonality, stage = "harmonized",
                                aggregate = FALSE)
 
@@ -152,7 +152,7 @@ calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0
 
     } else {
 
-      x        <- calcOutput("EFRRockstroem", lpjml = lpjml, climatetype = climatetype,
+      x        <- calcOutput("EFRRockstroem", lpjml = cfg$readinVersion, climatetype = cfg$climatetype,
                              seasonality = seasonality, stage = "smoothed",
                              aggregate = FALSE)
       out <- toolHarmonize2Baseline(x, baseline2020, ref_year = cfg$refYearGcm)
