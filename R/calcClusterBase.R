@@ -15,7 +15,7 @@ calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1
   # read in data which should be used to determine cluster
   if (clusterdata == "yield_airrig") {
 
-    d$yld    <- calcOutput("Yields", datasource = lpjml, selectyears = 1995, aggregate = FALSE)
+    d$yld    <- calcOutput("Yields", datasource = c(lpjml = lpjml), selectyears = 1995, aggregate = FALSE)
     d$irrig  <- calcOutput("Irrigation", lpjml = lpjml, years = 1995, aggregate = FALSE)
     d$td     <- calcOutput("TransportTime", aggregate = FALSE)[, , rep(1, floor(ndata(d$yld) / 2))]
     gridpop  <- collapseNames(calcOutput("GridPop", source = "Gao", urban = FALSE,
@@ -24,7 +24,7 @@ calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1
 
   } else if (clusterdata == "yield_increment") {
 
-    yield    <- calcOutput("Yields", datasource = lpjml, selectyears = 1995, aggregate = FALSE)
+    yield    <- calcOutput("Yields", datasource = c(lpjml = lpjml), selectyears = 1995, aggregate = FALSE)
     d$yld    <- collapseNames(yield[, , "rainfed"])
     d$irrig  <- (collapseNames(yield[, , "irrigated"][, , "pasture", invert = TRUE])
                  - collapseNames(yield[, , "rainfed"][, , "pasture", invert = TRUE]))
