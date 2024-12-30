@@ -4,11 +4,9 @@
 \alias{calcPeatland2}
 \title{calcPeatland2}
 \usage{
-calcPeatland2(cells = "magpiecell", countryLevel = FALSE)
+calcPeatland2(countryLevel = FALSE)
 }
 \arguments{
-\item{cells}{number of cells to be returned: magpiecell (59199), lpjcell (67420)}
-
 \item{countryLevel}{Whether output shall be at country level.
 Requires aggregate=FALSE in calcOutput.}
 }
