@@ -6,7 +6,6 @@
 #' The GPD has been provided by Alexandra Barthelmes. The potential peatland area has been
 #' provided by Leifeld_2018 (DOI 10.1038/s41467-018-03406-6).
 #' @param subtype degraded (default) or intact
-#' @param cells "magpiecell" or "lpjcell"
 #'
 #' @return magpie object in cellular resolution
 #' @author Florian Humpenoeder
@@ -20,7 +19,7 @@
 #' @importFrom madrat toolGetMapping toolAggregate
 #' @importFrom mstools toolIso2CellCountries toolCoord2Isocell
 
-calcPeatland <- function(subtype = "degraded", cells = "lpjcell") {
+calcPeatland <- function(subtype = "degraded") {
 
   gpd         <- readSource("GPD", convert = TRUE)
   potPeatArea <- readSource("Leifeld2018", convert = "onlycorrect") + 10^-10
@@ -33,10 +32,10 @@ calcPeatland <- function(subtype = "degraded", cells = "lpjcell") {
 
   # Dissag. from country to cell
   map <- toolGetMappingCoord2Country(pretty = TRUE)
-  peatAreaTotal   <- toolAggregate(x = toolIso2CellCountries(peatAreaTotal, cells = "lpjcell"), rel = map,
+  peatAreaTotal   <- toolAggregate(x = toolIso2CellCountries(peatAreaTotal), rel = map,
                                    weight = potPeatArea, dim = 1, from = "iso", to = "coords")
   names(dimnames(peatAreaTotal)) <- c("coords", "t", "d3")
-  peatAreaDrained <- toolAggregate(x = toolIso2CellCountries(peatAreaDrained, cells = "lpjcell"), rel = map,
+  peatAreaDrained <- toolAggregate(x = toolIso2CellCountries(peatAreaDrained), rel = map,
                                    weight = potPeatArea, dim = 1, from = "iso", to = "coords")
   names(dimnames(peatAreaDrained)) <- c("coords", "t", "d3")
 
@@ -56,10 +55,6 @@ calcPeatland <- function(subtype = "degraded", cells = "lpjcell") {
     description <- "Intact peatland area (Mha) in 0.5 degree resolution based on Humpenoeder
                     et al 2020 (DOI 10.1088/1748-9326/abae2a)"
     x <- peatAreaIntact
-  }
-
-  if (cells == "magpiecell") {
-    x <- toolCoord2Isocell(x, cells = cells)
   }
 
   return(list(x = x,

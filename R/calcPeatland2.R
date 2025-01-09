@@ -15,7 +15,7 @@
 #' }
 #'
 #' @importFrom madrat toolAggregate
-#' @importFrom mstools toolGetMappingCoord2Country toolIso2CellCountries toolCoord2Isocell
+#' @importFrom mstools toolGetMappingCoord2Country
 
 calcPeatland2 <- function(countryLevel = FALSE) {
 
