@@ -21,7 +21,6 @@ Extract the carbon densities used in MAgPIE from a set of LPJmL runs
 \dontrun{
 calcOutput("Carbon", aggregate = FALSE)
 }
-
 }
 \author{
 Kristine Karstens, Patrick v. Jeetze, Michael Crawford

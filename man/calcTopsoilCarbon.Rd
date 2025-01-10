@@ -21,7 +21,6 @@ This function extracts topsoil carbon densities from LPJ to MAgPIE
 \dontrun{
 calcOutput("TopsoilCarbon", aggregate = FALSE)
 }
-
 }
 \author{
 Kristine Karstens

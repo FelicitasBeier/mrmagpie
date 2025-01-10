@@ -11,9 +11,6 @@
 #' \dontrun{
 #' calcOutput("TopsoilCarbon", aggregate = FALSE)
 #' }
-#'
-#' @importFrom magpiesets findset
-#' @importFrom mstools toolCoord2Isocell
 
 calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
                               climatetype = "MRI-ESM2-0:ssp370") {
@@ -41,11 +38,17 @@ calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
     falseStatus = "warn"
   )
 
+  mstools::toolExpectTrue(
+    all(topsoilc >= 0),
+    "topsoilc is non-negative",
+    falseStatus = "warn"
+  )
+
   weight <- calcOutput("LandArea", aggregate = FALSE)
 
   return(list(x            = topsoilc,
               weight       = weight,
-              unit         = "t per ha",
-              description  = "Topsoil carbon in tons per hectar for natural vegetation.",
+              unit         = "t C per ha",
+              description  = "Topsoil carbon in tons per hectar for natural vegetation",
               isocountries = FALSE))
 }
