@@ -18,11 +18,19 @@
 calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
                               climatetype = "MRI-ESM2-0:ssp370") {
 
+  soilcLayerShare <- calcOutput("LPJmLHarmonize",
+                                lpjmlversion = lpjml,
+                                climatetype  = climatetype,
+                                subtype      = "pnv:soilc_layer",
+                                aggregate    = FALSE)
+  soilcLayerShare  <- soilcLayerShare / dimSums(soilcLayerShare, dim = 3) # calculating a share per layer
+  soilcLayerShare  <- toolConditionalReplace(soilcLayerShare, conditions = c("is.na()"), replaceby = 0)
+
   soilcLayerNatveg <- calcOutput("LPJmLHarmonize",
                                  lpjmlversion = lpjml,
                                  climatetype  = climatetype,
-                                 subtype      = "grass:soilc_layer",
-                                 aggregate    = FALSE)
+                                 subtype      = "pnv:soilc",
+                                 aggregate    = FALSE) * soilcLayerShare
 
   topsoilc           <- soilcLayerNatveg[, , 1] + 1 / 3 * soilcLayerNatveg[, , 2]
   getNames(topsoilc) <- "topsoilc"

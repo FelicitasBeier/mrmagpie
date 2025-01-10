@@ -3,7 +3,7 @@ message: If you use this software, please cite it using the metadata from this f
 type: software
 title: 'mrmagpie: madrat based MAgPIE Input Data Library'
 version: 1.54.0
-date-released: '2024-12-30'
+date-released: '2025-01-10'
 abstract: Provides functions for MAgPIE country and cellular input data generation.
 authors:
 - family-names: Karstens
