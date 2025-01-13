@@ -38,16 +38,11 @@ calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
     falseStatus = "warn"
   )
 
-  mstools::toolExpectTrue(
-    all(topsoilc >= 0),
-    "topsoilc is non-negative",
-    falseStatus = "warn"
-  )
-
   weight <- calcOutput("LandArea", aggregate = FALSE)
 
   return(list(x            = topsoilc,
               weight       = weight,
+              min          = 0,
               unit         = "t C per ha",
               description  = "Topsoil carbon in tons per hectar for natural vegetation",
               isocountries = FALSE))

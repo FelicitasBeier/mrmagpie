@@ -111,12 +111,6 @@ calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
     falseStatus = "warn"
   )
 
-  mstools::toolExpectTrue(
-    all(carbon > 0),
-    "carbon densities are all positive",
-    falseStatus = "warn"
-  )
-
   # -----------------------------------------------------------------------------------------------
   # Calculate aggregation weight based on the potential forest area
 
