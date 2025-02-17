@@ -1,8 +1,8 @@
 Type: Package
 Package: mrmagpie
 Title: madrat based MAgPIE Input Data Library
-Version: 1.54.2
-Date: 2025-01-14
+Version: 1.55.0
+Date: 2025-02-14
 Authors@R: c(
     person("Kristine", "Karstens", , "karstens@pik-potsdam.de", role = c("aut", "cre")),
     person("Jan Philipp", "Dietrich", , "dietrich@pik-potsdam.de", role = "aut"),
@@ -36,6 +36,9 @@ Imports:
     class,
     digest,
     dplyr,
+    rlang,
+    gstat,
+    sp,
     ggplot2,
     lpjclass,
     luplot (>= 3.64.0),
@@ -54,7 +57,8 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    zip
+    zip,
+    archive
 VignetteBuilder:
     knitr
 Encoding: UTF-8

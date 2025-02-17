@@ -437,7 +437,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              file = paste0("f50_AtmosphericDepositionRates_", ctype, ".mz"))
   calcOutput("NitrogenFixationRateNatural",  aggregate = "cluster", round = 6,
              file = paste0("f50_NitrogenFixationRateNatural_", ctype, ".mz"))
+  calcOutput("SchulteUebbing", aggregate = FALSE, file = "criticalNitrogenSurplus_0.5.mz")
 
+  # 52 carbon
   calcOutput("Carbon", aggregate = FALSE, lpjml = lpjml, climatetype = climatetype,
              round = 6, years = "y1995", file = "lpj_carbon_stocks_0.5.mz")
   calcOutput("TopsoilCarbon", aggregate = FALSE, lpjml = lpjml, climatetype = climatetype,

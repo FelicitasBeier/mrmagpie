@@ -53,13 +53,12 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
 
       if (subtype == "past") {
         # Add scenario dimension and fill with same value
-        x <- add_columns(x, dim = 3.1, addnm = c("pop_SSP1", "pop_SSP2", "pop_SSP3", "pop_SSP4", "pop_SSP5"))
+        x <- add_columns(x, dim = 3.1, addnm = c("SSP1", "SSP2", "SSP3", "SSP4", "SSP5"))
         x[, , 2:6] <- x[, , 1]
         x <- (x[, , -1])
       }
     } else if (src == "Gao") {
       x <- readSource("GridPopGao", subtype = subtype, convert = FALSE)
-      getNames(x, dim = 1) <- paste0("pop_", getNames(x, dim = 1))
 
       if (!urban && subtype == "future") {
         x <- collapseNames(dimSums(x, dim = 3.2))
@@ -90,8 +89,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
                 "Use Gao source instead for cellular urban/rural population")
 
         # urban population at country-level
-        urbanPop <- calcOutput("Urban", aggregate = FALSE)
-        getNames(urbanPop) <- gsub("urb_", "", getNames(urbanPop))
+        urbanPop <- calcOutput("Urban", scenario = c("SSPs", "SDPs"), naming = "scenario", aggregate = FALSE)
         # disaggregate to cell level
         coordMapping <- toolGetMappingCoord2Country()
         urbanPop <- toolAggregate(urbanPop,
@@ -111,7 +109,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
     # harmonize future SSPs to divergence year by making them SSP2
     selectY <- 1:which(getYears(future, as.integer = TRUE) == harmonize_until)
     harmY   <- getYears(future, as.integer = TRUE)[selectY]
-    future[, harmY, ] <- future[, harmY, "pop_SSP2"]
+    future[, harmY, ] <- future[, harmY, "SSP2"]
 
     # take future years in case of overlap
     pYears <- setdiff(getYears(past), getYears(future))
@@ -126,24 +124,18 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
   }
 
   # Add SDP, SDP_EI, SDP_RC and SDP_MC scenarios as copy of SSP1
-  if ("pop_SSP1" %in% getNames(x, dim = 1) && !("pop_SDP" %in% getNames(x, dim = 1))) {
-    combinedSDP <- x[, , "pop_SSP1"]
+  if ("SSP1" %in% getNames(x, dim = 1) && !("SDP" %in% getNames(x, dim = 1))) {
+    combinedSDP <- x[, , "SSP1"]
     for  (i in c("SDP", "SDP_EI", "SDP_RC", "SDP_MC")) {
-      getNames(combinedSDP) <- gsub("SSP1", i, getNames(x[, , "pop_SSP1"]))
+      getNames(combinedSDP) <- gsub("SSP1", i, getNames(x[, , "SSP1"]))
       x <- mbind(x, combinedSDP)
     }
-  }
-  # Add SSP2EU as copy of SSP2
-  if ("pop_SSP2" %in% getNames(x, dim = 1) && !("pop_SSP2EU" %in% getNames(x, dim = 1))) {
-    combinedEU <- x[, , "pop_SSP2"]
-    getNames(combinedEU) <- gsub("SSP2", "SSP2EU", getNames(x[, , "pop_SSP2"]))
-    x <- mbind(x, combinedEU)
   }
 
   if (scale) {
     ## Scale to match country-level data
     # Country-level population data (in million)
-    pop <- calcOutput("Population", aggregate = FALSE)
+    pop <- calcOutput("Population", scenario = c("SSPs", "SDPs"), naming = "scenario", aggregate = FALSE)
     # aggregate to country-level and scale to match WDI country-level pop
     if (cells == "lpjcell") {
       agg <- collapseNames(dimSums(x, dim = c("x", "y")))
@@ -172,7 +164,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
     # even division of population across cells
     missing <- magclass::where(scF[commonCountries, , ] == 0)$true$regions
     for (i in missing) {
-      x[i, , ] <- pop[i, , "pop_SSP2"] / length(getCells(x[i, , ]))
+      x[i, , ] <- pop[i, , "SSP2"] / length(getCells(x[i, , ]))
     }
   }
   # unit conversion to million people
@@ -183,9 +175,6 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
     x <- x[, intersect(years, getYears(x)), ]
   }
 
-  if (subtype == "all") {
-    getNames(x) <- gsub("pop_", "", getNames(x))
-  }
   # Checks
   if (any(is.na(x))) {
     stop("Function calcGridPop returned NAs.")

@@ -68,8 +68,8 @@ readGridPopIsimip <- function(subtype) {
     sspNaming <- NULL
     for (file in files) {
       sspNaming <- append(sspNaming,
-                          paste0("pop_", toupper(unlist(regmatches(file,
-                                                                   gregexpr("ssp[0-9]", file))))))
+                          paste0(toupper(unlist(regmatches(file,
+                                                           gregexpr("ssp[0-9]", file))))))
       x[[file]] <- read(file)
     }
     x           <- mbind(x)
