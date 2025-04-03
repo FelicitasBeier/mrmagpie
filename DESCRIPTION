@@ -1,8 +1,8 @@
 Type: Package
 Package: mrmagpie
 Title: madrat based MAgPIE Input Data Library
-Version: 1.55.0
-Date: 2025-02-14
+Version: 1.55.2
+Date: 2025-03-18
 Authors@R: c(
     person("Kristine", "Karstens", , "karstens@pik-potsdam.de", role = c("aut", "cre")),
     person("Jan Philipp", "Dietrich", , "dietrich@pik-potsdam.de", role = "aut"),
@@ -26,8 +26,8 @@ Depends:
     madrat (>= 2.8.0),
     magclass (>= 3.17),
     mrcommons (>= 1.41.0),
-    mrlandcore (>= 1.1.0),
     mrland (>= 0.59.0),
+    mrlandcore (>= 1.1.0),
     mrsoil (>= 2.0.0),
     mrwater (>= 1.13.0),
     R (>= 3.5.0)
@@ -36,10 +36,8 @@ Imports:
     class,
     digest,
     dplyr,
-    rlang,
-    gstat,
-    sp,
     ggplot2,
+    gstat,
     lpjclass,
     luplot (>= 3.64.0),
     magpiesets,
@@ -48,19 +46,18 @@ Imports:
     pbapply,
     raster,
     readxl,
+    rlang,
+    sp,
     stats,
     stringr,
     terra (>= 1.7.18),
     tidyr,
     withr
 Suggests:
+    archive,
     covr,
-    knitr,
     rmarkdown,
-    zip,
-    archive
-VignetteBuilder:
-    knitr
+    zip
 Encoding: UTF-8
 LazyData: no
 RoxygenNote: 7.3.2

@@ -36,7 +36,7 @@ calcSchulteUebbing <- function() {
   idwResult <- gstat::idw(value ~ 1, criticalNitrogenSurplus, newdata = templatePoints, idp = 2)
 
   # Convert the result back to a raster
-  idwRaster <- terra::rast(nrow = nrow(template), ncol = ncol(template),
+  idwRaster <- terra::rast(nrows = nrow(template), ncols = ncol(template),
                            xmin = terra::xmin(template), xmax = terra::xmax(template),
                            ymin = terra::ymin(template), ymax = terra::ymax(template))
   terra::crs(idwRaster) <- terra::crs(template)

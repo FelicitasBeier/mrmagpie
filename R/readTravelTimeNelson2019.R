@@ -25,19 +25,19 @@ readTravelTimeNelson2019 <- function(subtype = "cities50") {
   file <- toolSubtypeSelect(subtype, layers)
   file <- list.files(path = "./TravelTimeNelson_unzipped", pattern = file, full.names = TRUE)
 
-  r <- rast(res = 0.5)
+  r <- rast(resolution = 0.5)
 
   x <- rast(file)
   x <- terra::classify(x, cbind(65534, 65536, NA), right = FALSE)
   x <- terra::aggregate(x, fact = 60, fun = "mean", na.rm = TRUE)
   x <- terra::project(x, r)
 
-# fill NAs with focal function (neighbour mean)
+  # fill NAs with focal function (neighbour mean)
   x <- terra::focal(x, w = 9, mean, na.policy = "only", na.rm = TRUE)
 
   x <- raster::brick(x)
 
-   # get spatial mapping
+  # get spatial mapping
   map <- toolGetMappingCoord2Country(pretty = TRUE)
   # transform raster to magpie object
   out <- as.magpie(raster::extract(x, map[c("lon", "lat")]), spatial = 1)
@@ -48,8 +48,8 @@ readTravelTimeNelson2019 <- function(subtype = "cities50") {
 
   getItems(out, dim = 2) <- "y2015"
 
-# fill remote island NAs with high transport time
-out[is.na(out)] <- quantile(out, na.rm = TRUE, 0.90)
+  # fill remote island NAs with high transport time
+  out[is.na(out)] <- quantile(out, na.rm = TRUE, 0.90)
 
-return(out)
+  return(out)
 }

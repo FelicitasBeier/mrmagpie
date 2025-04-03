@@ -12,7 +12,7 @@ readLeifeld2018 <- function() {
   # projection is +proj=igh
   x <- terra::rast("Degradation_raster_homolosine_hires_rev4.tif")
   # re-project to regular grid
-  r <- terra::rast(res = 0.5)
+  r <- terra::rast(resolution = 0.5)
   rp2 <- suppressWarnings(terra::project(x, r))
   # get cell area
   cellArea <- terra::cellSize(rp2[[1]], unit = "ha", mask = FALSE) * 1e-6

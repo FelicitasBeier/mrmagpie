@@ -39,7 +39,7 @@ readWindisch2021 <- function(subtype) {
     }
 
     # set the to longlat projection
-    crs(x) <- crs(terra::rast(res = 0.5))
+    crs(x) <- crs(terra::rast(resolution = 0.5))
     terra::ext(x) <- terra::ext(-180, 180, -90, 90)
 
     # transform to magpie object

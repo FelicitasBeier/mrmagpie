@@ -37,7 +37,7 @@ readMehta2024 <- function(subtype = "GMIA") {
 
   .transformObject <- function(x) {
 
-    resolution <- terra::rast(res = 0.5)
+    resolution <- terra::rast(resolution = 0.5)
 
     # global sum of AEI (in ha)
     checkSum <- terra::global(x, sum, na.rm = TRUE)
