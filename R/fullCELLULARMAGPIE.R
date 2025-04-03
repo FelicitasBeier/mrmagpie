@@ -164,7 +164,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("YieldsCalibrated", aggregate = "cluster",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                file = paste0("lpj_yields_nogsadapt_", ctype, ".mz"))
 
@@ -182,14 +182,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("Yields",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
                aggregate = FALSE,
                climatetype = climatetype, round = 2, years = lpjYears, file = paste0("lpj_yields_nogsadapt_0.5.mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
 
 
     calcOutput("Yields", aggregate = "cluster",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears, file = paste0("lpj_yields_nogsadapt_", ctype, ".mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
 
@@ -209,13 +209,13 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("Yields", aggregate = FALSE,
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                file = paste0("lpj_yields_nogsadapt_0.5.mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
     calcOutput("Yields", aggregate = "cluster",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                file = paste0("lpj_yields_nogsadapt_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
