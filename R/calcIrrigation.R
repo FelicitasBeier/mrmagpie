@@ -21,14 +21,14 @@
 #' @importFrom magclass dimSums getItems getSets collapseNames
 #' @importFrom withr local_options
 
-calcIrrigation <- function(lpjml = "lpjml5.9.5-m1",
+calcIrrigation <- function(lpjml = "lpjml5.9.16-m1",
                            climatetype = "MRI-ESM2-0:ssp370",
                            rainfedweight = 0.01) {
   # Set size limit
   local_options(magclass_sizeLimit = 1e+12)
 
   # Read in airrig (irrigation water applied additionally to rainfall where irrigation takes place):
-  airrigLPJ <- collapseNames(calcOutput("LPJmLHarmonize", subtype = "crops:cft_airrig",
+  airrigLPJ <- collapseNames(calcOutput("LPJmLHarmonize", subtype = "cropsIR:cft_airrig",
                                         lpjmlversion = lpjml, climatetype = climatetype,
                                         aggregate = FALSE)[, , "irrigated"])
 
