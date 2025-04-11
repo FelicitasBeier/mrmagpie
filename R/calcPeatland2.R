@@ -27,7 +27,7 @@ calcPeatland2 <- function(countryLevel = FALSE) {
 
   # Dissag. GPD2022 from country to cell with GPM2 as weight
   map <- toolGetMappingCoord2Country(pretty = TRUE)
-  outCell   <- toolAggregate(x = toolIso2CellCountries(gpd2022, cells = "lpjcell"), rel = map,
+  outCell   <- toolAggregate(x = toolIso2CellCountries(gpd2022), rel = map,
                              weight = gpm2, dim = 1, from = "iso", to = "coords", zeroWeight = "allow")
   names(dimnames(outCell)) <- c("coords", "t", "d3")
 
