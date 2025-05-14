@@ -89,7 +89,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
                 "Use Gao source instead for cellular urban/rural population")
 
         # urban population at country-level
-        urbanPop <- calcOutput("Urban", scenario = c("SSPs", "SDPs"), naming = "scenario", aggregate = FALSE)
+        urbanPop <- calcOutput("Urban", scenario = c("SSPs", "SDPs"), aggregate = FALSE)
         # disaggregate to cell level
         coordMapping <- toolGetMappingCoord2Country()
         urbanPop <- toolAggregate(urbanPop,
@@ -135,7 +135,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
   if (scale) {
     ## Scale to match country-level data
     # Country-level population data (in million)
-    pop <- calcOutput("Population", scenario = c("SSPs", "SDPs"), naming = "scenario", aggregate = FALSE)
+    pop <- calcOutput("Population", scenario = c("SSPs", "SDPs"), aggregate = FALSE)
     # aggregate to country-level and scale to match WDI country-level pop
     if (cells == "lpjcell") {
       agg <- collapseNames(dimSums(x, dim = c("x", "y")))

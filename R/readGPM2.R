@@ -11,6 +11,7 @@
 #' @importFrom mstools toolGetMappingCoord2Country
 readGPM2 <- function(subtype = "1km") {
   previousOptions <- terra::terraOptions(print = FALSE)
+  previousOptions$metadata <- NULL # prevent unknown options warning when resetting
   terra::terraOptions(tempdir = withr::local_tempdir(tmpdir = getConfig("tmpfolder")),
                       todisk = FALSE, memfrac = 0.5)
   withr::defer(do.call(terra::terraOptions, previousOptions))
