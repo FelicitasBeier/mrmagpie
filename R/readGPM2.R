@@ -38,7 +38,7 @@ readGPM2 <- function(subtype = "1km") {
   } else if (subtype == "500m") {
     # read-in file
     r <- terra::vrt(list.files("500m", full.names = TRUE, pattern = ".tif$"), "500m/GPM2.0_500m.vrt", overwrite = TRUE)
-    crs(r) <- "+proj=moll"
+    terra::crs(r) <- "+proj=moll"
 
     # choose only 1st layer
     r1 <- terra::segregate(r, other = NA)

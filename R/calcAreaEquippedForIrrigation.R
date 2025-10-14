@@ -1,7 +1,7 @@
 #' @title calcAreaEquippedForIrrigation
 #' @description Calculates the area equipped for irrigation based on LU2v2 or
 #'              Mehta data sets.
-#'              For LUH2v2, it assumes, that all cropland irrigated in the last
+#'              For LUH3, it assumes, that all cropland irrigated in the last
 #'              20 years at least once is equipped for irrigation.
 #'              Mehta et al. (2022) directly report Global Area Equipped for
 #'              Irrigation for the years 1900-2015
@@ -19,13 +19,8 @@
 #' [calcLanduseInitialisation()]
 #' @examples
 #' \dontrun{
-#' calcOutput("AreaEquippedForIrrigation", source = "LUH2v2", cellular = TRUE, aggregate = FALSE)
+#' calcOutput("AreaEquippedForIrrigation", source = "LUH3", cellular = TRUE, aggregate = FALSE)
 #' }
-#' @importFrom magpiesets findset
-#' @importFrom mstools toolCoord2Isocell
-#'
-#' @export
-
 calcAreaEquippedForIrrigation <- function(cellular = FALSE,
                                           cells = "lpjcell",
                                           selectyears = "past") {
@@ -33,16 +28,17 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   selectyears <- sort(magpiesets::findset(selectyears, noset = "original"))
 
   ##########################################
-  ### Read in LUH2v2 irrigated area data ###
+  #### Read in LUH3 irrigated area data ####
   ##########################################
   yearsNeeded <- as.integer(substring(selectyears, 2))
-  yearsNeeded <- (yearsNeeded[1] - 20):tail(yearsNeeded, 1)
+  lastYear <- utils::tail(yearsNeeded, 1)
+  yearsNeeded <- (yearsNeeded[1] - 20):lastYear
 
-  x <- collapseNames(calcOutput("LUH2v2",
-                                landuse_types = "magpie",
+  x <- collapseNames(calcOutput("LUH3",
+                                landuseTypes = "magpie",
                                 irrigation = TRUE,
-                                cellular = TRUE, cells = "lpjcell",
-                                selectyears = yearsNeeded,
+                                cellular = TRUE,
+                                yrs = yearsNeeded,
                                 aggregate = FALSE)[, , "irrigated"])
   x     <- dimSums(x, dim = 3)
   years <- as.numeric(substring(selectyears, 2))
@@ -68,7 +64,7 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   getSets(luh) <- c("x", "y", "iso", "year", "data")
 
   # rename data dimension
-  getItems(luh, dim = 3) <- "LUH2v2"
+  getItems(luh, dim = 3) <- "LUH3"
 
   ########################################
   ### Read in Mehta et al. (2024) data ###
@@ -96,7 +92,7 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   ##############
   # reduce to 59k cells
   if (cells == "magpiecell") {
-    out <- toolCoord2Isocell(out)
+    out <- mstools::toolCoord2Isocell(out)
   }
 
   # aggregate to iso level

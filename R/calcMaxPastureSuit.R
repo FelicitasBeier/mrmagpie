@@ -95,7 +95,7 @@ calcMaxPastureSuit <- function(climatetype = "MRI-ESM2-0:ssp126",
 
   pastureSuitArea <- (pastureSuit * landArea * 100) / 1e6 # (from km2 (x100) to mha (/1e6))
 
-  pastureSuitArea <- toolHoldConstantBeyondEnd(pastureSuitArea)
+  pastureSuitArea <- mstools::toolHoldConstantBeyondEnd(pastureSuitArea)
   getItems(pastureSuitArea, dim = 3)  <- NULL
 
   return(list(

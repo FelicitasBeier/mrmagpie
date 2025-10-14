@@ -11,16 +11,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' calcOutput("GrasslandsYields", lsu_levels, past_mngmt = "me2", subtype)
+#' calcOutput("GrasslandsYields")
 #' }
-#'
-#' @import madrat
-#' @import magclass
-#' @importFrom tidyr pivot_longer
-#' @importFrom dplyr mutate select
-#'
-#'
-
 calcGrasslandsYields <- function(lpjml = "lpjml5p2_pasture", climatetype = "MRI-ESM2-0:ssp370",
                                  cells = "lpjcell",
                                  subtype = "/co2/Nreturn0p5", # nolint
@@ -48,7 +40,7 @@ calcGrasslandsYields <- function(lpjml = "lpjml5p2_pasture", climatetype = "MRI-
   # substituting pastr yields that are smaller than rangelands by the value of rangeland yields
   y[invalid]  <- x[invalid]
   pasture <- mbind(x, y)
-  pasture <- toolHoldConstantBeyondEnd(pasture)
+  pasture <- mstools::toolHoldConstantBeyondEnd(pasture)
   x <- pasture * gCm2yTotDMy
 
   # reduce to old grid cell format

@@ -9,9 +9,6 @@
 #' \dontrun{
 #' calcOutput("calcCellCountryFraction", aggregate = FALSE)
 #' }
-#'
-#' @export
-
 calcCellCountryFraction <- function(cells = "lpjcell") {
 
   weight <- calcOutput("LandArea", cells = cells, aggregate = FALSE)

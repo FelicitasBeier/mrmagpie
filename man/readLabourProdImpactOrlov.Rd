@@ -21,7 +21,7 @@ read in labour productivity impacts from climate change from Orlov
              Economics of Disasters and Climate Change, 3(3), 191-211.)
 }
 \seealso{
-\code{\link{readSource}}
+\code{\link[madrat]{readSource}}
 }
 \author{
 David Chen

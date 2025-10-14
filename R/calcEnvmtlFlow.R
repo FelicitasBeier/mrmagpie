@@ -7,8 +7,6 @@
 #' @param seasonality grper (default): EFR in growing period per year; total:
 #'                    EFR throughout the year; monthly: monthly EFRs
 #'
-#' @import magclass
-#' @import madrat
 #' @importFrom stats quantile
 #' @importFrom mstools toolHarmonize2Baseline
 #'

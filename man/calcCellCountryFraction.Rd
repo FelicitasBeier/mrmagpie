@@ -19,7 +19,6 @@ cell fraction belonging to a country based on LanduseInitialisation
 \dontrun{
 calcOutput("calcCellCountryFraction", aggregate = FALSE)
 }
-
 }
 \author{
 Florian Humpenoeder

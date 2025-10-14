@@ -16,11 +16,8 @@
 #' @param lpjml       defines LPJmL version for crop/grass and natveg specific inputs
 #' @param clusterdata similarity data to be used to determine clusters:
 #'                    yield_airrig (current default) or yield_increment
-#' @return A spam relation matrix
+#' @return A magpie object
 #' @author Jan Philipp Dietrich
-#' @importFrom magclass getCells ncells getRegions getItems
-#' @importFrom stats hclust cutree
-#' @export
 calcClusterTreeHierarchical <- function(regionscode, mode = "h", weight = NULL,
                                         lpjml = "lpjml5.9.5-m1", clusterdata = "yield_airrig") {
 
@@ -53,11 +50,11 @@ calcClusterTreeHierarchical <- function(regionscode, mode = "h", weight = NULL,
     dist  <- dist(cdata[cells, ], method = "euclidean") * weight[r]
 
     if (mode == "h") {
-      fit <- hclust(dist, method = "complete")
+      fit <- stats::hclust(dist, method = "complete")
     } else if (mode == "w") {
-      fit <- hclust(dist^2, method = "ward")
+      fit <- stats::hclust(dist^2, method = "ward")
     } else if (mode == "s") {
-      fit <- hclust(dist, method = "single")
+      fit <- stats::hclust(dist, method = "single")
     } else {
       stop("Unknown mode \"", mode, "\"")
     }

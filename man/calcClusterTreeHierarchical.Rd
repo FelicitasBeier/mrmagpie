@@ -33,7 +33,7 @@ weight < 1 less cluster than by default.}
 yield_airrig (current default) or yield_increment}
 }
 \value{
-A spam relation matrix
+A magpie object
 }
 \description{
 calculates hierarchical clustering tree

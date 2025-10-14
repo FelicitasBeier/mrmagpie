@@ -7,11 +7,11 @@
 readTRENDY(subtype)
 }
 \arguments{
-\item{subtype}{name of the TRENDY dataset to read. Current options includes:
-"CABLEPOP", "CARDAMOM", "CLASSIC", "CLM5.0", "DLEM",
-"ELM", "IBIS", "ISBACTRIP", "JSBACH", "LPJ-GUESS",
-"LPJml", "LPJwsl", "lpxqs", "OCN", "ORCHIDEE",
-"SDGVM", "VISIT"}
+\item{subtype}{name of the TRENDY dataset to read. Current options include:
+"CABLEPOP", "CLASSIC", "CLM5.0", "DLEM", "ED", "ELM",
+"IBIS", "ISAM", "ISBACTRIP", "JSBACH", "JULES",
+"LPJ-GUESS", "LPJml", "LPJwsl", "lpxqs", "OCN",
+"ORCHIDEE", "SDGVM", "VISIT", "YIBS"}
 }
 \value{
 a named list of terra::rast objects

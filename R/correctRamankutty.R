@@ -13,13 +13,9 @@
 #' \dontrun{
 #'   readSource("Ramankutty", convert="onlycorrect")
 #' }
-#'
-#' @importFrom madrat toolConditionalReplace
-#' @export
+correctRamankutty <- function(x) {
 
-correctRamankutty <- function(x){
-
-  x <- toolConditionalReplace(x, conditions = c("is.na()","<0"), replaceby = 0)
+  x <- toolConditionalReplace(x, conditions = c("is.na()", "<0"), replaceby = 0)
 
   return(x)
 }

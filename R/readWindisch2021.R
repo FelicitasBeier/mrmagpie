@@ -12,7 +12,7 @@
 #'
 #' @return List of magpie objects with results on cellular level, weight, unit and description.
 #' @author Felicitas Beier, Michael Windisch, Patrick v. Jeetze
-#' @importFrom terra rast crs ext
+#' @importFrom terra rast ext
 #' @examples
 #'
 #' \dontrun{
@@ -39,7 +39,7 @@ readWindisch2021 <- function(subtype) {
     }
 
     # set the to longlat projection
-    crs(x) <- crs(terra::rast(resolution = 0.5))
+    terra::crs(x) <- terra::crs(terra::rast(resolution = 0.5))
     terra::ext(x) <- terra::ext(-180, 180, -90, 90)
 
     # transform to magpie object

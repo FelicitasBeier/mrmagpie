@@ -6,7 +6,7 @@
 #' @return magpie object of gridded productivity as share of 1 (full productivity)
 #' @param subtype subtype of choice between indoor outdoor work, GCM, work intesnsity (300W medium, 400W high, rcp)
 #' @author David Chen
-#' @seealso \code{\link{readSource}}
+#' @seealso \code{\link[madrat]{readSource}}
 #' @importFrom magclass as.magpie
 #' @importFrom ncdf4 nc_open ncvar_get
 

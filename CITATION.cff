@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: If you use this software, please cite it using the metadata from this file.
 type: software
 title: 'mrmagpie: madrat based MAgPIE Input Data Library'
-version: 1.57.0
-date-released: '2025-04-10'
+version: 1.63.1
+date-released: '2025-10-13'
 abstract: Provides functions for MAgPIE country and cellular input data generation.
 authors:
 - family-names: Karstens
@@ -36,6 +36,9 @@ authors:
 - family-names: Sauer
   given-names: Pascal
   email: pascal.sauer@pik-potsdam.de
+- family-names: Rein
+  given-names: Patrick
+  email: patrick.rein@pik-potsdam.de
 license: LGPL-3.0
 repository-code: https://github.com/pik-piam/mrmagpie
 doi: 10.5281/zenodo.4319612

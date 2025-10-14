@@ -3,7 +3,7 @@
 #' @description based on method of Orlov et al. 2019. Economics of Disasters and Climate Change, 3(3), 191-211.
 #' @return magpie object of gridded productivity loss in percent (0-100)
 #' @author Michael Windisch, Florian Humpenöder, Felicitas Beier
-#' @seealso \code{\link{readSource}}
+#' @seealso \code{\link[madrat]{readSource}}
 #' @importFrom magclass new.magpie read.magpie mbind
 #' @importFrom mstools toolCoord2Isocell
 

@@ -7,17 +7,11 @@
 #' \dontrun{
 #' readSource("GFAD", convert = "onlycorrect")
 #' }
-#' @importFrom raster brick subset as.matrix t
-#' @importFrom ncdf4 nc_open ncvar_get
-#' @importFrom mstools toolGetMappingCoord2Country
-#' @importFrom magclass clean_magpie add_dimension setYears getSets
-#' @export
-
 readGFAD <- function() {
 
   poulterData   <- "GFAD_V1-1.nc"
 
-  mapping       <- toolGetMappingCoord2Country()
+  mapping       <- mstools::toolGetMappingCoord2Country()
 
   ageClass      <- paste0("X", 1:15)
   forestPoulter <- c("NEEV", "NEDE", "BREV", "BRDC")
@@ -27,8 +21,8 @@ readGFAD <- function() {
   for (forestType in seq_along(forestPoulter)) {
     for (i in ageClass) {
 
-      b <- suppressWarnings(brick(poulterData, level = forestType))
-      b <- subset(b, i)
+      b <- suppressWarnings(raster::brick(poulterData, level = forestType))
+      b <- raster::subset(b, i)
 
       mag <- as.magpie(b)
       mag <- mag[mapping$coords, , ]

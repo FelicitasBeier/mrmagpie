@@ -23,13 +23,13 @@ calcPastrTauHist <- function(past_mngmt = "mdef", cells = "lpjcell") { # nolint
   prod <- toolCountryFill(prod, fill = 0)
 
   # pasture areas
-  area <- calcOutput("LUH2v2", landuse_types = "LUH2v2",
+  area <- calcOutput("LUH3", landuseTypes = "LUH3",
                      cellular = FALSE, aggregate = FALSE)[, past, "pastr"]
   area <- toolCountryFill(area, fill = 0)
 
   # Adding 'otherland' as an extra source of grass biomass comparable
   # to managed pastures in India, Pakistan and Bangladesh.
-  otherland <- calcOutput("LUH2v2", landuse_types = "LUH2v2", cellular = FALSE,
+  otherland <- calcOutput("LUH3", landuseTypes = "LUH3", cellular = FALSE,
                           aggregate = FALSE)[, past, c("secdn", "primn")]
   area["IND", , "pastr"] <- area["IND", , "pastr"] + setNames(dimSums(otherland["IND", , ], dim = 3), "pastr")
   area["BGD", , "pastr"] <- area["BGD", , "pastr"] + setNames(dimSums(otherland["BGD", , ], dim = 3), "pastr")
@@ -49,8 +49,8 @@ calcPastrTauHist <- function(past_mngmt = "mdef", cells = "lpjcell") { # nolint
 
   yref <- collapseNames(yref)
 
-  yrefWeights <- calcOutput("LUH2v2", landuse_types = "LUH2v2",
-                            cellular = TRUE, cells = cells,
+  yrefWeights <- calcOutput("LUH3", landuseTypes = "LUH3",
+                            cellular = TRUE,
                             aggregate = FALSE)[, past, "pastr"]
 
   if (cells == "magpiecell") {

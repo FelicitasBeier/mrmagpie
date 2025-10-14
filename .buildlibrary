@@ -1,4 +1,4 @@
-ValidationKey: '31695160'
+ValidationKey: '33229994'
 AutocreateReadme: yes
 AcceptedWarnings:
 - 'Warning: package .* was built under R version'
@@ -7,6 +7,6 @@ AcceptedNotes:
 - unable to verify current time
 - includes the non-default packages
 allowLinterWarnings: no
-enforceVersionUpdate: no
+enforceVersionUpdate: yes
 skipCoverage: no
 AutocreateCITATION: yes

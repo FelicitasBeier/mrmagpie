@@ -1,8 +1,8 @@
 Type: Package
 Package: mrmagpie
 Title: madrat based MAgPIE Input Data Library
-Version: 1.57.0
-Date: 2025-04-10
+Version: 1.63.1
+Date: 2025-10-13
 Authors@R: c(
     person("Kristine", "Karstens", , "karstens@pik-potsdam.de", role = c("aut", "cre")),
     person("Jan Philipp", "Dietrich", , "dietrich@pik-potsdam.de", role = "aut"),
@@ -14,7 +14,8 @@ Authors@R: c(
     person("Patrick", "v. Jeetze", , "vjeetze@pik-potsdam.de", role = "aut"),
     person("Abhijeet", "Mishra", , "mishra@pik-potsdam.de", role = "aut"),
     person("Florian", "Humpenoeder", , "humpenoeder@pik-potsdam.de", role = "aut"),
-    person("Pascal", "Sauer", , "pascal.sauer@pik-potsdam.de", role = "aut")
+    person("Pascal", "Sauer", , "pascal.sauer@pik-potsdam.de", role = "aut"),
+    person("Patrick", "Rein", , "patrick.rein@pik-potsdam.de", role = "aut")
   )
 Description: Provides functions for MAgPIE country and cellular input data
     generation.
@@ -33,24 +34,19 @@ Depends:
     mrwater (>= 1.13.0),
     R (>= 3.5.0)
 Imports:
-    abind,
-    class,
     digest,
     dplyr,
     ggplot2,
     gstat,
-    lpjclass,
     luplot (>= 3.64.0),
     magpiesets,
     mstools (>= 0.6.0),
     ncdf4,
-    pbapply,
     raster,
     readxl,
     rlang,
     sp,
     stats,
-    stringr,
     terra (>= 1.7.18),
     tidyr,
     withr
@@ -61,4 +57,4 @@ Suggests:
     zip
 Encoding: UTF-8
 LazyData: no
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

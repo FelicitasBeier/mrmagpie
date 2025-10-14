@@ -29,7 +29,7 @@ calcLabourProdImpact <- function(timestep = "5year", subtype = "Orlov", cellular
       past[, seq(1965, 1980, 5), ] <- setYears(out[, 1985, ], NULL)
       out <- mbind(past, out)
 
-      out <- toolHoldConstantBeyondEnd(out)
+      out <- mstools::toolHoldConstantBeyondEnd(out)
       out <- collapseNames(out)
 
     } else if (timestep == "yearly") {
@@ -37,7 +37,7 @@ calcLabourProdImpact <- function(timestep = "5year", subtype = "Orlov", cellular
       past <- new.magpie(cells_and_regions = getCells(out), years = c(1965:1980), names = getNames(out), fill = 1)
       past[, c(1965:1980), ] <- setYears(out[, 1981, ], NULL)
       out <- mbind(past, out)
-      out <- toolHoldConstantBeyondEnd(out)
+      out <- mstools::toolHoldConstantBeyondEnd(out)
 
       out <- collapseNames(out)
 

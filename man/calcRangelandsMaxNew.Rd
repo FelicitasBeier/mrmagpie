@@ -32,12 +32,6 @@ magpie object in cellular resolution
 \description{
 Calculates rangelands maximum output
 }
-\examples{
-\dontrun{
-calcOutput("ContGrazMax_new", lsuLevels = 0, lpjml, climatetype, report)
-}
-
-}
 \author{
 Marcos Alves
 }

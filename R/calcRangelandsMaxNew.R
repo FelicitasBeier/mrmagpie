@@ -8,18 +8,6 @@
 #' @param cells    "magpiecell" for 59199 cells or "lpjcell" for 67420 cells
 #' @return magpie object in cellular resolution
 #' @author Marcos Alves
-#'
-#' @examples
-#' \dontrun{
-#' calcOutput("ContGrazMax_new", lsuLevels = 0, lpjml, climatetype, report)
-#' }
-#'
-#' @import madrat
-#' @import magclass
-#' @importFrom tidyr pivot_longer
-#' @importFrom dplyr mutate select
-#'
-
 calcRangelandsMaxNew <- function(lsuLevels = c(seq(0, 2.2, 0.2), 2.5),
                                  lpjml = "lpjml5p2_pasture",
                                  climatetype = "MRI-ESM2-0:ssp370",

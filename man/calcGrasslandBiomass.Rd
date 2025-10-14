@@ -22,8 +22,8 @@ calcOutput("GrasslandBiomass")
 }
 }
 \seealso{
-\code{\link{calcOutput}}, \code{\link{calcFAOmassbalance}},
-\code{\link{readSource}}
+\code{\link[madrat]{calcOutput}}, \code{\link[mrcommons]{calcFAOmassbalance}},
+\code{\link[madrat]{readSource}}
 }
 \author{
 Marcos Alves

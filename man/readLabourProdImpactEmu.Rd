@@ -15,7 +15,7 @@ read in labour productivity impacts from climate change emulated by the LAMACLIM
 based on method of Orlov et al. 2019. Economics of Disasters and Climate Change, 3(3), 191-211.
 }
 \seealso{
-\code{\link{readSource}}
+\code{\link[madrat]{readSource}}
 }
 \author{
 Michael Windisch, Florian Humpenöder, Felicitas Beier

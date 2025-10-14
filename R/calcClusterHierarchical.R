@@ -37,7 +37,7 @@ calcClusterHierarchical <- function(regionscode, ncluster, lpjml = "lpjml5.9.5-m
   fullfit <- attributes(calcOutput("ClusterTreeHierarchical", regionscode = regionscode, mode = mode, weight = weight,
                                    lpjml = lpjml, clusterdata = clusterdata, aggregate = FALSE))$hclust
 
-  clusters <- cutree(fullfit, k = ncluster)
+  clusters <- stats::cutree(fullfit, k = ncluster)
   # sort clusters by regions
   cl <- NULL
   regions <- unique(sub("^.*\\.(.*)\\..*$", "\\1", fullfit$labels))

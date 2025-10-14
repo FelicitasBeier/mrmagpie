@@ -23,15 +23,10 @@
 #'
 #' @author David Chen, Felicitas Beier
 #'
-#' @importFrom magclass add_columns collapseNames where
-#' @importFrom magpiesets findset
-#' @importFrom madrat calcOutput toolGetMapping toolAggregate
-#'
 #' @examples
 #' \dontrun{
 #' calcOutput("GridPop", aggregate = FALSE)
 #' }
-#' @export
 calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
                         cellular = TRUE, cells = "lpjcell",
                         FiveYear = TRUE, scale = TRUE, # nolint
@@ -115,7 +110,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
     pYears <- setdiff(getYears(past), getYears(future))
 
     x <- mbind(past[, pYears, ], future)
-    x <- toolHoldConstantBeyondEnd(x)
+    x <- mstools::toolHoldConstantBeyondEnd(x)
   }
 
   # Reduce number of grid cells to 59199
@@ -158,7 +153,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
       scF <- agg[commonCountries, , ] / pop[commonCountries, , ]
     }
 
-    x <- x[commonCountries, , ] / scF[commonCountries, , ]
+    x <- x / scF[commonCountries, , ]
 
     # Some countries have 0 population in grid, but the cells exist, so get filled.
     # even division of population across cells
@@ -171,7 +166,7 @@ calcGridPop <- function(source = "ISIMIP", subtype = "all", # nolint
   x <- x / 1e6
 
   if (FiveYear) {
-    years <- findset("time")
+    years <- magpiesets::findset("time")
     x <- x[, intersect(years, getYears(x)), ]
   }
 

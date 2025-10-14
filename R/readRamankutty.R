@@ -13,13 +13,9 @@
 #' readSource("Ramankutty", convert = "onlycorrect")
 #' }
 #'
-#' @import magclass
-#' @importFrom raster brick
-#'
-#' @export
 #' @author Felicitas Beier
 #'
 readRamankutty <- function() {
-  x <- suppressWarnings(brick("raw_data_land_suit_land_suit_0.50x0.50.nc"))
+  x <- suppressWarnings(raster::brick("raw_data_land_suit_land_suit_0.50x0.50.nc"))
   return(as.magpie(x))
 }

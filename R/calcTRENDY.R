@@ -19,15 +19,28 @@
 #' @importFrom dplyr %>%
 
 calcTRENDY <- function(subtype) {
-
   # ---------------------------------------------------------------------------------------
-  # Generate rasterList, eliminate unnecessary years
+  # Generate rasterList, smooth within 1995–2020 (centered 5-year mean), then keep MAGPIE years
   rasterList <- madrat::readSource("TRENDY", subtype = subtype)
 
-  magpieYears <- paste0("y", seq(1995, 2020, 5))
+  magpieYears  <- paste0("y", seq(1995, 2020, 5))
+  smoothRange  <- paste0("y", 1993:2022)
+  half <- 2L  # 5-year window
 
-  rasterList <- lapply(rasterList, function(raster) {
-    raster[[magpieYears]]
+  rasterList <- lapply(rasterList, function(r) {
+    r <- r[[smoothRange]]
+    smoothed <- terra::app(r, fun = function(v) {
+      n <- length(v)
+      out <- v
+      for (i in seq_len(n)) {
+        lo <- max(1L, i - half)
+        hi <- min(n, i + half)
+        out[i] <- mean(v[lo:hi], na.rm = TRUE)
+      }
+      out
+    })
+    names(smoothed) <- names(r)
+    smoothed[[magpieYears]]
   })
 
   # ---------------------------------------------------------------------------------------
@@ -42,7 +55,6 @@ calcTRENDY <- function(subtype) {
   interpolateRaster <- function(raster, rasterName) {
 
     interpolateLayer <- function(layer) {
-
       # Convert the source layer to a SpatialPointsDataFrame with coordinates
       r <- as.data.frame(layer, xy = TRUE, na.rm = TRUE)
       names(r) <- c("x", "y", "value")
@@ -57,7 +69,7 @@ calcTRENDY <- function(subtype) {
 
       # Convert the result back to a raster
       idwRaster <- terra::rast(
-        nrows = nrow(template), ncols = ncol(template),
+        nrow = nrow(template), ncol = ncol(template),
         xmin = terra::xmin(template), xmax = terra::xmax(template),
         ymin = terra::ymin(template), ymax = terra::ymax(template)
       )

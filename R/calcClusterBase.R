@@ -38,9 +38,22 @@ calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1
           or yield_increment (new clustering data)")
   }
 
-  cdata <- do.call(cbind, lapply(d, wrap, list(1, c(2, 3))))
-  cdata <- cdata[, colSums(cdata) != 0]
-  cdata <- scale(cdata)
+  # Unify structures
+  d$gp <- setNames(d$gp, paste0("pop", seq_len(ndata(d$gp))))
+  d$yld <- setNames(d$yld, sub(".", "_", getNames(d$yld), fixed = TRUE))
+  d <- lapply(d, function(m) {
+    # Ensure all datasets have 1995 as the year (they should have been selected for that)
+    m <- setYears(m, "y1995")
+    getSets(m, fulldim = FALSE)[3] <- "data"
+    return(m)
+  })
+
+  # Combine into one object
+  cdata <- do.call(mbind, d)
+  cdata <- cdata[, , dimSums(cdata, dim = c(1, 2)) != 0]
+  cdata <- wrap(cdata, list(1, c(2, 3)))
+
+  cdata <- scale(cdata) # Scale converts the magpie object to a matrix
   colnames(cdata) <- paste0("i", seq_len(ncol(cdata)))
 
   # Transform to magpie object

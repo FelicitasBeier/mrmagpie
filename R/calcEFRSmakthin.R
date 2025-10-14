@@ -18,8 +18,6 @@
 #' @param seasonality grper (default): EFR in growing period per year; total:
 #'                    EFR throughout the year; monthly: monthly EFRs
 #'
-#' @import magclass
-#' @import madrat
 #' @importFrom stats quantile
 #' @importFrom mstools toolHarmonize2Baseline
 #' @importFrom mrlandcore toolLPJmLHarmonize
@@ -78,7 +76,7 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     lfrQuant <- as.magpie(lfrQuant, spatial = 1)
     lfrQuant <- toolFillYears(lfrQuant, getYears(monthlyDischargeMagpie, as.integer = TRUE))
 
-    if (stage == "smoothed") lfrQuant <- toolSmooth(lfrQuant)
+    if (stage == "smoothed") lfrQuant <- mstools::toolSmooth(lfrQuant)
 
     # Raw monthly discharge no longer needed at this point
     rm(monthlyDischargeMagpie)

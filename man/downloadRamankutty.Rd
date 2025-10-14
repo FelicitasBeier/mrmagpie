@@ -14,7 +14,7 @@ download Ramankutty available land si (Source: Ramankutty N, Foley JA, Norman J 
 
 }
 \seealso{
-\code{\link{downloadSource}} \code{\link{readRamankutty}}
+\code{\link[madrat]{downloadSource}} \code{\link{readRamankutty}}
 }
 \author{
 Felicitas Beier

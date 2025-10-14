@@ -24,14 +24,14 @@ List of magpie objects with results on country/cellular level,
 \description{
 Calculates the area equipped for irrigation based on LU2v2 or
              Mehta data sets.
-             For LUH2v2, it assumes, that all cropland irrigated in the last
+             For LUH3, it assumes, that all cropland irrigated in the last
              20 years at least once is equipped for irrigation.
              Mehta et al. (2022) directly report Global Area Equipped for
              Irrigation for the years 1900-2015
 }
 \examples{
 \dontrun{
-calcOutput("AreaEquippedForIrrigation", source = "LUH2v2", cellular = TRUE, aggregate = FALSE)
+calcOutput("AreaEquippedForIrrigation", source = "LUH3", cellular = TRUE, aggregate = FALSE)
 }
 }
 \seealso{

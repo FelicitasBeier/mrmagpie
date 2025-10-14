@@ -3,10 +3,6 @@
 #' see https://www.cgd.ucar.edu/iam/modeling/spatial-population-scenarios.html https://doi.org/10.7927/m30p-j498
 #' @param subtype only "future" post-2000 available for this source
 #' @author David Chen, Felicitas Beier
-#' @importFrom raster raster brick aggregate projectRaster
-#' @import magclass
-#' @export
-
 readGridPopGao <- function(subtype = "future") {
 
   if (subtype == "future") {
@@ -29,16 +25,16 @@ readGridPopGao <- function(subtype = "future") {
           }
 
           if (year == 2000) {
-            t <- suppressWarnings(raster(paste0("Base_year_data_2000_NetCDF/2000",
-                                                urb, ".nc")))
+            t <- suppressWarnings(raster::raster(paste0("Base_year_data_2000_NetCDF/2000", urb, ".nc")))
           } else {
-            t <- suppressWarnings(raster(paste0(ssp, "_NetCDF/", urb, "/NetCDF/", tolower(ssp), ur, year, ".nc")))
+            t <- suppressWarnings(raster::raster(paste0(ssp, "_NetCDF/", urb, "/NetCDF/", tolower(ssp),
+                                                        ur, year, ".nc")))
           }
 
           # aggregate and reproject
-          r <- suppressWarnings(raster(resolution =  0.5))
-          t <- aggregate(t, fact = 4, fun = sum, na.rm = TRUE)
-          t <- suppressWarnings(projectRaster(t, r, over = TRUE))
+          r <- suppressWarnings(raster::raster(resolution =  0.5))
+          t <- raster::aggregate(t, fact = 4, fun = sum, na.rm = TRUE)
+          t <- suppressWarnings(raster::projectRaster(t, r, over = TRUE))
 
           # transform to magpie object
           tmp <- as.magpie(t)

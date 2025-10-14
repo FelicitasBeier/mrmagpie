@@ -9,13 +9,9 @@
 #'
 #' @author David Chen, Marcos Alves, Felicitas Beier
 #'
-#' @import magclass
 #' @importFrom raster extent brick
 #' @importFrom magpiesets findset
 #' @importFrom mstools toolGetMappingCoord2Country
-#'
-#' @export
-
 readGridPopIsimip <- function(subtype) {
 
   coordMapping <- toolGetMappingCoord2Country()
@@ -31,7 +27,7 @@ readGridPopIsimip <- function(subtype) {
     # read in raster
     x         <- suppressWarnings(brick(pastFile))
     names(x)  <- yYears
-    x         <- subset(x, paste0("y", seq(iniPast, years[2], 1)))
+    x         <- raster::subset(x, paste0("y", seq(iniPast, years[2], 1)))
     raster::extent(x) <- c(-180, 180, -90, 90)
 
     # transform to magpie object

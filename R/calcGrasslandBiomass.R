@@ -4,8 +4,8 @@
 #' @param cells "magpiecell" for 59199 cells or "lpjcell" for 67420 cells
 #' @return Regional biomass demand
 #' @author Marcos Alves
-#' @seealso \code{\link{calcOutput}}, \code{\link{calcFAOmassbalance}},
-#' \code{\link{readSource}}
+#' @seealso \code{\link[madrat]{calcOutput}}, \code{\link[mrcommons]{calcFAOmassbalance}},
+#' \code{\link[madrat]{readSource}}
 #' @examples
 #' \dontrun{
 #' calcOutput("GrasslandBiomass")
@@ -14,17 +14,21 @@
 #' @importFrom magpiesets findset
 
 calcGrasslandBiomass <- function(cells = "lpjcell") {
-  # select years
-  magYearsPast <- findset("past")
 
   # biomass production
-  biomass <- calcOutput("FAOmassbalance", aggregate = FALSE)[, , "production.dm"][, magYearsPast, "pasture"]
+  biomass <- calcOutput("FAOmassbalance", aggregate = FALSE)[, , "production.dm"][, , "pasture"]
   biomass <- collapseNames(biomass)
 
-  land <- calcOutput("LanduseInitialisation", cellular = TRUE, cells = cells,
-                     nclasses = "nine", aggregate = FALSE)[, magYearsPast, ]
+  land <- calcOutput("LanduseInitialisation", cellular = TRUE, cells = cells, selectyears = seq(1965, 2015, 5),
+                     nclasses = "nine", aggregate = FALSE)
   grasslLand <- land[, , c("past", "range")]
   grasslLand <- setNames(grasslLand, c("pastr", "range"))
+
+  # select years
+  years <- intersect(getYears(biomass), getYears(land))
+  biomass <- biomass[, years, ]
+  land <- land[, years, ]
+  grasslLand <- grasslLand[, years, ]
 
   # India, Bangladesh, and Pakistan have livestock numbers unusually high, in comparison to their
   # estimated grazing lands leading to very high grassland biomass demand. A share of this increased

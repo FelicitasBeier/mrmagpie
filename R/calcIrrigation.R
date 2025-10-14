@@ -49,9 +49,9 @@ calcIrrigation <- function(lpjml = "lpjml5.9.16-m1",
   }
 
   # Clustering weight:
-  totalCropland <- dimSums(calcOutput("Croparea",
-                                      sectoral = "kcr", physical = TRUE,
-                                      cellular = TRUE, years = "y1995", round = 6,
+  totalCropland <- dimSums(calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
+                                      cellular = TRUE,
+                                      years = "y1995", round = 6,
                                       irrigation = TRUE, aggregate = FALSE),
                            dim = 3.2)
   getSets(totalCropland) <- c("x", "y", "iso", "year", "irrigation")

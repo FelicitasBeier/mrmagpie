@@ -20,7 +20,6 @@ Read Available Land Si
 \dontrun{
   readSource("Ramankutty", convert="onlycorrect")
 }
-
 }
 \seealso{
 \code{\link{readRamankutty}}

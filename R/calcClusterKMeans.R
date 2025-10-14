@@ -20,10 +20,7 @@
 #' @param lpjml       defines LPJmL version for crop/grass and natveg specific inputs
 #' @return A mapping between regions and clusters
 #' @author Jan Philipp Dietrich
-#' @importFrom stats kmeans
 #' @seealso \code{\link{toolClusterPerRegionManual}}, \code{\link{calcClusterHierarchical}}
-#' @export
-
 calcClusterKMeans <- function(regionscode, ncluster, weight = NULL, cpr = NULL, seed = 42,
                               lpjml = "lpjml5.9.5-m1", clusterdata = "yield_airrig") {
   # read in clustering base data
@@ -47,7 +44,9 @@ calcClusterKMeans <- function(regionscode, ncluster, weight = NULL, cpr = NULL, 
   set.seed(seed)
   for (r in dimnames(cpr)[[1]]) {
     cells <- grep(paste0(".", r, "."), dimnames(cdata)[[1]], fixed = TRUE)
-    fit <- kmeans(cdata[cells, ], cpr[r, "clusters"], iter.max = 10000)
+    # We use the MacQueen algorithm as the HartiganWong algorithm does not converge reliably, as some
+    # points in cdata are very close.
+    fit <- stats::kmeans(cdata[cells, ], cpr[r, "clusters"], iter.max = 50000, algorithm = "MacQueen")
     getCells(out)[cells] <- paste(getCells(out)[cells], fit$cluster + ccount, sep = ".")
     ccount <- ccount + cpr[r, "clusters"]
   }
