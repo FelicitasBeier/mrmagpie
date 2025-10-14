@@ -1,6 +1,6 @@
 # madrat based MAgPIE Input Data Library
 
-R package **mrmagpie**, version **1.63.1**
+R package **mrmagpie**, version **1.63.2**
 
 [![CRAN status](https://www.r-pkg.org/badges/version/mrmagpie)](https://cran.r-project.org/package=mrmagpie) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4319612.svg)](https://doi.org/10.5281/zenodo.4319612) [![R build status](https://github.com/pik-piam/mrmagpie/workflows/check/badge.svg)](https://github.com/pik-piam/mrmagpie/actions) [![codecov](https://codecov.io/gh/pik-piam/mrmagpie/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pik-piam/mrmagpie) [![r-universe](https://pik-piam.r-universe.dev/badges/mrmagpie)](https://pik-piam.r-universe.dev/builds)
 
@@ -39,7 +39,7 @@ In case of questions / problems please contact Kristine Karstens <karstens@pik-p
 
 To cite package **mrmagpie** in publications use:
 
-Karstens K, Dietrich J, Chen D, Windisch M, Alves M, Beier F, Köberle A, v. Jeetze P, Mishra A, Humpenoeder F, Sauer P, Rein P (2025). "mrmagpie: madrat based MAgPIE Input Data Library." doi:10.5281/zenodo.4319612 <https://doi.org/10.5281/zenodo.4319612>, Version: 1.63.1, <https://github.com/pik-piam/mrmagpie>.
+Karstens K, Dietrich J, Chen D, Windisch M, Alves M, Beier F, Köberle A, v. Jeetze P, Mishra A, Humpenoeder F, Sauer P, Rein P (2025). "mrmagpie: madrat based MAgPIE Input Data Library." doi:10.5281/zenodo.4319612 <https://doi.org/10.5281/zenodo.4319612>, Version: 1.63.2, <https://github.com/pik-piam/mrmagpie>.
 
 A BibTeX entry for LaTeX users is
 
@@ -48,9 +48,9 @@ A BibTeX entry for LaTeX users is
   title = {mrmagpie: madrat based MAgPIE Input Data Library},
   author = {Kristine Karstens and Jan Philipp Dietrich and David Chen and Michael Windisch and Marcos Alves and Felicitas Beier and Alexandre Köberle and Patrick {v. Jeetze} and Abhijeet Mishra and Florian Humpenoeder and Pascal Sauer and Patrick Rein},
   doi = {10.5281/zenodo.4319612},
-  date = {2025-10-13},
+  date = {2025-10-14},
   year = {2025},
   url = {https://github.com/pik-piam/mrmagpie},
-  note = {Version: 1.63.1},
+  note = {Version: 1.63.2},
 }
 ```

@@ -407,6 +407,11 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
              aggregate = "cluster", round = 6,
              outputStatistics = stats, file = paste0("lpj_airrig_", ctype, ".mz"))
+  if (grepl("+griddedL2Mcomp", dev)) {
+    calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
+               aggregate = FALSE, round = NULL,
+               outputStatistics = stats, file = "lpj_airrig_0.5.mz")
+  }
 
   # dummy Growing Period
   calcOutput("GrowingPeriod", lpjml = lpjml, years = lpjYears,
