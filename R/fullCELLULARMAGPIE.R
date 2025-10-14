@@ -200,7 +200,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     calcOutput("Yields", aggregate = FALSE,
                datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
-               file = ("lpj_yields_nogsadapt_0.5.mz",
+               file = "lpj_yields_nogsadapt_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
     calcOutput("Yields", aggregate = "cluster",
@@ -224,7 +224,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster", round = roundArea,
              outputStatistics = stats, file = paste0("wdpa_baseline_", ctype, ".mz"))
 
-  calcOutput("ConservationPriorities", nclasses = "seven", 
+  calcOutput("ConservationPriorities", nclasses = "seven",
              aggregate = FALSE, round = NULL, outputStatistics = stats, file = "consv_prio_areas_0.5.mz")
   calcOutput("ConservationPriorities", nclasses = "seven",
              aggregate = "cluster", round = roundArea,
@@ -305,7 +305,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen", years = "y2001",
              file = paste0("koeppen_geiger_", ctype, ".mz"))          # years available: 1951, 1976, 2001
-  calcOutput("ClimateClass", aggregate = "cluster", datasource = "ipcc", 
+  calcOutput("ClimateClass", aggregate = "cluster", datasource = "ipcc",
              outputStatistics = stats, file = paste0("ipcc_climate_zones_", ctype, ".mz"))
   calcOutput("CellCountryFraction", aggregate = "cluster",
              outputStatistics = stats, file = paste0("cell_country_fraction_", ctype, ".mz"))
@@ -344,11 +344,11 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   } else {
 
     calcOutput("UrbanLandFuture", subtype = "LUH3",
-               aggregate = FALSE, 
+               aggregate = FALSE,
                round = NULL, years = shortYears,
                outputStatistics = stats, file = "f34_urbanland_0.5.mz")
     calcOutput("UrbanLandFuture", subtype = "LUH3",
-               aggregate = "cluster", 
+               aggregate = "cluster",
                round = roundArea, years = shortYears,
                outputStatistics = stats, file = paste0("f34_urbanland_", ctype, ".mz"))
   }

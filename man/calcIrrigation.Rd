@@ -5,7 +5,7 @@
 \title{calcIrrigation}
 \usage{
 calcIrrigation(
-  lpjml = "lpjml5.9.5-m1",
+  lpjml = "lpjml5.9.16-m1",
   climatetype = "MRI-ESM2-0:ssp370",
   rainfedweight = 0.01
 )
