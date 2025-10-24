@@ -89,9 +89,40 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   roundArea        <- 5
   stats            <- c("summary", "sum")
 
+  if (grepl("mrwater", dev)) {
+    # default settings for mrwater
+    irrigationsystem  <- "initialization"
+    efrMethod         <- "VMF:fair"
+    multicropping     <- "TRUE:actual:irrig_crop"
+
+    accessibilityrule <- "CV:2"
+    rankmethod        <- "USD_m3:GLO:TRUE"
+    gainthreshold     <- 10 # to remove unproductive areas form potential irrigation (Note: temporary until we found solution for accounting for regional costs)
+    allocationrule    <- "optimization"
+
+    comAg             <- TRUE # potential includes priority for committed agricultural areas
+    yieldcalib        <- FALSE
+    # Question: should we activate yield-calibration for determination of PIWW?
+    #           In MAgPIE, yields are being calibrated, so I guess it would be more consistent
+    #           If so: global or country-level calibration (MAgPIE is regional)
+    fossilGW  <- TRUE
+    transDist <- 100
+
+    cropmix   <- "hist_total" # cropmix as of LandInG
+    landScen  <- "potCropland:NULL" # potential cropland and no land protection (for testing)
+    # To Do: different area protection scenario settings for different scenarios
+  }
+
   # Clustering based on 67420 cells
+  # Different aggregation weights for different irrigation implementations
+  # Question (Jan): use of devflag as pragmatic solution for now? (otherwise: need to have branch of branch)
+  if (grepl("mrwater", dev)) {
+    clusterdata <- "yield_increment"
+  } else {
+    clusterdata <- "yield_airrig"
+  }
   map      <- calcOutput("Cluster", ctype = ctype, weight = clusterweight, lpjml = lpjml,
-                         clusterdata = "yield_airrig", aggregate = FALSE)
+                         clusterdata = clusterdata, aggregate = FALSE)
   weightID <- ifelse(is.null(clusterweight), "", paste0("_", names(clusterweight), clusterweight, collapse = ""))
   clustermapname <- sub("\\.[^.]*$", ".rds",
                         paste0("clustermap_rev", rev, dev, "_", ctype, "_67420",
@@ -166,9 +197,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("YieldsCalibrated", aggregate = "cluster",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
-               outputStatistics = stats, file = paste0("lpj_yields_nogsadapt_", ctype, ".mz"))
+               outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"))
 
   } else if (grepl("india", dev)) {
 
@@ -186,17 +217,17 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("Yields",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                aggregate = FALSE,
                climatetype = climatetype, round = NULL, years = lpjYears,
-               outputStatistics = stats, file = "lpj_yields_nogsadapt_0.5.mz",
+               outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
 
 
     calcOutput("Yields", aggregate = "cluster",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
-               outputStatistics = stats, file = paste0("lpj_yields_nogsadapt_", ctype, ".mz"),
+               outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
 
   } else {
@@ -215,15 +246,15 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("Yields", aggregate = FALSE,
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
-               outputStatistics = stats, file = "lpj_yields_nogsadapt_0.5.mz",
+               outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
     calcOutput("Yields", aggregate = "cluster",
-               datasource = c(lpjml = paste0(lpjml, "+scen_nogsadapt_crops"), isimip = isimip),
+               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
-               outputStatistics = stats, file = paste0("lpj_yields_nogsadapt_", ctype, ".mz"),
+               outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
   }
@@ -398,19 +429,41 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   calcOutput("TransportCosts", aggregate = "GLO", round = 4, outputStatistics = stats, file = "f40_transport_costs.csv")
 
   # 41 area equipped for irrigation
-  calcOutput("AreaEquippedForIrrigation",
-             aggregate = "cluster", cellular = TRUE,
-             selectyears = magYearsPastLong, round = roundArea,
-             outputStatistics = stats, file = paste0("avl_irrig_", ctype, ".mz"))
+  if (grepl("mrwater", dev)) {
+    # area committed for irrigation according to data set used in mrwater
+    # Note: currently, this is based on LandInG
+    calcOutput("IrrigAreaCommitted",
+               selectyears = magYearsPastLong, iniyear = iniyear,
+               round = roundArea,
+               aggregate = "cluster", file = paste0("area_irrig_", ctype, ".mz"))
+    # Question (Jan): Better practice to rename the files or keep same name?
+  } else {
+    calcOutput("AreaEquippedForIrrigation",
+               aggregate = "cluster", cellular = TRUE,
+               selectyears = magYearsPastLong, round = roundArea,
+               outputStatistics = stats, file = paste0("avl_irrig_", ctype, ".mz"))
+  }
 
   # 42 water demand
-  calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-             aggregate = "cluster", round = 6,
-             outputStatistics = stats, file = paste0("lpj_airrig_", ctype, ".mz"))
-  if (grepl("+griddedL2Mcomp", dev)) {
+  if (grepl("mrwater", dev)) {
+    # irrigation water requirements for chosen irrigation system settings
+    # Question: Should we generate different scenarios for different irrigation efficiencies?
+    #           (i.e., initialization, all_sprinkler, all_drip)
+    #           This would mean an additional set/column in MAgPIE
+    calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
+               lpjml = lpjml, climatetype = climatetype,
+               irrigationsystem = irrigationsystem, multicropping = multicropping,
+               aggregate = "cluster", file = paste0("irrig_req_crop", ctype, ".mz"))
+  } else {
     calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-               aggregate = FALSE, round = NULL,
-               outputStatistics = stats, file = "lpj_airrig_0.5.mz")
+               aggregate = "cluster", round = 6,
+               outputStatistics = stats, file = paste0("lpj_airrig_", ctype, ".mz"))
+    if (grepl("+griddedL2Mcomp", dev)) {
+      # For data comparison when updating lpjml version
+      calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
+                 aggregate = FALSE, round = NULL,
+                 outputStatistics = stats, file = "lpj_airrig_0.5.mz")
+    }
   }
 
   # dummy Growing Period

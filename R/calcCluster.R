@@ -23,7 +23,7 @@
 #' weights will be assumed to be 1 (examples: c(LAM=1.5,SSA=1.5,OAS=1.5), c(LAM=2,SSA=2,OAS=2))
 #' @param lpjml defines LPJmL version for crop/grass and natveg specific inputs
 #' @param clusterdata similarity data to be used to determine clusters: yield_airrig (current default)
-#' or yield_increment
+#'                    or yield_increment for new irrigation implementation
 #' @return map from cells to clusters as data.frame
 #' @author Jan Philipp Dietrich
 #'
