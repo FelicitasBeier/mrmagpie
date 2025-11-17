@@ -86,6 +86,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   magYears         <- findset("time")
   shortYears       <- findset("t_all")
   lpjYears         <- seq(1995, 2100, by = 5)
+  iniyear          <- 1995
   roundArea        <- 5
   stats            <- c("summary", "sum")
 
@@ -115,7 +116,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   # Clustering based on 67420 cells
   # Different aggregation weights for different irrigation implementations
-  # Question (Jan): use of devflag as pragmatic solution for now? (otherwise: need to have branch of branch)
   if (grepl("mrwater", dev)) {
     clusterdata <- "yield_increment"
   } else {

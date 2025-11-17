@@ -28,10 +28,10 @@ calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1
     d$yld    <- collapseNames(yield[, , "rainfed"])
     d$irrig  <- (collapseNames(yield[, , "irrigated"][, , "pasture", invert = TRUE])
                  - collapseNames(yield[, , "rainfed"][, , "pasture", invert = TRUE]))
-    d$td     <- calcOutput("TransportTime", aggregate = FALSE)[, , rep(1, ndata(d$yld))]
-    gridpop <- collapseNames(calcOutput("GridPop", source = "Gao", urban = FALSE,
-                                        aggregate = FALSE, years = 1995)[, , "SSP2"])
-    d$gp  <- gridpop[, , rep(1, floor(ndata(d$yld)))]
+    d$td     <- calcOutput("TransportTime", aggregate = FALSE)[, , rep(1, floor(ndata(d$yld) / 2))]
+    gridpop  <- collapseNames(calcOutput("GridPop", source = "Gao", urban = FALSE,
+                                         aggregate = FALSE, years = 1995)[, , "SSP2"])
+    d$gp     <- gridpop[, , rep(1, floor(ndata(d$yld) / 2))]
 
   } else {
     stop("Specify clusterdata argument: yield_airrig (old clustering data)
