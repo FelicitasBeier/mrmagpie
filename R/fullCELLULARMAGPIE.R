@@ -112,6 +112,8 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     cropmix   <- "hist_total" # cropmix as of LandInG
     landScen  <- "potCropland:NULL" # potential cropland and no land protection (for testing)
     # To Do: different area protection scenario settings for different scenarios
+  } else {
+    multicropping <- FALSE
   }
 
   # Clustering based on 67420 cells
@@ -191,25 +193,30 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   if (dev == "+calibYield") {
 
     calcOutput("YieldsCalibrated", aggregate = "cluster",
+               multicropping = multicropping,
                datasource = c(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"))
 
     # no growing period adaptation
     calcOutput("YieldsCalibrated", aggregate = "cluster",
+               multicropping = multicropping,
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"))
 
   } else if (grepl("india", dev)) {
 
-    calcOutput("Yields", datasource = c(lpjml = lpjml, isimip = isimip), aggregate = FALSE,
+    calcOutput("Yields",
+               multicropping = multicropping,
+               datasource = c(lpjml = lpjml, isimip = isimip), aggregate = FALSE,
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
 
 
     calcOutput("Yields", aggregate = "cluster",
+               multicropping = multicropping,
                datasource = c(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
@@ -217,6 +224,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("Yields",
+               multicropping = multicropping,
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                aggregate = FALSE,
                climatetype = climatetype, round = NULL, years = lpjYears,
@@ -225,6 +233,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
 
     calcOutput("Yields", aggregate = "cluster",
+               multicropping = multicropping,
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
@@ -233,12 +242,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   } else {
 
     calcOutput("Yields", aggregate = FALSE,
+               multicropping = multicropping,
                datasource = c(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
     calcOutput("Yields", aggregate = "cluster",
+               multicropping = multicropping,
                datasource = c(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
@@ -246,12 +257,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # no growing period adaptation
     calcOutput("Yields", aggregate = FALSE,
+               multicropping = multicropping,
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
 
     calcOutput("Yields", aggregate = "cluster",
+               multicropping = multicropping,
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
@@ -284,6 +297,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
 
   # 30 crop
+  # LUH-based croparea for initialisation
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, round = roundArea,
              aggregate = "cluster", outputStatistics = stats,
@@ -292,12 +306,40 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              cellular = TRUE, irrigation = TRUE, round = roundArea,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
+
+  # LandInG-based croparea for initialisation
+  calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
+             cellular = TRUE, irrigation = FALSE, selectyears = "all",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = "cluster", outputStatistics = stats,
+             file = paste0("f30_croparea_LandInG_", ctype, ".mz"))
+  calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
+             cellular = TRUE, irrigation = TRUE, selectyears = "all",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = "cluster", outputStatistics = stats,
+             file = paste0("f30_croparea_w_LandInG_", ctype, ".mz"))
+
+  ### BENNI: How should we solve the multiple cropping issue (for current multiple cropping)
+  # To Do: read in multiple cropping area per cluster and crop and irrigation type
+  # based on CropareaLandInG: harvest - physical
+  # --> these areas should get multiple cropping yield (two different yields being read in)
+  # To Do: Double-check: Or should it all be captured by yields? i.e., yields according to
+  # current multiple cropping share (grid cells with higher multiple cropping share have just higher yields)
+  # but then cannot be isolated the effect, maybe harder to extend multiple cropping
+  # Note: for now use multicropping yields instead of making area distinction,
+  # but to be discussed.
+
   ## For cellular comparison
   calcOutput("MAPSPAM", subtype = "physical",  aggregate = FALSE, round = NULL,
              outputStatistics = stats, file = "MAPSPAM_croparea_0.5.mz")
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE, cellular = TRUE,
              irrigation = TRUE, round = NULL,
              aggregate = FALSE, outputStatistics = stats, file = "LUH3_croparea_0.5.mz")
+  calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
+             cellular = TRUE, irrigation = TRUE, selectyears = "all",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = FALSE, outputStatistics = stats,
+             file = paste0("croparea_LandInG_", "0.5", ".mz"))
 
   calcOutput("AvlCropland", marginal_land = "magpie", cell_upper_bound = 0.9,
              aggregate = FALSE,
@@ -431,18 +473,18 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # 41 area equipped for irrigation
   if (grepl("mrwater", dev)) {
     # area committed for irrigation according to data set used in mrwater
-    # Note: currently, this is based on LandInG
+    # Note: currently, this is based on LandInG; To Do: change to LandInG for other croparea inputs
     calcOutput("IrrigAreaCommitted",
                selectyears = magYearsPastLong, iniyear = iniyear,
                round = roundArea,
                aggregate = "cluster", file = paste0("area_irrig_", ctype, ".mz"))
     # Question (Jan): Better practice to rename the files or keep same name?
-  } else {
-    calcOutput("AreaEquippedForIrrigation",
-               aggregate = "cluster", cellular = TRUE,
-               selectyears = magYearsPastLong, round = roundArea,
-               outputStatistics = stats, file = paste0("avl_irrig_", ctype, ".mz"))
   }
+  # keep during development, but delete once mrwater implementation is only remaining
+  calcOutput("AreaEquippedForIrrigation",
+             aggregate = "cluster", cellular = TRUE,
+             selectyears = magYearsPastLong, round = roundArea,
+             outputStatistics = stats, file = paste0("avl_irrig_", ctype, ".mz"))
 
   # 42 water demand
   if (grepl("mrwater", dev)) {
@@ -454,16 +496,16 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                lpjml = lpjml, climatetype = climatetype,
                irrigationsystem = irrigationsystem, multicropping = multicropping,
                aggregate = "cluster", file = paste0("irrig_req_crop", ctype, ".mz"))
-  } else {
+  }
+  # keep during development stage for comparison purpose, but delete once mrwater is only realization
+  calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
+             aggregate = "cluster", round = 6,
+             outputStatistics = stats, file = paste0("lpj_airrig_", ctype, ".mz"))
+  if (grepl("+griddedL2Mcomp", dev)) {
+    # For data comparison when updating lpjml version
     calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-               aggregate = "cluster", round = 6,
-               outputStatistics = stats, file = paste0("lpj_airrig_", ctype, ".mz"))
-    if (grepl("+griddedL2Mcomp", dev)) {
-      # For data comparison when updating lpjml version
-      calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
-                 aggregate = FALSE, round = NULL,
-                 outputStatistics = stats, file = "lpj_airrig_0.5.mz")
-    }
+               aggregate = FALSE, round = NULL,
+               outputStatistics = stats, file = "lpj_airrig_0.5.mz")
   }
 
   # dummy Growing Period
@@ -471,6 +513,31 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              climatetype = climatetype, yield_ratio = 0.1,
              aggregate = FALSE,
              round = 2, outputStatistics = stats, file = "lpj_grper_0.5.mz")
+
+  # Potentially irrigated areas based on river routing and yield gain ranking
+  calcOutput("PotIrrigAreas", cropAggregation = TRUE,
+             lpjml = lpjml, climatetype = climatetype,
+             selectyears = lpjYears, iniyear = iniyear,
+             efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+             accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+             gainthreshold = gainthreshold, allocationrule = allocationrule,
+             yieldcalib = yieldcalib, comAg = comAg,
+             fossilGW = fossilGW, transDist = transDist,
+             multicropping = multicropping,
+             landScen = landScen, cropmix = cropmix,
+             aggregate = "cluster", file = paste0("area_pot_irrig", ctype, ".mz"))
+
+  calcOutput("PotIrrigAreas", cropAggregation = TRUE,
+             lpjml = lpjml, climatetype = climatetype,
+             selectyears = lpjYears, iniyear = iniyear,
+             efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+             accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+             gainthreshold = gainthreshold, allocationrule = allocationrule,
+             yieldcalib = yieldcalib, comAg = comAg,
+             fossilGW = fossilGW, transDist = transDist,
+             multicropping = multicropping,
+             landScen = landScen, cropmix = cropmix,
+             aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
 
   # 43 water availability
   calcOutput("AvlWater", lpjml = lpjml, years = lpjYears,
@@ -482,6 +549,30 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster",
              round = 6, outputStatistics = stats, file = paste0("lpj_watavail_total_", ctype, ".mz"))
 
+  # Water withdrawals associated with potentially irrigated areas
+  calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
+             selectyears = lpjYears, iniyear = iniyear,
+             efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+             accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+             gainthreshold = gainthreshold, allocationrule = allocationrule,
+             yieldcalib = yieldcalib, comAg = comAg,
+             fossilGW = fossilGW, transDist = transDist,
+             multicropping = multicropping,
+             landScen = landScen, cropmix = cropmix,
+             aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
+
+  calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
+             selectyears = lpjYears, iniyear = iniyear,
+             efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+             accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+             gainthreshold = gainthreshold, allocationrule = allocationrule,
+             yieldcalib = yieldcalib, comAg = comAg,
+             fossilGW = fossilGW, transDist = transDist,
+             multicropping = multicropping,
+             landScen = landScen, cropmix = cropmix,
+             aggregate = "cluster", file = paste0("pot_irr_wat", ctype, ".mz"))
+
+  # Keep for comparison until mrwater is only remaining realization, then delete when no longer needed/used
   calcOutput("EFRSmakthin", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
              aggregate = "cluster",
              round = 6, seasonality = "grper",
@@ -502,6 +593,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                outputStatistics = stats, file = paste0("envflow_total_", ctype, ".cs3"))
   }
 
+  # Keep for comparison until mrwater is only realization, then delete when no longer needed/used
   calcOutput("WaterUseNonAg", datasource = "WATERGAP_ISIMIP", usetype = "all:all",
              selectyears = lpjYears, seasonality = "grper", lpjml = lpjml, climatetype = climatetype,
              aggregate = "cluster",
