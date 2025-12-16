@@ -246,14 +246,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                datasource = c(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
+               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland"))
 
     calcOutput("Yields", aggregate = "cluster",
                multicropping = multicropping,
                datasource = c(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
+               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland"))
 
     # no growing period adaptation
     calcOutput("Yields", aggregate = FALSE,
@@ -261,14 +261,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
+               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland"))
 
     calcOutput("Yields", aggregate = "cluster",
                multicropping = multicropping,
                datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "totalCrop"))
+               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland"))
 
   }
 
