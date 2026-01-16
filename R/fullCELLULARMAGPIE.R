@@ -518,19 +518,31 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # Potentially irrigated areas based on river routing and yield gain ranking
     calcOutput("PotIrrigAreas", cropAggregation = TRUE,
-              lpjml = lpjml, climatetype = climatetype,
-              selectyears = lpjYears, iniyear = iniyear,
-              efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-              accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-              gainthreshold = gainthreshold, allocationrule = allocationrule,
-              yieldcalib = yieldcalib, comAg = comAg,
-              fossilGW = fossilGW, transDist = transDist,
-              multicropping = multicropping,
-              landScen = landScen, cropmix = cropmix,
-              aggregate = "cluster", file = paste0("area_pot_irrig", ctype, ".mz"))
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+               gainthreshold = gainthreshold, allocationrule = allocationrule,
+               yieldcalib = yieldcalib, comAg = comAg,
+               fossilGW = fossilGW, transDist = transDist,
+               multicropping = multicropping,
+               landScen = landScen, cropmix = cropmix,
+               aggregate = "cluster", file = paste0("area_pot_irrig", ctype, ".mz"))
 
     calcOutput("PotIrrigAreas", cropAggregation = TRUE,
-              lpjml = lpjml, climatetype = climatetype,
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+               gainthreshold = gainthreshold, allocationrule = allocationrule,
+               yieldcalib = yieldcalib, comAg = comAg,
+               fossilGW = fossilGW, transDist = transDist,
+               multicropping = multicropping,
+               landScen = landScen, cropmix = cropmix,
+               aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
+
+    # Water withdrawals associated with potentially irrigated areas
+    calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
               selectyears = lpjYears, iniyear = iniyear,
               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
@@ -539,7 +551,18 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
               fossilGW = fossilGW, transDist = transDist,
               multicropping = multicropping,
               landScen = landScen, cropmix = cropmix,
-              aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
+              aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
+
+    calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
+              selectyears = lpjYears, iniyear = iniyear,
+              efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+              accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+              gainthreshold = gainthreshold, allocationrule = allocationrule,
+              yieldcalib = yieldcalib, comAg = comAg,
+              fossilGW = fossilGW, transDist = transDist,
+              multicropping = multicropping,
+              landScen = landScen, cropmix = cropmix,
+              aggregate = "cluster", file = paste0("pot_irr_wat", ctype, ".mz"))
 
   }
 
@@ -552,29 +575,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              climatetype = climatetype, seasonality = "total",
              aggregate = "cluster",
              round = 6, outputStatistics = stats, file = paste0("lpj_watavail_total_", ctype, ".mz"))
-
-  # Water withdrawals associated with potentially irrigated areas
-  calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
-             selectyears = lpjYears, iniyear = iniyear,
-             efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-             accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-             gainthreshold = gainthreshold, allocationrule = allocationrule,
-             yieldcalib = yieldcalib, comAg = comAg,
-             fossilGW = fossilGW, transDist = transDist,
-             multicropping = multicropping,
-             landScen = landScen, cropmix = cropmix,
-             aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
-
-  calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
-             selectyears = lpjYears, iniyear = iniyear,
-             efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-             accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-             gainthreshold = gainthreshold, allocationrule = allocationrule,
-             yieldcalib = yieldcalib, comAg = comAg,
-             fossilGW = fossilGW, transDist = transDist,
-             multicropping = multicropping,
-             landScen = landScen, cropmix = cropmix,
-             aggregate = "cluster", file = paste0("pot_irr_wat", ctype, ".mz"))
 
   # Keep for comparison until mrwater is only remaining realization, then delete when no longer needed/used
   calcOutput("EFRSmakthin", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
