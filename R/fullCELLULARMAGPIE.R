@@ -385,12 +385,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                subtype = "/co2/Nreturn0p5", # nolint
                lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
                outputStatistics = stats, file = paste0("f31_grassl_yld.mz"), years = magYears,
-               aggregate = FALSE)
-    calcOutput("MaxPastureSuit", climatetype = climatetype, lpjml =  lpjml[["natveg"]],
-               outputStatistics = stats, file = paste0("f31_max_managed_pasture_", ctype, ".mz"),
-               years = magYears, aggregate = "cluster")
-    calcOutput("MaxPastureSuit", climatetype = climatetype, lpjml =  lpjml[["natveg"]],
-               outputStatistics = stats, file = "f31_max_managed_pasture.mz", years = magYears, aggregate = FALSE)
+               cells = cells, aggregate = FALSE)
   }
 
   calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen", years = "y2001",
