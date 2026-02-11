@@ -7,13 +7,14 @@
 #'              Irrigation for the years 1900-2015
 #'
 #' @param cellular    if TRUE: 0.5 degree resolution returned
-#' @param cells       number of cells to be returned: magpiecell (59199), lpjcell (67420)
 #' @param selectyears default on "past"
 #'
 #' @return List of magpie objects with results on country/cellular level,
 #'         weight on country level, unit and description.
 #'
 #' @author Benjamin Leon Bodirsky, Kristine Karstens, Felicitas Beier
+#'
+#' @importFrom mstools toolHoldConstant
 #'
 #' @seealso
 #' [calcLanduseInitialisation()]
@@ -22,8 +23,7 @@
 #' calcOutput("AreaEquippedForIrrigation", source = "LUH3", cellular = TRUE, aggregate = FALSE)
 #' }
 calcAreaEquippedForIrrigation <- function(cellular = FALSE,
-                                          cells = "lpjcell",
-                                          selectyears = "past") {
+                                          selectyears = "past_til2020") {
 
   selectyears <- sort(magpiesets::findset(selectyears, noset = "original"))
 
@@ -69,12 +69,14 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   ########################################
   ### Read in Mehta et al. (2024) data ###
   ########################################
-  mehta1 <- readSource("Mehta2024", subtype = "GMIA", convert = "onlycorrect")
+  mehta1 <- readSource("Mehta2024", subtype = "v4_GMIA", convert = "onlycorrect")
+  mehta1 <- mstools::toolHoldConstant(mehta1, years = selectyears)
   years <- intersect(getItems(mehta1, dim = 2), selectyears)
   mehta1 <- mehta1[, years, ]
   getItems(mehta1, dim = 3) <- "Mehta2024_Siebert2013"
 
-  mehta2 <- readSource("Mehta2024", subtype = "Meier2018", convert = "onlycorrect")
+  mehta2 <- readSource("Mehta2024", subtype = "v4_Meier2018", convert = "onlycorrect")
+  mehta2 <- mstools::toolHoldConstant(mehta2, years = selectyears)
   years <- intersect(getItems(mehta2, dim = 2), selectyears)
   mehta2 <- mehta2[, years, ]
   getItems(mehta2, dim = 3) <- "Mehta2024_Meier2018"
@@ -90,27 +92,15 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   ##############
   ### Output ###
   ##############
-  # reduce to 59k cells
-  if (cells == "magpiecell") {
-    out <- mstools::toolCoord2Isocell(out)
-  }
-
   # aggregate to iso level
   if (!cellular) {
-    if (length(getItems(out, dim = 1)) == 67420) {
-      out <- dimSums(out, dim = c("x", "y"))
-    } else {
-      mapping <- toolGetMapping(name = "CountryToCellMapping.rds",
-                                where = "mstools")
-      out <- toolAggregate(out, rel = mapping,
-                           from = "celliso", to = "iso", dim = 1)
-    }
+    out <- dimSums(out, dim = c("x", "y"))
     out <- toolCountryFill(out, fill = 0)
   }
 
   return(list(x            = out,
               weight       = NULL,
-              unit         = "Million ha",
+              unit         = "million ha",
               description  = "Area equipped for irrigation",
               isocountries = !cellular))
 }

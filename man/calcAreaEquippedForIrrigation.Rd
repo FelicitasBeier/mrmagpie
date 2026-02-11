@@ -4,16 +4,10 @@
 \alias{calcAreaEquippedForIrrigation}
 \title{calcAreaEquippedForIrrigation}
 \usage{
-calcAreaEquippedForIrrigation(
-  cellular = FALSE,
-  cells = "lpjcell",
-  selectyears = "past"
-)
+calcAreaEquippedForIrrigation(cellular = FALSE, selectyears = "past_til2020")
 }
 \arguments{
 \item{cellular}{if TRUE: 0.5 degree resolution returned}
-
-\item{cells}{number of cells to be returned: magpiecell (59199), lpjcell (67420)}
 
 \item{selectyears}{default on "past"}
 }

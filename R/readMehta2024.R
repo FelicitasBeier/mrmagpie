@@ -1,12 +1,14 @@
 #' @title readMehta2024
 #' @description reads in Global Area Equipped for Irrigation for years 1900-2015 from Mehta et al. (2022)
 #'
-#' @param subtype data subtype to be downloaded.
+#' @param subtype data subtype to be downloaded
 #'                Subtypes available:
+#'                Combination of version (v3, v4) and data source:
 #'                'GMIA': gridded base map for downscaling from Stefan et al. (2013).
 #'                        Global Map of Irrigation Areas version 5.
 #'                'Meier2018': gridded base map for downscaling from Meier, et al. (2018).
 #'                             Global Irrigated Areas.
+#'                Separated by "_" (e.g., subtype = "v4_GMIA")
 #'
 #' @author  Felicitas Beier
 #' @seealso [correctMehta2024()]
@@ -18,16 +20,18 @@
 #' @importFrom magclass as.magpie
 #' @importFrom mstools toolGetMappingCoord2Country
 
-readMehta2024 <- function(subtype = "GMIA") {
+readMehta2024 <- function(subtype = "v4_GMIA") {
 
-  if (subtype == "GMIA") {
+  if (grepl("GMIA", subtype)) {
     dataname <- "G_AEI_"
     itemname <- "AEI_Mehta2024_Siebert2013"
-  } else if (subtype == "Meier2018") {
+  } else if (grepl("Meier2018", subtype)) {
     dataname <- "MEIER_G_AEI_"
     itemname <- "AEI_Mehta2024_Meier2018"
   } else {
-    stop("The selected subtype is not available for downloadMehta2024. Please select 'GMIA' or 'Meier2018'.")
+    stop("The selected subtype is not available for downloadMehta2024.
+         Please select 'GMIA' or 'Meier2018' in combination with version
+         argument (v3 or v4).")
   }
 
   years  <- c(seq(1900, 1970, by = 10),
