@@ -30,7 +30,7 @@
 #' @importFrom mrlandcore toolLPJmLHarmonize
 #' @importFrom mstools toolHarmonize2Baseline
 
-calcYieldsMAgPIE <- function(datasource = c(lpjml = "ggcmi_phase3_nchecks_9ca735cb", isimip = NULL),
+calcYieldsMAgPIE <- function(datasource = list(lpjml = "ggcmi_phase3_nchecks_9ca735cb", isimip = NULL),
                              climatetype = "GSWP3-W5E5:historical",
                              selectyears = seq(1965, 2100, by = 5),
                              multicropping = FALSE,
