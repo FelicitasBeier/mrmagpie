@@ -195,7 +195,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
-               datasource = c(lpjml = lpjml, isimip = isimip),
+               datasource = list(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                calibration = list(refYear = "y1995",
                                   refYields = FALSE,
@@ -207,7 +207,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # no growing period adaptation
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
-               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
+               datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                calibration = list(refYear = "y1995",
                                   refYields = FALSE,
@@ -220,7 +220,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     calcOutput("YieldsMAgPIE",
                multicropping = multicropping,
-               datasource = c(lpjml = lpjml, isimip = isimip), aggregate = FALSE,
+               datasource = list(lpjml = lpjml, isimip = isimip), aggregate = FALSE,
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
@@ -228,7 +228,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
-               datasource = c(lpjml = lpjml, isimip = isimip),
+               datasource = list(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
@@ -236,7 +236,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # no growing period adaptation
     calcOutput("YieldsMAgPIE",
                multicropping = multicropping,
-               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
+               datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                aggregate = FALSE,
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
@@ -245,7 +245,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
-               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
+               datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
                weighting = "crop+irrigSpecific", indiaYields = TRUE, scaleFactor = 0.5)
@@ -254,14 +254,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     calcOutput("YieldsMAgPIE", aggregate = FALSE,
                multicropping = multicropping,
-               datasource = c(lpjml = lpjml, isimip = isimip),
+               datasource = list(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
-               datasource = c(lpjml = lpjml, isimip = isimip),
+               datasource = list(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
@@ -269,14 +269,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # no growing period adaptation
     calcOutput("YieldsMAgPIE", aggregate = FALSE,
                multicropping = multicropping,
-               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
+               datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
-               datasource = c(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
+               datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
