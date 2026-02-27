@@ -17,7 +17,7 @@ calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1
   # read in data which should be used to determine cluster
   if (clusterdata == "yield_airrig") {
 
-    d$yld    <- calcOutput("YieldsMAgPIE", datasource = c(lpjml = lpjml, isimip = NULL),
+    d$yld    <- calcOutput("YieldsMAgPIE", datasource = c(lpjml = lpjml),
                            selectyears = 1995, aggregate = FALSE,
                            calibration = NULL)
     d$irrig  <- calcOutput("Irrigation", lpjml = lpjml, years = 1995, aggregate = FALSE)
@@ -28,7 +28,7 @@ calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1
 
   } else if (clusterdata == "yield_increment") {
 
-    yield    <- calcOutput("YieldsMAgPIE", datasource = c(lpjml = lpjml, isimip = NULL),
+    yield    <- calcOutput("YieldsMAgPIE", datasource = c(lpjml = lpjml),
                            selectyears = 1995, aggregate = FALSE,
                            calibration = NULL)
     d$yld    <- collapseNames(yield[, , "rainfed"])
