@@ -482,8 +482,8 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # Note: currently, this is based on LandInG; To Do: change to LandInG for other croparea inputs
     calcOutput("IrrigAreaCommitted",
                selectyears = magYearsPastLong, iniyear = iniyear,
-               round = roundArea,
-               aggregate = "cluster", file = paste0("area_irrig_", ctype, ".mz"))
+               round = roundArea, aggregateCrops = TRUE,
+               aggregate = "cluster", file = paste0("area_irrig_ini_", ctype, ".mz"))
     # Question (Jan): Better practice to rename the files or keep same name?
   }
   # keep during development, but delete once mrwater implementation is only remaining
