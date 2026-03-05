@@ -484,7 +484,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                selectyears = magYearsPastLong, iniyear = iniyear,
                round = roundArea, aggregateCrops = TRUE,
                aggregate = "cluster", file = paste0("area_irrig_ini_", ctype, ".mz"))
-    # Question (Jan): Better practice to rename the files or keep same name?
+
+    # unit cost for irrigation expansion and maintenance/rehabilitation for iniyear
+    calcOutput("IrrigUnitCost", aggregate = FALSE, file = "irrig_unit_cost.csv")
   }
   # keep during development, but delete once mrwater implementation is only remaining
   calcOutput("AreaEquippedForIrrigation",
@@ -521,7 +523,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              round = 2, outputStatistics = stats, file = "lpj_grper_0.5.mz")
 
   if (grepl("mrwater", dev)) {
-
     # Potentially irrigated areas based on river routing and yield gain ranking
     calcOutput("PotIrrigAreas", cropAggregation = TRUE,
                lpjml = lpjml, climatetype = climatetype,
@@ -549,26 +550,26 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     # Water withdrawals associated with potentially irrigated areas
     calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
-              selectyears = lpjYears, iniyear = iniyear,
-              efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-              accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-              gainthreshold = gainthreshold, allocationrule = allocationrule,
-              yieldcalib = yieldcalib, comAg = comAg,
-              fossilGW = fossilGW, transDist = transDist,
-              multicropping = multicropping,
-              landScen = landScen, cropmix = cropmix,
-              aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
+               selectyears = lpjYears, iniyear = iniyear,
+               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+               gainthreshold = gainthreshold, allocationrule = allocationrule,
+               yieldcalib = yieldcalib, comAg = comAg,
+               fossilGW = fossilGW, transDist = transDist,
+               multicropping = multicropping,
+               landScen = landScen, cropmix = cropmix,
+               aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
 
     calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
-              selectyears = lpjYears, iniyear = iniyear,
-              efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-              accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-              gainthreshold = gainthreshold, allocationrule = allocationrule,
-              yieldcalib = yieldcalib, comAg = comAg,
-              fossilGW = fossilGW, transDist = transDist,
-              multicropping = multicropping,
-              landScen = landScen, cropmix = cropmix,
-              aggregate = "cluster", file = paste0("pot_irr_wat", ctype, ".mz"))
+               selectyears = lpjYears, iniyear = iniyear,
+               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+               gainthreshold = gainthreshold, allocationrule = allocationrule,
+               yieldcalib = yieldcalib, comAg = comAg,
+               fossilGW = fossilGW, transDist = transDist,
+               multicropping = multicropping,
+               landScen = landScen, cropmix = cropmix,
+               aggregate = "cluster", file = paste0("pot_irr_wat", ctype, ".mz"))
 
   }
 
@@ -708,6 +709,16 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                lpjmlNatveg = lpjml[["natveg"]], climatetype = histClimatetype,
                round = 6, outputStatistics = stats, file = "f59_topsoilc_naturalstate.cs3")
   }
+
+  ### Preprocessing outputs needed for post-processing and indicator calculation ###
+  calcOutput("NPPyearly", type = "preind", unit = "tC/m2",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = "cluster", years = lpjYears,
+             file = "NPPpreind")
+  calcOutput("NPPyearly", type = "pnv", unit = "tC/m2",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = "cluster", years = lpjYears,
+             file = "NPPpot")
 
   ##### AGGREGATION ######
 

@@ -30,6 +30,7 @@ calcIrrigation <- function(lpjml = "lpjml5.9.16-m1",
   # Read in airrig (irrigation water applied additionally to rainfall where irrigation takes place):
   airrigLPJ <- collapseNames(calcOutput("LPJmLHarmonize", subtype = "cropsIR:cft_airrig",
                                         lpjmlversion = lpjml, climatetype = climatetype,
+                                        monthly = FALSE,
                                         aggregate = FALSE)[, , "irrigated"])
 
   # Load LPJmL to MAgPIE mapping to aggregate to MAgPIE crops

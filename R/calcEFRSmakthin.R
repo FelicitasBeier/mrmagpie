@@ -48,7 +48,8 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     ### Monthly Discharge
     monthlyDischargeMagpie <- calcOutput("LPJmLTransform", subtype = "pnv:discharge",
                                          lpjmlversion = cfg$readinVersion, climatetype = climatetype,
-                                         stage = "raw:cut", aggregate = FALSE)
+                                         stage = "raw:cut", monthly = TRUE,
+                                         aggregate = FALSE)
     # Extract years for quantile calculation
     years <- getYears(monthlyDischargeMagpie, as.integer = TRUE)
     years <- seq(years[1] + 7, years[length(years)], by = 1)
@@ -84,7 +85,8 @@ calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:s
     ### Read in smoothed monthly discharge
     monthlyDischargeMagpie <- calcOutput("LPJmLTransform", subtype = "pnv:discharge",
                                          lpjmlversion = cfg$readinVersion, climatetype = climatetype,
-                                         stage = "smoothed:cut", aggregate = FALSE)
+                                         stage = "smoothed:cut", monthly = TRUE,
+                                         aggregate = FALSE)
 
     # Transform to array (faster calculation)
     lfrQuant <- as.array(collapseNames(lfrQuant))

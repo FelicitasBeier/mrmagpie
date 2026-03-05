@@ -24,11 +24,13 @@ calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
   # Calculate carbon pools from LPJmL
   .collectCarbonPools <- function(run, pools) {
 
+    ### To Do: Kristine: double-check. I think it's not-monthly, right?
     .processPool <- function(pool) {
       .y <- calcOutput("LPJmLHarmonize",
                        lpjmlversion = lpjml,
                        climatetype  = climatetype,
                        subtype      = paste0(run, ":", pool),
+                       monthly      = FALSE,
                        aggregate    = FALSE)[, years, ]
 
       setNames(.y, pool)

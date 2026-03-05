@@ -59,12 +59,11 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
   #########################################################
   #### Current cropland as basis for aggregation ####
   if (weighting == "totalCrop") {
-
     # croparea in initialization year as weight for all irrigated/rainfed crops and pasture areas
     totalCroparea <- dimSums(calcOutput("Croparea", sectoral = "kcr", physical = TRUE, irrigation = FALSE,
-                                         cellular = TRUE, aggregate = FALSE,
-                                         years = "y1995", round = 6),
-                              dim = 3)
+                                        cellular = TRUE, aggregate = FALSE,
+                                        years = "y1995", round = 6),
+                             dim = 3)
     cropAreaWeight[, , ] <- totalCroparea
 
   } else if (weighting %in% c("totalLUspecific", "cropSpecific", "crop+irrigSpecific")) {
@@ -76,20 +75,17 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
                        input_magpie = TRUE, years = "y1995", round = 6)[, , "past"]
 
     if (weighting == "crop+irrigSpecific") {
-
       # every irrigated/rainfed crop is weighted with its specific crop area in the initialization year
       cropAreaWeight[, , kcr] <- crop
       cropAreaWeight[, , "pasture"]      <- mbind(setNames(past, "irrigated"),
                                                   setNames(past, "rainfed"))
 
     } else if (weighting == "cropSpecific") {
-
       # every crop is weighted with its specific crop area in the initialization year
       cropAreaWeight[, , kcr] <- dimSums(crop, dim = "irrigation")
       cropAreaWeight[, , "pasture"] <- past
 
     } else {
-
       # total croparea as weight for crops
       cropAreaWeight[, , kcr] <- dimSums(crop, dim = 3)
       # pasture area as weight for pasture
@@ -99,16 +95,14 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
 
     #### Available cropland as basis for aggregation ####
   } else if (weighting == "avlCropland") {
-
     # available cropland as weight for all irrigated/rainfed crops and pasture areas
     avlCrop <- setNames(calcOutput("AvlCropland", marginal_land = marginal_land,
-                                    country_level = FALSE, aggregate = FALSE),
+                                   country_level = FALSE, aggregate = FALSE),
                         NULL)
 
     cropAreaWeight[, , ] <- avlCrop
 
   } else if (weighting == "avlCropland+potentiallyIrrigatedAreas") {
-
     # available cropland as weight for all rainfed crops and pasture areas
     avlCrop <- setNames(calcOutput("AvlCropland", marginal_land = marginal_land,
                                    country_level = FALSE, aggregate = FALSE),
@@ -138,7 +132,6 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
     # aggregate = FALSE, round = NULL
 
   } else if (weighting == "avlCropland+avlPasture") {
-
     # available cropland as weight for all irrigated/rainfed crops
     avlCrop <- setNames(calcOutput("AvlCropland", marginal_land = marginal_land,
                                    country_level = FALSE, aggregate = FALSE),

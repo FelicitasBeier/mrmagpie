@@ -36,7 +36,7 @@ calcYieldsMAgPIE <- function(datasource = list(lpjml = "ggcmi_phase3_nchecks_9ca
                              multicropping = FALSE,
                              calibration = NULL,
                              weighting = "totalCrop",
-                             marginal_land = "q33_marginal:rainfed_and_irrigated",
+                             marginal_land = "q33_marginal:rainfed_and_irrigated", # nolint [object_name_liner]
                              indiaYields = FALSE,
                              scaleFactor = 0.3) { # nolint
 

@@ -19,6 +19,7 @@ calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
                                 lpjmlversion = lpjml,
                                 climatetype  = climatetype,
                                 subtype      = "pnv:soilc_layer",
+                                monthly      = FALSE,
                                 aggregate    = FALSE)
   soilcLayerShare  <- soilcLayerShare / dimSums(soilcLayerShare, dim = 3) # calculating a share per layer
   soilcLayerShare  <- toolConditionalReplace(soilcLayerShare, conditions = c("is.na()"), replaceby = 0)
