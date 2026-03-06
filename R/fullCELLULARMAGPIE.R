@@ -484,9 +484,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                selectyears = magYearsPastLong, iniyear = iniyear,
                round = roundArea, aggregateCrops = TRUE,
                aggregate = "cluster", file = paste0("area_irrig_ini_", ctype, ".mz"))
-
-    # unit cost for irrigation expansion and maintenance/rehabilitation for iniyear
-    calcOutput("IrrigUnitCost", aggregate = FALSE, file = "irrig_unit_cost.csv")
   }
   # keep during development, but delete once mrwater implementation is only remaining
   calcOutput("AreaEquippedForIrrigation",
