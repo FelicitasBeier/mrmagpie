@@ -566,7 +566,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                fossilGW = fossilGW, transDist = transDist,
                multicropping = multicropping,
                landScen = landScen, cropmix = cropmix,
-               aggregate = "cluster", file = paste0("pot_irr_wat", ctype, ".mz"))
+               aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
   }
 
@@ -708,11 +708,11 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   }
 
   ### Preprocessing outputs needed for post-processing and indicator calculation ###
-  calcOutput("NPPyearly", type = "preind", unit = "tC/m2",
+  calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
              lpjml = lpjml, climatetype = climatetype,
              aggregate = "cluster", years = lpjYears,
              file = "NPPpreind")
-  calcOutput("NPPyearly", type = "pnv", unit = "tC/m2",
+  calcOutput("NPPyearly", subtype = "pnv", unit = "tC/m2",
              lpjml = lpjml, climatetype = climatetype,
              aggregate = "cluster", years = lpjYears,
              file = "NPPpot")
