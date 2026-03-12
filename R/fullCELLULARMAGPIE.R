@@ -497,8 +497,10 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # Question: Should we generate different scenarios for different irrigation efficiencies?
     #           (i.e., initialization, all_sprinkler, all_drip)
     #           This would mean an additional set/column in MAgPIE
+    # Should we return "off season" and "main season" separately? This would mean an
+    # additional set in MAgPIE
     calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
-               lpjml = lpjml, climatetype = climatetype,
+               lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
                irrigationsystem = irrigationsystem, multicropping = multicropping,
                aggregate = "cluster", file = paste0("irrig_req_crop_", ctype, ".mz"))
   }
@@ -546,7 +548,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
 
     # Water withdrawals associated with potentially irrigated areas
-    calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
+    ### To Do: change function call: return PIWW for ag by sources
+    ## also return total (for indicator calculation)
+    calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                efrMethod = efrMethod, irrigationsystem = irrigationsystem,
                accessibilityrule = accessibilityrule, rankmethod = rankmethod,
@@ -555,9 +559,10 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                fossilGW = fossilGW, transDist = transDist,
                multicropping = multicropping,
                landScen = landScen, cropmix = cropmix,
+               usagetype = "withdrawal",
                aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
 
-    calcOutput("PotWater", lpjml = lpjml, climatetype = climatetype,
+    calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                efrMethod = efrMethod, irrigationsystem = irrigationsystem,
                accessibilityrule = accessibilityrule, rankmethod = rankmethod,
@@ -566,6 +571,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                fossilGW = fossilGW, transDist = transDist,
                multicropping = multicropping,
                landScen = landScen, cropmix = cropmix,
+               usagetype = "withdrawal",
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
   }
