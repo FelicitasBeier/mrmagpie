@@ -571,6 +571,18 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                fossilGW = fossilGW, transDist = transDist,
                multicropping = multicropping,
                landScen = landScen, cropmix = cropmix,
+               usagetype = "withdrawal", countryAggregation = TRUE,
+               aggregate = FALSE, file = paste0("pot_irr_wat", "_iso", ".mz"))
+
+    calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
+               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
+               gainthreshold = gainthreshold, allocationrule = allocationrule,
+               yieldcalib = yieldcalib, comAg = comAg,
+               fossilGW = fossilGW, transDist = transDist,
+               multicropping = multicropping,
+               landScen = landScen, cropmix = cropmix,
                usagetype = "withdrawal",
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
