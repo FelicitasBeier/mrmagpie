@@ -572,7 +572,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                multicropping = multicropping,
                landScen = landScen, cropmix = cropmix,
                usagetype = "withdrawal", countryAggregation = TRUE,
-               aggregate = FALSE, file = paste0("pot_irr_wat", "_iso", ".mz"))
+               aggregate = FALSE, file = paste0("pot_irr_wat", "_iso", ".cs3"))
 
     calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
