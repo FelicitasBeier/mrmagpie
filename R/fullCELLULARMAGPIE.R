@@ -735,6 +735,15 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster", years = lpjYears,
              file = "NPPpot.mz")
 
+  calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = FALSE,
+             file = "NPPpreind_0.5.mz")
+  calcOutput("NPPyearly", subtype = "pnv", unit = "tC/m2",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = FALSE, years = lpjYears,
+             file = "NPPpot_0.5.mz")
+
   ##### AGGREGATION ######
 
   # create info file
