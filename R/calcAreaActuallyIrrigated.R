@@ -15,7 +15,8 @@
 
 calcAreaActuallyIrrigated <- function(aggregationlevel = "iso", selectyears = "y1995") {
   # Read in data: crop- and water supply type specific crop area (in Mha):
-  x <- calcOutput("Croparea", physical = TRUE, cellular = TRUE, irrigation = TRUE, round = 6, aggregate = FALSE, years = selectyears)
+  x <- calcOutput("Croparea", physical = TRUE, cellular = TRUE, irrigation = TRUE,
+                  round = 6, aggregate = FALSE, years = selectyears, fallow = TRUE)
 
   # extract irrigated area:
   x <- dimSums(x[, , "irrigated"], dim = 3.1)
@@ -24,17 +25,16 @@ calcAreaActuallyIrrigated <- function(aggregationlevel = "iso", selectyears = "y
 
   if (aggregationlevel == "iso") {
     # country to cell mapping
-    CountryToCell <- toolGetMapping(type = "cell", name = "CountryToCellMapping.csv", where = "mappingfolder")
+    countryToCell <- toolGetMapping(type = "cell", name = "CountryToCellMapping.csv", where = "mappingfolder")
     # aggregate data
-    toolAggregate(x, dim = 1, rel = CountryToCell)
+    toolAggregate(x, dim = 1, rel = countryToCell)
 
   } else {
     out <- x
   }
 
-  return(list(
-    x = out,
-    weight = NULL,
-    unit = "Million ha",
-    description = "Irrigated cropland area"))
+  return(list(x = out,
+              weight = NULL,
+              unit = "Million ha",
+              description = "Irrigated cropland area"))
 }
