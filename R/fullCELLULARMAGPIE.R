@@ -60,7 +60,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     stop("mrmagpie(>= 1.35.2) does not support revision below 4.94 anymore. ",
          "Please use an older snapshot/version of the library, if you need older revisions.")
   }
-  climatescen <- str_split(climatetype, ":")[[1]][2]
 
   message(paste0("Start preprocessing for \n climatescenario: ", climatetype,
                  "\n LPJmL-Versions: ", paste(names(lpjml), lpjml, sep = "->", collapse = ", "),
@@ -98,7 +97,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     accessibilityrule <- "CV:2"
     rankmethod        <- "USD_m3:GLO:TRUE"
-    gainthreshold     <- 10 # to remove unproductive areas form potential irrigation (Note: temporary until we found solution for accounting for regional costs)
+    # to remove unproductive areas form potential irrigation
+    # (Note: temporary until we found solution for accounting for regional costs)
+    gainthreshold     <- 10
     allocationrule    <- "optimization"
 
     comAg             <- TRUE # potential includes priority for committed agricultural areas
@@ -257,14 +258,18 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                datasource = list(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
+               weighting = ifelse(grepl("YieldWeights_", dev),
+                                  gsub("YieldWeights_", "", dev),
+                                  "avlCropland+potentiallyIrrigatedAreas"))
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
                datasource = list(lpjml = lpjml, isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
+               weighting = ifelse(grepl("YieldWeights_", dev),
+                                  gsub("YieldWeights_", "", dev),
+                                  "avlCropland+potentiallyIrrigatedAreas"))
 
     # no growing period adaptation
     calcOutput("YieldsMAgPIE", aggregate = FALSE,
@@ -272,14 +277,18 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = NULL, years = lpjYears,
                outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
+               weighting = ifelse(grepl("YieldWeights_", dev),
+                                  gsub("YieldWeights_", "", dev),
+                                  "avlCropland+potentiallyIrrigatedAreas"))
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
                datasource = list(lpjml = paste0(lpjml, "+scen_constgsadapt_crops"), isimip = isimip),
                climatetype = climatetype, round = 2, years = lpjYears,
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
-               weighting = ifelse(grepl("YieldWeights_", dev), gsub("YieldWeights_", "", dev), "avlCropland+potentiallyIrrigatedAreas"))
+               weighting = ifelse(grepl("YieldWeights_", dev),
+                                  gsub("YieldWeights_", "", dev),
+                                  "avlCropland+potentiallyIrrigatedAreas"))
 
   }
 
@@ -288,8 +297,8 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   calcOutput("BEYield", aggregate = "region", outputStatistics = stats, file = "f14_region_be_yields.cs3")
   calcOutput("BEYield", aggregate = "GLO", outputStatistics = stats, file = "f14_global_be_yields.cs3")
-  calcOutput("BEYield", returnWeights = TRUE, aggregate = "cluster", outputStatistics = stats, 
-	     file = "f14_cluster_be_croparea_weights.cs3")
+  calcOutput("BEYield", returnWeights = TRUE, aggregate = "cluster", outputStatistics = stats,
+             file = "f14_cluster_be_croparea_weights.cs3")
 
   # 22 land conservation
   calcOutput("ProtectedAreaBaseline", nclasses = "seven",
@@ -400,7 +409,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                subtype = "/co2/Nreturn0p5", # nolint
                lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
                outputStatistics = stats, file = paste0("f31_grassl_yld.mz"), years = magYears,
-               cells = cells, aggregate = FALSE)
+               aggregate = FALSE)
   }
 
   calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen", years = "y2001",
