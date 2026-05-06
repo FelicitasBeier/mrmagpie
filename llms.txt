@@ -1,0 +1,205 @@
+# madrat based MAgPIE Input Data Library
+
+R package **mrmagpie**, version **1.65.0**
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/mrmagpie)](https://cran.r-project.org/package=mrmagpie)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4319612.svg)](https://doi.org/10.5281/zenodo.4319612)
+[![R build
+status](https://github.com/pik-piam/mrmagpie/workflows/check/badge.svg)](https://github.com/pik-piam/mrmagpie/actions)
+[![codecov](https://codecov.io/gh/pik-piam/mrmagpie/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pik-piam/mrmagpie)
+[![r-universe](https://pik-piam.r-universe.dev/badges/mrmagpie)](https://pik-piam.r-universe.dev/builds)
+
+## Purpose and Functionality
+
+Provides functions for MAgPIE country and cellular input data
+generation.
+
+## Installation
+
+For installation of the most recent package version an additional
+repository has to be added in R:
+
+``` r
+
+options(repos = c(CRAN = "@CRAN@", pik = "https://rse.pik-potsdam.de/r/packages"))
+```
+
+The additional repository can be made available permanently by adding
+the line above to a file called `.Rprofile` stored in the home folder of
+your system (`Sys.glob("~")` in R returns the home directory).
+
+After that the most recent version of the package can be installed using
+`install.packages`:
+
+``` r
+
+install.packages("mrmagpie")
+```
+
+Package updates can be installed using `update.packages` (make sure that
+the additional repository has been added before running that command):
+
+``` r
+
+update.packages()
+```
+
+## Questions / Problems
+
+In case of questions / problems please contact Kristine Karstens
+<karstens@pik-potsdam.de>.
+
+## Citation
+
+To cite package **mrmagpie** in publications use:
+
+Karstens K, Dietrich J, Chen D, Windisch M, Alves M, Beier F, Köberle A,
+v. Jeetze P, Mishra A, Humpenoeder F, Sauer P, Rein P (2026). “mrmagpie:
+madrat based MAgPIE Input Data Library.” <doi:10.5281/zenodo.4319612>
+<https://doi.org/10.5281/zenodo.4319612>, Version: 1.65.0,
+<https://github.com/pik-piam/mrmagpie>.
+
+A BibTeX entry for LaTeX users is
+
+``` latex
+@Misc{,
+ title = {mrmagpie: madrat based MAgPIE Input Data Library},
+ author = {Kristine Karstens and Jan Philipp Dietrich and David Chen and Michael Windisch and Marcos Alves and Felicitas Beier and Alexandre Köberle and Patrick {v. Jeetze} and Abhijeet Mishra and Florian Humpenoeder and Pascal Sauer and Patrick Rein},
+ doi = {10.5281/zenodo.4319612},
+ date = {2026-03-31},
+ year = {2026},
+ url = {https://github.com/pik-piam/mrmagpie},
+ note = {Version: 1.65.0},
+}
+```
+
+# Package index
+
+## All functions
+
+- [`calcAfforestationMask()`](calcAfforestationMask.md) :
+  calcAfforestationMask
+- [`calcAgeClassDistribution()`](calcAgeClassDistribution.md) :
+  calcAgeClassDistribution
+- [`calcAreaActuallyIrrigated()`](calcAreaActuallyIrrigated.md) :
+  calcAreaActuallyIrrigated
+- [`calcAreaEquippedForIrrigation()`](calcAreaEquippedForIrrigation.md)
+  : calcAreaEquippedForIrrigation
+- [`calcAvlLandSi()`](calcAvlLandSi.md) : calcAvlLandSi
+- [`calcBphEffect()`](calcBphEffect.md) : calcBphEffect
+- [`calcBphMask()`](calcBphMask.md) : calcBphMask
+- [`calcBphTCRE()`](calcBphTCRE.md) : calcBphTCRE
+- [`calcCarbon()`](calcCarbon.md) : calcCarbon
+- [`calcCarbonTests()`](calcCarbonTests.md) : calcCarbonTests
+- [`calcCellCountryFraction()`](calcCellCountryFraction.md) :
+  calcCellCountryFraction
+- [`calcCluster()`](calcCluster.md) : calcCluster
+- [`calcClusterBase()`](calcClusterBase.md) : calcClusterBase
+- [`calcClusterHierarchical()`](calcClusterHierarchical.md) :
+  calcClusterHierarchical
+- [`calcClusterKMeans()`](calcClusterKMeans.md) : calcClusterKMeans
+- [`calcClusterTreeHierarchical()`](calcClusterTreeHierarchical.md) :
+  calcClusterTreeHierarchical
+- [`calcDegradationYieldReduction()`](calcDegradationYieldReduction.md)
+  : calcDegradationYieldReduction
+- [`calcEFRRockstroem()`](calcEFRRockstroem.md) : calcEFRRockstroem
+- [`calcEFRSmakthin()`](calcEFRSmakthin.md) : calcEFRSmakthin
+- [`calcEnvmtlFlow()`](calcEnvmtlFlow.md) : calcEnvmtlFlow
+- [`calcFoodDemandGridded()`](calcFoodDemandGridded.md) :
+  calcFoodDemandGridded
+- [`calcGrasslandBiomass()`](calcGrasslandBiomass.md) :
+  calcGrasslandBiomass
+- [`calcGrasslandsYields()`](calcGrasslandsYields.md) :
+  calcGrasslandsYields
+- [`calcGridPop()`](calcGridPop.md) : calcGridPop
+- [`calcIrrigation()`](calcIrrigation.md) : calcIrrigation
+- [`calcLabourProdImpact()`](calcLabourProdImpact.md) :
+  calcLabourProdImpact
+- [`calcLabourProdImpactEmu()`](calcLabourProdImpactEmu.md) :
+  calcLabourProdImpactEmu
+- [`calcLuh2SideLayers()`](calcLuh2SideLayers.md) : calcLuh2SideLayers
+- [`calcMAPSPAM()`](calcMAPSPAM.md) : calcMAPSPAM
+- [`calcNonLocalProduction()`](calcNonLocalProduction.md) :
+  calcNonLocalProduction
+- [`calcNpiNdcAdAolcPol()`](calcNpiNdcAdAolcPol.md) :
+  calcNpiNdcAdAolcPol
+- [`calcNpiNdcAffPol()`](calcNpiNdcAffPol.md) : calcNpiNdcAffPol
+- [`calcPackagingMarketingCosts()`](calcPackagingMarketingCosts.md) :
+  calcPackagingMarketingCosts
+- [`calcPastrTauHist()`](calcPastrTauHist.md) : calcPastrTauHist
+- [`calcPastr_new()`](calcPastr_new.md) : calcPastr_new
+- [`calcPeatland()`](calcPeatland.md) : calcPeatland
+- [`calcPeatland2()`](calcPeatland2.md) : calcPeatland2
+- [`calcPotentialForestArea()`](calcPotentialForestArea.md) :
+  calcPotentialForestArea
+- [`calcRRLayer()`](calcRRLayer.md) : calcRRLayer
+- [`calcRangelandsMaxNew()`](calcRangelandsMaxNew.md) :
+  calcRangelandsMaxNew
+- [`calcSOMinitialsiationPools()`](calcSOMinitialsiationPools.md) :
+  calcSOMinitialsiationPools
+- [`calcSchulteUebbing()`](calcSchulteUebbing.md) : calcSchulteUebbing
+- [`calcTRENDY()`](calcTRENDY.md) : calcTRENDY
+- [`calcTopsoilCarbon()`](calcTopsoilCarbon.md) : calcTopsoilCarbon
+- [`calcTransportCosts()`](calcTransportCosts.md) : calcTransportCosts
+- [`calcTransportDistance()`](calcTransportDistance.md) :
+  calcTransportDistance
+- [`calcTransportTime()`](calcTransportTime.md) : calcTransportTime
+- [`convertGPD()`](convertGPD.md) : convertGPD
+- [`convertGPD2022()`](convertGPD2022.md) : convertGPD2022
+- [`correctAvlLandSi()`](correctAvlLandSi.md) : correctAvlLandSi
+- [`correctBendingTheCurve()`](correctBendingTheCurve.md) :
+  readBendingTheCurve
+- [`correctGFAD()`](correctGFAD.md) : correctGFAD
+- [`correctGPM2()`](correctGPM2.md) : correctGPM2
+- [`correctLabourProdImpactEmu()`](correctLabourProdImpactEmu.md) :
+  correctLabourProdImpactEmu
+- [`correctLeifeld2018()`](correctLeifeld2018.md) : correctLeifeld2018
+- [`correctMehta2024()`](correctMehta2024.md) : correctMehta2024
+- [`correctRamankutty()`](correctRamankutty.md) : correctRamankutty
+- [`correctTransportDistance()`](correctTransportDistance.md) :
+  correctTransportDistance
+- [`correctWindisch2021()`](correctWindisch2021.md) :
+  correctWindisch2021
+- [`downloadMAPSPAM()`](downloadMAPSPAM.md) : downloadMAPSPAM
+- [`downloadMehta2024()`](downloadMehta2024.md) : downloadMehta2024
+- [`downloadRamankutty()`](downloadRamankutty.md) : downloadRamankutty
+- [`downloadSchulteUebbing()`](downloadSchulteUebbing.md) :
+  downloadSchulteUebbing
+- [`downloadTravelTimeNelson2019()`](downloadTravelTimeNelson2019.md) :
+  downloadTravelTimeNelson2019
+- [`fullCELLULARMAGPIE()`](fullCELLULARMAGPIE.md) : fullCELLULARMAGPIE
+- [`mrmagpie`](mrmagpie-package.md)
+  [`mrmagpie-package`](mrmagpie-package.md) : mrmagpie: madrat based
+  MAgPIE Input Data Library
+- [`readAvlLandSi()`](readAvlLandSi.md) : readAvl_Land_Si
+- [`readBendingTheCurve()`](readBendingTheCurve.md) :
+  readBendingTheCurve
+- [`readGFAD()`](readGFAD.md) : readGFAD
+- [`readGPD()`](readGPD.md) : readGPD
+- [`readGPD2022()`](readGPD2022.md) : readGPD2022
+- [`readGPM2()`](readGPM2.md) : readGPM2
+- [`readGridPopGao()`](readGridPopGao.md) : readGridPopGao
+- [`readGridPopIsimip()`](readGridPopIsimip.md) : readGridPopIsimip
+- [`readLabourProdImpactEmu()`](readLabourProdImpactEmu.md) :
+  readLabourProdImpactEmu
+- [`readLabourProdImpactOrlov()`](readLabourProdImpactOrlov.md) :
+  readLabourProdImpactOrlov
+- [`readLeifeld2018()`](readLeifeld2018.md) : readLeifeld2018
+- [`readMAPSPAM()`](readMAPSPAM.md) : readMAPSPAM
+- [`readMehta2024()`](readMehta2024.md) : readMehta2024
+- [`readRamankutty()`](readRamankutty.md) : readRamankutty
+- [`readSchulteUebbing()`](readSchulteUebbing.md) : readSchulteUebbing
+- [`readTRENDY()`](readTRENDY.md) : readTRENDY
+- [`readTransportDistance()`](readTransportDistance.md) :
+  readTransportDistance
+- [`readTravelTimeNelson2019()`](readTravelTimeNelson2019.md) :
+  readTravelTimeNelson2019
+- [`readWindisch2021()`](readWindisch2021.md) : readWindisch2021
+- [`toolApplyRegionNames()`](toolApplyRegionNames.md) : Apply region
+  names
+- [`toolClusterPerRegion()`](toolClusterPerRegion.md) :
+  toolClusterPerRegion
+- [`toolClusterPerRegionManual()`](toolClusterPerRegionManual.md) :
+  toolClusterPerRegionManual
+
