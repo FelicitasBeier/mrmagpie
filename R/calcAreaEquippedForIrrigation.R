@@ -70,13 +70,13 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   ### Read in Mehta et al. (2024) data ###
   ########################################
   mehta1 <- readSource("Mehta2024", subtype = "v4_GMIA", convert = "onlycorrect")
-  mehta1 <- mstools::toolHoldConstant(mehta1, years = selectyears)
+  mehta1 <- time_interpolate(mehta1, interpolated_year = selectyears)
   years <- intersect(getItems(mehta1, dim = 2), selectyears)
   mehta1 <- mehta1[, years, ]
   getItems(mehta1, dim = 3) <- "Mehta2024_Siebert2013"
 
   mehta2 <- readSource("Mehta2024", subtype = "v4_Meier2018", convert = "onlycorrect")
-  mehta2 <- mstools::toolHoldConstant(mehta2, years = selectyears)
+  mehta2 <- time_interpolate(mehta2, interpolated_year = selectyears)
   years <- intersect(getItems(mehta2, dim = 2), selectyears)
   mehta2 <- mehta2[, years, ]
   getItems(mehta2, dim = 3) <- "Mehta2024_Meier2018"
