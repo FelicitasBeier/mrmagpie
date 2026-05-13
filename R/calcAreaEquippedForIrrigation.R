@@ -71,12 +71,16 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   ########################################
   mehta1 <- readSource("Mehta2024", subtype = "v4_GMIA", convert = "onlycorrect")
   mehta1 <- time_interpolate(mehta1, interpolated_year = selectyears)
+  # remove negative values introduced by time interpolation
+  mehta1[mehta1 < 0] <- 0
   years <- intersect(getItems(mehta1, dim = 2), selectyears)
   mehta1 <- mehta1[, years, ]
   getItems(mehta1, dim = 3) <- "Mehta2024_Siebert2013"
 
   mehta2 <- readSource("Mehta2024", subtype = "v4_Meier2018", convert = "onlycorrect")
   mehta2 <- time_interpolate(mehta2, interpolated_year = selectyears)
+  # remove negative values introduced by time interpolation
+  mehta2[mehta2 < 0] <- 0
   years <- intersect(getItems(mehta2, dim = 2), selectyears)
   mehta2 <- mehta2[, years, ]
   getItems(mehta2, dim = 3) <- "Mehta2024_Meier2018"
