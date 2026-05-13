@@ -230,9 +230,18 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
 
+  ### Benni: We have to decide which function to use. The calcMulticroppingIntensity
+  ### essentially does the same as calcMulticropping, but it allows for different scenarios
+  ### and sectoral resolution and excludes crops that are not multiple cropped.
+  ### It is, however, still based on calcLandInG. I guess this would have to be adjusted
+  ### then.
+  ### I returned both for testing for now.
   calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
              scenario = "crop", sectoral = "kcr",
              outputStatistics = stats, file = "fm_multicropping.cs3",
+             aggregate = "cluster")
+  calcOutput("Multicropping", years = magYears, round = 4, cellular = TRUE,
+             outputStatistics = stats, file = "fm_multicropping_j.cs3",
              aggregate = "cluster")
 
   ## For cellular comparison
