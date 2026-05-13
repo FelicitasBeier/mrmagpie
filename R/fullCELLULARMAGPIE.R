@@ -229,6 +229,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              cellular = TRUE, irrigation = TRUE, round = roundArea,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
+
+  calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
+             scenario = "crop", sectoral = "kcr",
+             outputStatistics = stats, file = "fm_multicropping.cs3",
+             aggregate = "cluster")
+
   ## For cellular comparison
   calcOutput("MAPSPAM", subtype = "physical",  aggregate = FALSE, round = NULL,
              outputStatistics = stats, file = paste0("MAPSPAM_croparea_0.5.mz"))
