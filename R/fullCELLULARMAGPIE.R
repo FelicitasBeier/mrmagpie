@@ -236,10 +236,10 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   ### It is, however, still based on calcLandInG. I guess this would have to be adjusted
   ### then.
   ### I returned both for testing for now.
-  calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
-             scenario = "crop", sectoral = "kcr",
-             outputStatistics = stats, file = "fm_multicropping.cs3",
-             aggregate = "cluster")
+ # calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
+ #            scenario = "crop", sectoral = "kcr",
+ #            outputStatistics = stats, file = "fm_multicropping.cs3",
+ #            aggregate = "cluster")
   calcOutput("Multicropping", years = magYears, round = 4, cellular = TRUE,
              outputStatistics = stats, file = "fm_multicropping_j.cs3",
              aggregate = "cluster")
