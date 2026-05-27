@@ -296,7 +296,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              file = paste0("f14_degradation_yld_reduc_", ctype, ".mz"))
 
   calcOutput("BEYield", aggregate = "region", outputStatistics = stats, file = "f14_region_be_yields.cs3")
-  calcOutput("BEYield", aggregate = "GLO", outputStatistics = stats, file = "f14_global_be_yields.cs3")
+  calcOutput("BEYield", aggregate = "GLO", outputStatistics = stats, file = "f14_global_be_yields.csv")
   calcOutput("BEYield", returnWeights = TRUE, aggregate = "cluster", outputStatistics = stats,
              file = "f14_cluster_be_croparea_weights.cs3")
 
