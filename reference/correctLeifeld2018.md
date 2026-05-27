@@ -26,7 +26,6 @@ Florian Humpenoeder
 ## Examples
 
 ``` r
-
 if (FALSE) { # \dontrun{
   readSource("Leifeld2018", convert="onlycorrect")
 } # }

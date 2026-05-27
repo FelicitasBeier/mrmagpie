@@ -34,7 +34,6 @@ Michael Windisch
 ## Examples
 
 ``` r
-
 if (FALSE) { # \dontrun{
   readSource("LabourProdImpactEmu", convert="onlycorrect")
 } # }
