@@ -331,17 +331,28 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
 
-  # LandInG-based croparea for initialisation
+  # LandInG-based croparea for initialization
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, selectyears = "all",
              lpjml = lpjml, climatetype = climatetype,
              aggregate = "cluster", outputStatistics = stats,
-             file = paste0("f30_croparea_LandInG_", ctype, ".mz"))
+             file = paste0("f30_croparea_LandInG_phys_", ctype, ".mz"))
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, selectyears = "all",
              lpjml = lpjml, climatetype = climatetype,
              aggregate = "cluster", outputStatistics = stats,
-             file = paste0("f30_croparea_w_LandInG_", ctype, ".mz"))
+             file = paste0("f30_croparea_w_LandInG_phys_", ctype, ".mz"))
+
+  calcOutput("CropareaLandInG", sectoral = "kcr", physical = FALSE,
+             cellular = TRUE, irrigation = FALSE, selectyears = "all",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = "cluster", outputStatistics = stats,
+             file = paste0("f30_croparea_LandInG_harv_", ctype, ".mz"))
+  calcOutput("CropareaLandInG", sectoral = "kcr", physical = FALSE,
+             cellular = TRUE, irrigation = TRUE, selectyears = "all",
+             lpjml = lpjml, climatetype = climatetype,
+             aggregate = "cluster", outputStatistics = stats,
+             file = paste0("f30_croparea_w_LandInG_harv_", ctype, ".mz"))
 
   ### BENNI: How should we solve the multiple cropping issue (for current multiple cropping)
   # To Do: read in multiple cropping area per cluster and crop and irrigation type
@@ -497,6 +508,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                selectyears = magYearsPastLong, iniyear = iniyear,
                round = roundArea, aggregateCrops = TRUE,
                aggregate = "cluster", file = paste0("area_irrig_ini_", ctype, ".mz"))
+
+    # To Do: IrrigAreaCommitted should be the "Area actually irrigated in MAgPIE" / area irrigated in initialization year
+    # To Do: keep AreaEquippedForIrrigation, too, but use LandInG (calcCroparea) instead of LUH
   }
   # keep during development, but delete once mrwater implementation is only remaining
   calcOutput("AreaEquippedForIrrigation",
@@ -512,10 +526,16 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     #           This would mean an additional set/column in MAgPIE
     # Should we return "off season" and "main season" separately? This would mean an
     # additional set in MAgPIE
+
+    # irrigation water requirements in main growing season
     calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
                lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
-               irrigationsystem = irrigationsystem, multicropping = multicropping,
-               aggregate = "cluster", file = paste0("irrig_req_crop_", ctype, ".mz"))
+               irrigationsystem = irrigationsystem, multicropping = FALSE,
+               aggregate = "cluster", file = paste0("irrig_req_crop_main", ctype, ".mz"))
+    calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
+               lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
+               irrigationsystem = irrigationsystem, multicropping = "potential:endogenous",
+               aggregate = "cluster", file = paste0("irrig_req_crop_annualMC", ctype, ".mz"))
   }
   # keep during development stage for comparison purpose, but delete once mrwater is only realization
   calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
@@ -536,45 +556,26 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   if (grepl("mrwater", dev)) {
     # Potentially irrigated areas based on river routing and yield gain ranking
-    calcOutput("PotIrrigAreas", cropAggregation = TRUE,
+    calcOutput("IrrigationMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
-               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-               gainthreshold = gainthreshold, allocationrule = allocationrule,
-               yieldcalib = yieldcalib, comAg = comAg,
-               fossilGW = fossilGW, transDist = transDist,
-               multicropping = multicropping,
-               landScen = landScen, cropmix = cropmix,
+               selectyears = selectyears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("area_pot_irrig_", ctype, ".mz"))
 
-    calcOutput("PotIrrigAreas", cropAggregation = TRUE,
+    calcOutput("IrrigationMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
-               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-               gainthreshold = gainthreshold, allocationrule = allocationrule,
-               yieldcalib = yieldcalib, comAg = comAg,
-               fossilGW = fossilGW, transDist = transDist,
-               multicropping = multicropping,
-               landScen = landScen, cropmix = cropmix,
+               selectyears = selectyears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
 
     # Water withdrawals associated with potentially irrigated areas
     ### To Do: change function call: return PIWW for ag by sources
     ## also return total (for indicator calculation)
-    calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
-               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-               gainthreshold = gainthreshold, allocationrule = allocationrule,
-               yieldcalib = yieldcalib, comAg = comAg,
-               fossilGW = fossilGW, transDist = transDist,
-               multicropping = multicropping,
-               landScen = landScen, cropmix = cropmix,
-               usagetype = "withdrawal",
+    calcOutput("IrrigationMAgPIE", output = "WaterAvlMAgPIE",
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = selectyears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
 
+    ### To Do: either remove (if weight no longer needed after argument clean up)
+    ### or integration iso-functionality in calcIrrigationMAgPIE
     calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                efrMethod = efrMethod, irrigationsystem = irrigationsystem,
@@ -587,16 +588,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                usagetype = "withdrawal", countryAggregation = TRUE,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_iso", ".cs3"))
 
-    calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
-               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-               gainthreshold = gainthreshold, allocationrule = allocationrule,
-               yieldcalib = yieldcalib, comAg = comAg,
-               fossilGW = fossilGW, transDist = transDist,
-               multicropping = multicropping,
-               landScen = landScen, cropmix = cropmix,
-               usagetype = "withdrawal",
+    calcOutput("IrrigationMAgPIE", output = "WaterAvlMAgPIE",
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = selectyears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
   }

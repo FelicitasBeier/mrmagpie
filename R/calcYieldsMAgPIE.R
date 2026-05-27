@@ -70,12 +70,12 @@ calcYieldsMAgPIE <- function(datasource = list(lpjml = "ggcmi_phase3_nchecks_9ca
     yields    <- as.magpie(yields, spatial = 1)
     repHarmon <- as.magpie(repHarmon, spatial = 1)
 
-    #### Question (Jens, Kristine, Jan): Would we want to be able to apply
+    #### Question (Jens, Kristine, Jan, Edna): Would we want to be able to apply
     #### the multiple cropping logic on ISIMIP yields as well?
     #### If so: I would suggest to use the same yield increase factor
     #### (as calculated from LPJmL grass GPP)
     #### and move the multicropping yield increase calculation from calcYieldsLPJmL
-    #### to a separate tool-/calc-Function
+    #### to a separate tool-/calc-Function, but it needs to allow a differnet set of crops
   }
 
   # Special case for India case study

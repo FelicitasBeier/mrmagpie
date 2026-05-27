@@ -111,7 +111,11 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
     pia <- calcOutput("PotIrrigAreas", cropAggregation = TRUE,
                       lpjml = lpjml, climatetype = climatetype,
                       multicropping = multicropping,
-                      # standard options (Question: How to hand them over more elegantly?)
+                      # standard options (Question (Jan): How to hand them over more elegantly?)
+                      # To Do: create new function (calcPotIrrigAreasMAgPIE)
+                      #        that returns PIA as required by MAgPIE
+                      #        and set standard settings there. Then call here and select
+                      #        BAU and iniyear.
                       selectyears = seq(1995, 2100, by = 5), iniyear = 1995,
                       efrMethod = "VMF:fair", irrigationsystem = "initialization",
                       accessibilityrule = "CV:2", rankmethod = "USD_m3:GLO:TRUE",
