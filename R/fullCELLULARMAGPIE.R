@@ -423,8 +423,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                aggregate = FALSE)
   }
 
-  calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen", years = "y2001",
-             file = paste0("koeppen_geiger_", ctype, ".mz"))          # years available: 1951, 1976, 2001
+  calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen",
+             years = "y2001", outputStatistics = stats,
+             file = paste0("koeppen_geiger_", ctype, ".mz"))  # years available: 1951, 1976, 2001
   calcOutput("ClimateClass", aggregate = "cluster", datasource = "ipcc",
              outputStatistics = stats, file = paste0("ipcc_climate_zones_", ctype, ".mz"))
   calcOutput("CellCountryFraction", aggregate = "cluster",
