@@ -223,10 +223,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # 30 crop
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, round = roundArea,
+             years = magYearsPastLong,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_initialisation_", ctype, ".mz"))
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, round = roundArea,
+             years = magYearsPastLong,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
 
