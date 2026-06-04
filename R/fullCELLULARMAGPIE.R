@@ -557,12 +557,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   if (grepl("mrwater", dev)) {
     # Potentially irrigated areas based on river routing and yield gain ranking
-    calcOutput("IrrigationMAgPIE", output = "PotIrrigAreas",
+    calcOutput("IrrigationDataMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = selectyears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("area_pot_irrig_", ctype, ".mz"))
 
-    calcOutput("IrrigationMAgPIE", output = "PotIrrigAreas",
+    calcOutput("IrrigationDataMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = selectyears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
@@ -570,7 +570,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # Water withdrawals associated with potentially irrigated areas
     ### To Do: change function call: return PIWW for ag by sources
     ## also return total (for indicator calculation)
-    calcOutput("IrrigationMAgPIE", output = "WaterAvlMAgPIE",
+    calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = selectyears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
@@ -589,7 +589,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                usagetype = "withdrawal", countryAggregation = TRUE,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_iso", ".cs3"))
 
-    calcOutput("IrrigationMAgPIE", output = "WaterAvlMAgPIE",
+    calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = selectyears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))

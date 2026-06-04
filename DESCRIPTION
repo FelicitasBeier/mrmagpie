@@ -58,5 +58,5 @@ Suggests:
     zip
 Encoding: UTF-8
 LazyData: no
-RoxygenNote: 7.3.3
 Config/Needs/website: tidyverse/tidytemplate
+Config/roxygen2/version: 8.0.0

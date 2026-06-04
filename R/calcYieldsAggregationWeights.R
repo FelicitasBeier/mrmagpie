@@ -120,7 +120,7 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
                       efrMethod = "VMF:fair", irrigationsystem = "initialization",
                       accessibilityrule = "CV:2", rankmethod = "USD_m3:GLO:TRUE",
                       gainthreshold = 10, allocationrule = "optimization",
-                      yieldcalib = FALSE, comAg = TRUE,
+                      yieldcalib = FALSE, comAg = TRUE, ### double-check: shouldn't yield calib be activated?
                       fossilGW = TRUE, transDist = 100,
                       landScen = "potCropland:NULL", cropmix = "hist_total",
                       aggregate = FALSE)[, "y1995", "off"][, , "ssp2"]
