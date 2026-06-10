@@ -559,12 +559,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     # Potentially irrigated areas based on river routing and yield gain ranking
     calcOutput("IrrigationDataMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
-               selectyears = selectyears, iniyear = iniyear,
+               selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("area_pot_irrig_", ctype, ".mz"))
 
     calcOutput("IrrigationDataMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
-               selectyears = selectyears, iniyear = iniyear,
+               selectyears = lpjYears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
 
     # Water withdrawals associated with potentially irrigated areas
@@ -572,7 +572,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     ## also return total (for indicator calculation)
     calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
-               selectyears = selectyears, iniyear = iniyear,
+               selectyears = lpjYears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
 
     ### To Do: either remove (if weight no longer needed after argument clean up)
@@ -591,7 +591,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
     calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
-               selectyears = selectyears, iniyear = iniyear,
+               selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
   }
