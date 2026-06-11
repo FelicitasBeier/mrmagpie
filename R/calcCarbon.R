@@ -15,7 +15,6 @@
 calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
                        climatetype = "MRI-ESM2-0:ssp370") {
 
-  # HACKATHON: remove `years` once the grass run is extended back to 1930
   years <- paste0("y", seq(1950, 2100))
 
   # -----------------------------------------------------------------------------------------------
@@ -43,10 +42,8 @@ calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
 
   pnv   <- .collectCarbonPools(run = "pnv",   pools = c("vegc", "soilc", "litc"))
 
-  # HACKATHON: For now we use vegc_avg for comparison purposes, but will switch to vegc before final PRs
   grass <- .collectCarbonPools(run = "grass", pools = c("vegc_avg", "soilc", "litc"))
   getItems(grass, dim = 3) <- c("vegc", "soilc", "litc")
-  # nolint grass <- .collectCarbonPools(run = "grass", pools = c("vegc", "soilc", "litc"))
 
   # Calculate topsoil carbon
   topsoilc <- calcOutput("TopsoilCarbon",
@@ -84,7 +81,6 @@ calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
                         round        = 6)
 
   # Cropland
-  # HACKATHON: We maintain the old version for testing, but will set crop.vegc to 0 for simplicity soon.
   # Factor 0.012 is based on the script subversion/svn/tools/carbon_cropland, executed at 30.07.2013
   carbon[, , "crop.vegc"]  <- 0.012 * pnv[, , "vegc"]
 

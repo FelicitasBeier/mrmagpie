@@ -22,7 +22,6 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Kristine Karstens \email{karstens@pik-potsdam.de}
   \item Jan Philipp Dietrich \email{dietrich@pik-potsdam.de}
   \item David Chen
   \item Michael Windisch
