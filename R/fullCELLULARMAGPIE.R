@@ -86,7 +86,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   magYearsPastLong <- c("y1995", "y2000", "y2005", "y2010", "y2015")
   magYears         <- findset("time")
   shortYears       <- findset("t_all")
-  pastTil2020      <- findset("past_til2020")
+  pastTil2015      <- setdiff(findset("past_til2020"), "y2020")
   lpjYears         <- seq(1995, 2100, by = 5)
   roundArea        <- 5
   stats            <- c("summary", "sum")
@@ -224,12 +224,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # 30 crop
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, round = roundArea,
-             years = pastTil2020,
+             years = pastTil2015,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_initialisation_", ctype, ".mz"))
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, round = roundArea,
-             years = pastTil2020,
+             years = pastTil2015,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
 
