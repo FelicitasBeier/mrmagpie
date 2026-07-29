@@ -19,6 +19,8 @@ Useful links:
 
 Authors:
 
+- Kristine Karstens <karstens@pik-potsdam.de>
+
 - Jan Philipp Dietrich <dietrich@pik-potsdam.de>
 
 - David Chen

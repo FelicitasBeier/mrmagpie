@@ -74,6 +74,7 @@
 - [`correctAvlLandSi()`](correctAvlLandSi.md) : correctAvlLandSi
 - [`correctBendingTheCurve()`](correctBendingTheCurve.md) :
   readBendingTheCurve
+- [`correctGAMI()`](correctGAMI.md) : correctGAMI
 - [`correctGFAD()`](correctGFAD.md) : correctGFAD
 - [`correctGPM2()`](correctGPM2.md) : correctGPM2
 - [`correctLabourProdImpactEmu()`](correctLabourProdImpactEmu.md) :
@@ -85,6 +86,7 @@
   correctTransportDistance
 - [`correctWindisch2021()`](correctWindisch2021.md) :
   correctWindisch2021
+- [`downloadGAMI()`](downloadGAMI.md) : downloadGAMI
 - [`downloadMAPSPAM()`](downloadMAPSPAM.md) : downloadMAPSPAM
 - [`downloadMehta2024()`](downloadMehta2024.md) : downloadMehta2024
 - [`downloadRamankutty()`](downloadRamankutty.md) : downloadRamankutty
@@ -99,6 +101,7 @@
 - [`readAvlLandSi()`](readAvlLandSi.md) : readAvl_Land_Si
 - [`readBendingTheCurve()`](readBendingTheCurve.md) :
   readBendingTheCurve
+- [`readGAMI()`](readGAMI.md) : readGAMI
 - [`readGFAD()`](readGFAD.md) : readGFAD
 - [`readGPD()`](readGPD.md) : readGPD
 - [`readGPD2022()`](readGPD2022.md) : readGPD2022
