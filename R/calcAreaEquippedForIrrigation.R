@@ -1,5 +1,5 @@
 #' @title calcAreaEquippedForIrrigation
-#' @description Calculates the area equipped for irrigation based on LU2v2 or
+#' @description Calculates the area equipped for irrigation based on LUH3 or
 #'              Mehta data sets.
 #'              For LUH3, it assumes, that all cropland irrigated in the last
 #'              20 years at least once is equipped for irrigation.

@@ -474,10 +474,14 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                outputStatistics = stats, file = paste0("f34_urbanland_", ctype, ".mz"))
   }
 
-  # 35 natveg
-  calcOutput("AgeClassDistribution", round = 6,
-             aggregate = "cluster",
+  # 28 ageclass: forest age-class distribution from two datasets (GFAD and GAMI). Both are emitted here;
+  # which one MAgPIE reads is selected at model runtime via c28_ageclass_source in module 28.
+  calcOutput("AgeClassDistribution", dataset = "GFAD", round = 6,
+             aggregate = "cluster", cells = cells,
              outputStatistics = stats, file = paste0("forestageclasses_", ctype, ".mz"))
+  calcOutput("AgeClassDistribution", dataset = "GAMI", round = 6,
+             aggregate = "cluster", cells = cells,
+             outputStatistics = stats, file = paste0("forestageclasses_gami_", ctype, ".mz"))
 
   calcOutput("PotentialForestArea",
              refData = "lpj", lpjml = lpjml, climatetype = climatetype, years = lpjYears,
