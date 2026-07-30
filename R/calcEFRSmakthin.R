@@ -19,7 +19,6 @@
 #'                    EFR throughout the year; monthly: monthly EFRs
 #' @param cells       lpjcell for 67420 cells or magpiecell for 59199 cells
 #'
-#' @importFrom stats quantile
 #' @importFrom mstools toolHarmonize2Baseline
 #' @importFrom mrlandcore toolLPJmLVersion
 #'
@@ -73,12 +72,25 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     ## This is calculated via the 10%- (25%-, 50%-) quantile of monthly discharge.
 
     # Quantile calculation: Yearly LFR quantile value
+    # The window length is constant (8 years * 12 months), so the type-7
+    # interpolation index is the same for every cell and every year. Precompute
+    # it once and use an inline single-probability type-7 estimator (with a
+    # partial sort) instead of stats::quantile, which is numerically identical
+    # but avoids per-call validation/multi-prob overhead (millions of calls).
+    windowLength      <- 8L * 12L
+    quantileIndex     <- 1 + (windowLength - 1) * LFR_val
+    lowerRank         <- floor(quantileIndex)
+    interpolationFrac <- quantileIndex - lowerRank
+    lfrQuantile <- function(dischargeWindow) {
+      sorted <- sort.int(dischargeWindow, partial = c(lowerRank, lowerRank + 1L))
+      (1 - interpolationFrac) * sorted[lowerRank] + interpolationFrac * sorted[lowerRank + 1L]
+    }
     for (year in years) {
       # get the LFR_val quantile in range of 8 years for each year for all cells
       neededYears <- seq(year - 7, year, by = 1)
       lfrQuant[, paste("y", year, sep = "")] <-
         apply(monthlyDischargeMagpie[, paste("y", neededYears, sep = ""), ],
-              MARGIN = c(1), quantile, probs = LFR_val)
+              MARGIN = c(1), lfrQuantile)
     }
     # Time-smooth lfrQuant
     lfrQuant <- as.magpie(lfrQuant, spatial = 1)
@@ -101,12 +113,11 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     ### Calculate LFR discharge values for each month
     # If lfrQuant < magpie_discharge: take lfrQuant
     # Else: take magpie_discharge
-    lfrMonthlyDischarge <- monthlyDischargeMagpie
-    for (month in 1:12) {
-      tmp1 <- as.vector(lfrQuant)
-      tmp2 <- as.vector(monthlyDischargeMagpie[, , month])
-      lfrMonthlyDischarge[, , month] <- pmin(tmp1, tmp2)
-    }
+    # lfrQuant is cells x years; monthlyDischargeMagpie is cells x years x 12.
+    # Column-major recycling of the cells*years vector across each month block
+    # makes this equivalent to the per-month pmin loop, with fewer allocations.
+    lfrMonthlyDischarge    <- monthlyDischargeMagpie
+    lfrMonthlyDischarge[]  <- pmin(as.vector(lfrQuant), monthlyDischargeMagpie)
     # Remove no longer needed objects
     rm(lfrQuant)
 
@@ -123,10 +134,6 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     # Transform to array for faster calculation
     avlWaterMonth <- as.array(collapseNames(avlWaterMonth))
 
-    # Empty array
-    lfr       <- avlWaterMonth
-    lfr[, , ] <- NA
-
     ### Calculate LFRs
     lfr <- avlWaterMonth * (lfrMonthlyDischarge / monthlyDischargeMagpie)
     # There are NA's where monthlyDischargeMagpie was 0, replace with 0:
@@ -141,8 +148,8 @@ calcEFRSmakthin <- function(lpjml = c(natveg = "LPJmL4_for_MAgPIE_44ac93de",
     ## HFRs of 20% of available water are therefore assigned to rivers with a
     ## low fraction of Q90 in total discharge. Rivers with a more stable flow
     ## regime receive a lower HFR." (Bonsch et al. 2015)
-    hfr       <- lfr
-    hfr[, , ] <- NA
+    # hfr allocated with the right shape; every cell is assigned below.
+    hfr <- lfr
 
     hfr[lfr < 0.1 * avlWaterMonth]  <- HFR_LFR_less10 * avlWaterMonth[lfr < 0.1 * avlWaterMonth]
     hfr[lfr >= 0.1 * avlWaterMonth] <- HFR_LFR_10_20  * avlWaterMonth[lfr >= 0.1 * avlWaterMonth]
