@@ -50,9 +50,9 @@ calcGrasslandBiomass <- function() {
                          selectyears = years,
                          multicropping = FALSE,
                          supplementary = TRUE,
-                         aggregate = FALSE)[, , "grassland.rainfed"]
+                         aggregate = FALSE)
 
-  grassYld <- collapseNames(grassYld)
+  grassYld <- collapseNames(grassYld$x)[, , "grassland.rainfed"]
   grassYld[grassYld <= 0.00088]  <- 0
 
   potBioMass <- grasslLand * grassYld[, getYears(grasslLand), ]

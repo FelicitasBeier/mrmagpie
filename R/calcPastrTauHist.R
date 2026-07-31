@@ -44,8 +44,8 @@ calcPastrTauHist <- function() {
                      selectyears = past,
                      multicropping = FALSE,
                      supplementary = TRUE,
-                     aggregate = FALSE)[, , "grassland.rainfed"]
-  yref <- collapseNames(yref)
+                     aggregate = FALSE)
+  yref <- collapseNames(yref$x)[, , "grassland.rainfed"]
 
   yrefWeights <- calcOutput("LUH3", landuseTypes = "LUH3",
                             cellular = TRUE,
