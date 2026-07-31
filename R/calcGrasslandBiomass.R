@@ -19,7 +19,7 @@ calcGrasslandBiomass <- function() {
   biomass <- collapseNames(biomass)
 
   land <- calcOutput("LanduseInitialisation", cellular = TRUE,
-                     cells = cells, selectyears = seq(1965, 2015, 5),
+                     cells = "lpjcell", selectyears = seq(1965, 2015, 5),
                      nclasses = "nine", aggregate = FALSE)
   grasslLand <- land[, , c("past", "range")]
   grasslLand <- setNames(grasslLand, c("pastr", "range"))
