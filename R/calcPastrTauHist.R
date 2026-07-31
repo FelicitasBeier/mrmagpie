@@ -1,7 +1,6 @@
 #' @title calcPastrTauHist
-#' @description Calculates managed pastures Tau based on FAO yield trends for 1995.
-#' @param past_mngmt Pasture management reference yield
-#' @param cells      "magpiecell" for 59199 cells or "lpjcell" for 67420 cells
+#' @description Calculates managed pastures Tau based on FAO yield trends for 1995
+#'              and rainfed LPJmL grassland yields
 #' @return List of magpie objects with results on country level, weight on country level, unit and description.
 #' @author Marcos Alves
 #' @importFrom magpiesets findset
@@ -12,13 +11,12 @@
 #'
 #' @importFrom magclass where
 
-calcPastrTauHist <- function(past_mngmt = "mdef", cells = "lpjcell") { # nolint
-
-  pastMngmt <- past_mngmt # nolint
-
+calcPastrTauHist <- function() {
+  # historical time period
   past <- findset("past")
+
   # Production
-  prod <- calcOutput("GrasslandBiomass", cells = cells,
+  prod <- calcOutput("GrasslandBiomass",
                      aggregate = FALSE)[, past, "pastr"]
   prod <- toolCountryFill(prod, fill = 0)
 
@@ -39,38 +37,29 @@ calcPastrTauHist <- function(past_mngmt = "mdef", cells = "lpjcell") { # nolint
   yact <- prod[, past, ] / area[, past, ]
   yact[is.nan(yact) | is.infinite(yact)] <- 0
 
-  # reference yields
-  yref <- calcOutput("GrasslandsYields", cells = cells,
-    lpjml = "lpjml5p2_pasture", climatetype = "MRI-ESM2-0:ssp245",
-    subtype = "/co2/Nreturn0p5", # nolint: absolute_path_linter.
-    lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = pastMngmt, # nolint
-    aggregate = FALSE
-  )[, past, "pastr.rainfed"]
-
+  # LPJmL grass yields as reference yields
+  cfg <- toolLPJmLDefault(suppressNote = TRUE)
+  yref <- calcOutput("YieldsLPJmL", lpjml = cfg$defaultLPJmLVersion,
+                     climatetype = cfg$baselineHist,
+                     selectyears = past,
+                     multicropping = FALSE,
+                     supplementary = TRUE,
+                     aggregate = FALSE)[, , "grassland.rainfed"]
   yref <- collapseNames(yref)
 
   yrefWeights <- calcOutput("LUH3", landuseTypes = "LUH3",
                             cellular = TRUE,
                             aggregate = FALSE)[, past, "pastr"]
 
-  if (cells == "magpiecell") {
-    # mapping
-    cell2reg <- toolGetMapping("CountryToCellMapping.csv",
-                               type = "cell", where = "mappingfolder")
-    yref <- toolAggregate(yref, rel = cell2reg, weight = yrefWeights + 10^-10,
-                          from = "celliso", to = "iso")
-  } else if (cells == "lpjcell") {
-    # coordinate-to-cell mapping
-    coord2iso <- toolGetMappingCoord2Country()
-    # collapse iso dimension for mapping
-    yref        <- collapseDim(yref, dim = 1.3)
-    yrefWeights <- collapseDim(yrefWeights, dim = 1.3)
-    # country-level grassland yields
-    yref <- toolAggregate(yref, rel = coord2iso, weight = yrefWeights + 10^-10,
-                          from = "coords", to = "iso")
-  } else {
-    stop("Please select cells magpiecell or lpjcell")
-  }
+  # coordinate-to-cell mapping
+  coord2iso <- toolGetMappingCoord2Country()
+  # collapse iso dimension for mapping
+  yref        <- collapseDim(yref, dim = 1.3)
+  yrefWeights <- collapseDim(yrefWeights, dim = 1.3)
+  # country-level grassland yields
+  yref <- toolAggregate(yref, rel = coord2iso, weight = yrefWeights + 10^-10,
+                        from = "coords", to = "iso")
+
   yref <- toolCountryFill(yref, fill = 0)
 
   # tau calculation
@@ -78,9 +67,10 @@ calcPastrTauHist <- function(past_mngmt = "mdef", cells = "lpjcell") { # nolint
   t[is.nan(t) | is.infinite(t)] <- 0
   t <- collapseNames(t)
 
-  # replacing unrealistic high tau values by regional averages
+  # replacing unrealistically high tau values by regional averages
   regMap <- toolGetMapping("regionmappingH12.csv", type = "cell", where = "madrat")
-  tReg <- toolAggregate(t, rel = regMap, weight = area, from = "CountryCode", to = "RegionCode", zeroWeight = "allow")
+  tReg <- toolAggregate(t, rel = regMap, weight = area,
+                        from = "CountryCode", to = "RegionCode", zeroWeight = "allow")
   regions <- regMap$RegionCode
   names(regions) <- regMap[, "CountryCode"]
 

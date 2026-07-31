@@ -1,7 +1,6 @@
 #' @title calcGrasslandBiomass
 #' @description Calculates pasture biomass demand for the historical period split
 #' between rangelands andmanaged pastures.
-#' @param cells "magpiecell" for 59199 cells or "lpjcell" for 67420 cells
 #' @return Regional biomass demand
 #' @author Marcos Alves
 #' @seealso \code{\link[madrat]{calcOutput}}, \code{\link[mrcommons]{calcFAOmassbalance}},
@@ -13,13 +12,14 @@
 #' @importFrom mstools toolCoord2Isocell
 #' @importFrom magpiesets findset
 
-calcGrasslandBiomass <- function(cells = "lpjcell") {
-
+calcGrasslandBiomass <- function() {
   # biomass production
-  biomass <- calcOutput("FAOmassbalance", aggregate = FALSE)[, , "production.dm"][, , "pasture"]
+  biomass <- calcOutput("FAOmassbalance",
+                        aggregate = FALSE)[, , "production.dm"][, , "pasture"]
   biomass <- collapseNames(biomass)
 
-  land <- calcOutput("LanduseInitialisation", cellular = TRUE, cells = cells, selectyears = seq(1965, 2015, 5),
+  land <- calcOutput("LanduseInitialisation", cellular = TRUE,
+                     cells = cells, selectyears = seq(1965, 2015, 5),
                      nclasses = "nine", aggregate = FALSE)
   grasslLand <- land[, , c("past", "range")]
   grasslLand <- setNames(grasslLand, c("pastr", "range"))
@@ -43,15 +43,17 @@ calcGrasslandBiomass <- function(cells = "lpjcell") {
   grasslLand["PAK", , "pastr"] <- grasslLand["PAK", , "pastr"] +
     setNames(dimSums(land["PAK", , c("primother", "secdother")], dim = 3), "pastr")
 
-  grassYld <- calcOutput("GrasslandsYields",
-                         lpjml = "lpjml5p2_pasture",
-                         climatetype = paste0("MRI-ESM2-0", ":", "ssp245"),
-                         subtype = "/co2/Nreturn0p5", # nolint
-                         lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef", # nolint
-                         cells = cells,
-                         aggregate = FALSE)[, , "rainfed"]
+  # grassland yields according to LPJmL
+  cfg <- toolLPJmLDefault(suppressNote = TRUE)
+  grassYld <- calcOutput("YieldsLPJmL", lpjml = cfg$defaultLPJmLVersion,
+                         climatetype = cfg$baselineGcm,
+                         selectyears = years,
+                         multicropping = FALSE,
+                         supplementary = TRUE,
+                         aggregate = FALSE)[, , "grassland.rainfed"]
+
   grassYld <- collapseNames(grassYld)
-  grassYld[grassYld == 0.00088]  <- 0
+  grassYld[grassYld <= 0.00088]  <- 0
 
   potBioMass <- grasslLand * grassYld[, getYears(grasslLand), ]
 
@@ -63,9 +65,6 @@ calcGrasslandBiomass <- function(cells = "lpjcell") {
 
   livestock <- setNames(readSource("GLW3", subtype = "Aw"),
                         "liv_numb")
-  if (cells == "magpiecell") {
-    livestock <- toolCoord2Isocell(livestock)
-  }
   livestock[livestock < 1] <- 0
 
   # I am working with the assumption that in most places, the proportional distribution of
@@ -77,13 +76,7 @@ calcGrasslandBiomass <- function(cells = "lpjcell") {
 
   livstSplit <- livestock * potBioMassShare
   livstSplit <- collapseNames(livstSplit)
-  if (cells == "lpjcell") {
-    livstSplitCtry <- dimSums(livstSplit, dim = c("x", "y"))
-  } else if (cells == "magpiecell") {
-    livstSplitCtry <- dimSums(livstSplit, dim = 1.2)
-  } else {
-    stop("Please select cells argument in calcGrasslandBiomass")
-  }
+  livstSplitCtry <- dimSums(livstSplit, dim = c("x", "y"))
   livstShareCtry <- livstSplitCtry[, , "pastr"] / dimSums(livstSplitCtry, dim = 3)
   livstShareCtry[is.nan(livstShareCtry) | is.infinite(livstShareCtry)] <- 0
   livstShareCtry <- add_columns(livstShareCtry, addnm = "range", dim = 3.1)

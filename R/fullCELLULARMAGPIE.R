@@ -403,34 +403,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster",
              round = roundArea, outputStatistics = stats, file = paste0("SNVTargetCropland_", ctype, ".mz"))
 
-  # 31 past
-  if (grepl("+grasslandRealization", dev)) {
-    calcOutput("GrasslandBiomass",  round = 3, outputStatistics = stats, file = "f31_grass_bio_hist.cs3",
-               aggregate = "region")
-    calcOutput("LUH3", aggregate = "cluster", landuseTypes = "LUH3",
-               cellular = TRUE,
-               outputStatistics = stats, file = paste0("f31_LUH3_", ctype, ".mz"))
-    # hard coded climate scenario for harmonization of data
-    calcOutput("GrasslandsYields", lpjml = lpjml[["grass"]], climatetype = "MRI-ESM2-0:ssp126",
-               subtype = "/co2/Nreturn0p5", # nolint
-               lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
-               outputStatistics = stats, file = paste0("f31_grassl_yld_", ctype, ".mz"), years = magYears,
-               aggregate = "cluster")
-    calcOutput("GrasslandsYields", lpjml = lpjml[["grass"]], climatetype = "MRI-ESM2-0:ssp126",
-               subtype = "/co2/Nreturn0p5", # nolint
-               lsu_levels = c(seq(0, 2.2, 0.2), 2.5), past_mngmt = "mdef",
-               outputStatistics = stats, file = paste0("f31_grassl_yld.mz"), years = magYears,
-               aggregate = FALSE)
-  }
-
-  calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen",
-             years = "y2001", outputStatistics = stats,
-             file = paste0("koeppen_geiger_", ctype, ".mz"))  # years available: 1951, 1976, 2001
-  calcOutput("ClimateClass", aggregate = "cluster", datasource = "ipcc",
-             outputStatistics = stats, file = paste0("ipcc_climate_zones_", ctype, ".mz"))
-  calcOutput("CellCountryFraction", aggregate = "cluster",
-             outputStatistics = stats, file = paste0("cell_country_fraction_", ctype, ".mz"))
-
   # 32 forestry
   calcOutput("AfforestationMask", subtype = "noboreal", aggregate = "cluster", round = roundArea,
              outputStatistics = stats, file = paste0("aff_noboreal_", ctype, ".mz"))
@@ -477,10 +449,10 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # 28 ageclass: forest age-class distribution from two datasets (GFAD and GAMI). Both are emitted here;
   # which one MAgPIE reads is selected at model runtime via c28_ageclass_source in module 28.
   calcOutput("AgeClassDistribution", dataset = "GFAD", round = 6,
-             aggregate = "cluster", cells = cells,
+             aggregate = "cluster",
              outputStatistics = stats, file = paste0("forestageclasses_", ctype, ".mz"))
   calcOutput("AgeClassDistribution", dataset = "GAMI", round = 6,
-             aggregate = "cluster", cells = cells,
+             aggregate = "cluster",
              outputStatistics = stats, file = paste0("forestageclasses_gami_", ctype, ".mz"))
 
   calcOutput("PotentialForestArea",
@@ -651,6 +623,15 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              round = NULL, outputStatistics = stats, file = "luh2_side_layers_0.5.mz")
   calcOutput("RRLayer", aggregate = "cluster",
              round = roundArea, outputStatistics = stats, file = paste0("rr_layer_", ctype, ".mz"))
+
+  # 45 climate
+  calcOutput("ClimateClass", aggregate = "cluster", datasource = "koeppen",
+             years = "y2001", outputStatistics = stats,
+             file = paste0("koeppen_geiger_", ctype, ".mz"))  # years available: 1951, 1976, 2001
+  calcOutput("ClimateClass", aggregate = "cluster", datasource = "ipcc",
+             outputStatistics = stats, file = paste0("ipcc_climate_zones_", ctype, ".mz"))
+  calcOutput("CellCountryFraction", aggregate = "cluster",
+             outputStatistics = stats, file = paste0("cell_country_fraction_", ctype, ".mz"))
 
   # 50 nitrogen
   calcOutput("AtmosphericDepositionRates", cellular = TRUE, aggregate = FALSE, round = NULL,

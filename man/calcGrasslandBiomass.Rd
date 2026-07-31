@@ -4,10 +4,7 @@
 \alias{calcGrasslandBiomass}
 \title{calcGrasslandBiomass}
 \usage{
-calcGrasslandBiomass(cells = "lpjcell")
-}
-\arguments{
-\item{cells}{"magpiecell" for 59199 cells or "lpjcell" for 67420 cells}
+calcGrasslandBiomass()
 }
 \value{
 Regional biomass demand

@@ -4,18 +4,14 @@
 \alias{calcPastrTauHist}
 \title{calcPastrTauHist}
 \usage{
-calcPastrTauHist(past_mngmt = "mdef", cells = "lpjcell")
-}
-\arguments{
-\item{past_mngmt}{Pasture management reference yield}
-
-\item{cells}{"magpiecell" for 59199 cells or "lpjcell" for 67420 cells}
+calcPastrTauHist()
 }
 \value{
 List of magpie objects with results on country level, weight on country level, unit and description.
 }
 \description{
-Calculates managed pastures Tau based on FAO yield trends for 1995.
+Calculates managed pastures Tau based on FAO yield trends for 1995
+             and rainfed LPJmL grassland yields
 }
 \examples{
 \dontrun{
