@@ -186,7 +186,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              round = roundArea, file = paste0("avl_land_si_", ctype, ".mz"))
 
   # 13 TC
-  calcOutput("PastrTauHist", round = 2, past_mngmt = "mdef",
+  calcOutput("PastrTauHist", round = 2,
              file = "f13_pastr_tau_hist.csv",
              aggregate = superregion)
 
