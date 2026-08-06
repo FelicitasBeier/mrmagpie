@@ -86,7 +86,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   magYearsPastLong <- c("y1995", "y2000", "y2005", "y2010", "y2015")
   magYears         <- findset("time")
   shortYears       <- findset("t_all")
-  pastTil2020      <- findset("past_til2020")
+  pastTil2015      <- c(findset("past"), "y2015")
   lpjYears         <- seq(1995, 2100, by = 5)
   roundArea        <- 5
   stats            <- c("summary", "sum")
@@ -224,23 +224,19 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # 30 crop
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, round = roundArea,
-             years = pastTil2020,
+             years = pastTil2015,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_initialisation_", ctype, ".mz"))
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, round = roundArea,
-             years = pastTil2020,
+             years = pastTil2015,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
 
-  ### Benni: We have to decide which function to use. The calcMulticroppingIntensity
-  ### essentially does the same as calcMulticropping, but it allows for different scenarios
-  ### and sectoral resolution and excludes crops that are not multiple cropped.
-  ### It is, however, still based on calcLandInG. I guess this would have to be adjusted
-  ### then.
+  ### As part of mrwater/multiple cropping integration: Change to this function.
   #calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
   #           scenario = "crop", sectoral = "kcr",
-  #           outputStatistics = stats, file = "fm_multicropping.cs3",
+  #           outputStatistics = stats, file = "fm_multicropping_j.cs3",
   #           aggregate = "cluster")
   calcOutput("Multicropping", years = magYears, round = 4,
              outputStatistics = stats, file = "fm_multicropping_j.cs3",
