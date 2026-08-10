@@ -16,7 +16,7 @@
 calcAreaActuallyIrrigated <- function(aggregationlevel = "iso", selectyears = "y1995") {
   # Read in data: crop- and water supply type specific crop area (in Mha):
   x <- calcOutput("Croparea", physical = TRUE, cellular = TRUE, irrigation = TRUE,
-                  round = 6, aggregate = FALSE, years = selectyears, fallow = TRUE)
+                  aggregate = FALSE, years = selectyears, fallow = FALSE)
 
   # extract irrigated area:
   x <- dimSums(x[, , "irrigated"], dim = 3.1)
