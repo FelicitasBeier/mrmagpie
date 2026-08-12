@@ -34,58 +34,56 @@ calcAreaEquippedForIrrigation <- function(cellular = FALSE,
   lastYear <- utils::tail(yearsNeeded, 1)
   yearsNeeded <- (yearsNeeded[1] - 20):lastYear
 
-  x <- collapseNames(calcOutput("LUH3",
-                                landuseTypes = "magpie",
-                                irrigation = TRUE,
-                                cellular = TRUE,
-                                yrs = yearsNeeded,
-                                aggregate = FALSE)[, , "irrigated"])
-  x     <- dimSums(x, dim = 3)
+  # calcLUH3 materialises the LUH3 raster in long format, so its peak memory
+  # scales with the number of years requested per call. Load in chunks and
+  # reduce each one to irrigated area per cell before the next one is read.
+  chunkSize <- 20
+  chunks <- split(yearsNeeded, ceiling(seq_along(yearsNeeded) / chunkSize))
+
+  x <- mbind(lapply(chunks, function(yrs) {
+    luh3 <- calcOutput("LUH3",
+                       landuseTypes = "magpie",
+                       irrigation = TRUE,
+                       cellular = TRUE,
+                       yrs = yrs,
+                       aggregate = FALSE)
+    collapseNames(luh3[, , "irrigated"])
+  }))
+
   years <- as.numeric(substring(selectyears, 2))
-  luh   <- NULL
 
   # Cropland that it is irrigated at least once in the last 20 years
-  # is defined as "equipped for irrigation"
-  for (year in years) {
-    span <- (year - 20):year
-    tmp <- setYears(as.magpie(apply(X = x[, span, ], FUN = max, MARGIN = 1),
-                              spatial = 1),
-                    paste0("y", year))
-    luh <- mbind(luh, tmp)
-  }
+  # is defined as "equipped for irrigation".
+  luh <- mbind(lapply(years, function(year) {
+    span <- paste0("y", (year - 20):year)
+    setYears(Reduce(pmax, lapply(span, function(y) x[, y, ])), paste0("y", year))
+  }))
+  getItems(luh, dim = 3) <- "LUH3"
 
   # Naming of first dimension:
   # Temporarily (until 67k preprocessing merged)
-  mapping <- toolGetMappingCoord2Country(pretty = TRUE)
+  mapping <- toolGetMappingCoord2Country()
   getItems(luh, dim = 1, raw = TRUE) <- paste(mapping$coords, mapping$iso, sep = ".")
   # Temporarily (until 67k preprocessing merged)
 
   # rename sets
   getSets(luh) <- c("x", "y", "iso", "year", "data")
 
-  # rename data dimension
-  getItems(luh, dim = 3) <- "LUH3"
-
   ########################################
   ### Read in Mehta et al. (2024) data ###
   ########################################
-  mehta1 <- readSource("Mehta2024", subtype = "v4_GMIA", convert = "onlycorrect")
-  mehta1 <- time_interpolate(mehta1, interpolated_year = selectyears)
-  # remove negative values introduced by time interpolation
-  mehta1[mehta1 < 0] <- 0
-  years <- intersect(getItems(mehta1, dim = 2), selectyears)
-  mehta1 <- mehta1[, years, ]
-  getItems(mehta1, dim = 3) <- "Mehta2024_Siebert2013"
+  .readMehta <- function(subtype, itemName) {
+    m <- readSource("Mehta2024", subtype = subtype, convert = "onlycorrect")
+    m <- time_interpolate(m, interpolated_year = selectyears)
+    # remove negative values introduced by time interpolation
+    m <- pmax(m, 0)
+    m <- m[, intersect(getItems(m, dim = 2), selectyears), ]
+    getItems(m, dim = 3) <- itemName
+    return(m)
+  }
 
-  mehta2 <- readSource("Mehta2024", subtype = "v4_Meier2018", convert = "onlycorrect")
-  mehta2 <- time_interpolate(mehta2, interpolated_year = selectyears)
-  # remove negative values introduced by time interpolation
-  mehta2[mehta2 < 0] <- 0
-  years <- intersect(getItems(mehta2, dim = 2), selectyears)
-  mehta2 <- mehta2[, years, ]
-  getItems(mehta2, dim = 3) <- "Mehta2024_Meier2018"
-
-  mehta <- mbind(mehta1, mehta2)
+  mehta <- mbind(.readMehta("v4_GMIA", "Mehta2024_Siebert2013"),
+                 .readMehta("v4_Meier2018", "Mehta2024_Meier2018"))
 
   #########################
   ### Combine data sets ###
