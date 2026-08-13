@@ -260,13 +260,13 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              round = roundArea, outputStatistics = stats, file = "avl_cropland_iso.cs3")
 
   calcOutput("CroplandTreecover",
-             aggregate = FALSE, cells = cells,
+             aggregate = FALSE,
              round = NULL, outputStatistics = stats, file = "CroplandTreecover_0.5.mz")
   calcOutput("CroplandTreecover",
-             aggregate = "cluster", cells = cells,
+             aggregate = "cluster",
              round = roundArea, outputStatistics = stats, file = paste0("CroplandTreecover_", ctype, ".mz"))
   calcOutput("CroplandTreecover",
-             aggregate = FALSE, cells = cells, countryLevel = TRUE,
+             aggregate = FALSE, countryLevel = TRUE,
              round = roundArea, outputStatistics = stats, file = "CroplandTreecover_iso.cs2")
 
   calcOutput("SNVTargetCropland",
