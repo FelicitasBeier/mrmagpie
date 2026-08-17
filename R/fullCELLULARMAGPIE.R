@@ -334,23 +334,24 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # LandInG-based croparea for initialization
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, selectyears = "all",
-             lpjml = lpjml, climatetype = climatetype,
+             climatetype = climatetype,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_LandInG_phys_", ctype, ".mz"))
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, selectyears = "all",
-             lpjml = lpjml, climatetype = climatetype,
+             climatetype = climatetype,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_LandInG_phys_", ctype, ".mz"))
 
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = FALSE,
              cellular = TRUE, irrigation = FALSE, selectyears = "all",
-             lpjml = lpjml, climatetype = climatetype,
+             climatetype = climatetype,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_LandInG_harv_", ctype, ".mz"))
+
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = FALSE,
              cellular = TRUE, irrigation = TRUE, selectyears = "all",
-             lpjml = lpjml, climatetype = climatetype,
+             climatetype = climatetype,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_LandInG_harv_", ctype, ".mz"))
 
