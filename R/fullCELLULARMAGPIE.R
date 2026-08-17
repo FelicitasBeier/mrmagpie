@@ -373,7 +373,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = FALSE, outputStatistics = stats, file = "LUH3_croparea_0.5.mz")
   calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, selectyears = "all",
-             lpjml = lpjml, climatetype = climatetype,
+             climatetype = climatetype,
              aggregate = FALSE, outputStatistics = stats,
              file = paste0("croparea_LandInG_", "0.5", ".mz"))
 
