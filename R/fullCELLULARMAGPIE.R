@@ -720,23 +720,24 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   }
 
   ### Preprocessing outputs needed for post-processing and indicator calculation ###
-  calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
-             lpjml = lpjml, climatetype = climatetype,
-             aggregate = "cluster",
-             file = "NPPpreind.mz")
-  calcOutput("NPPyearly", subtype = "pnv", unit = "tC/m2",
-             lpjml = lpjml, climatetype = climatetype,
-             aggregate = "cluster", years = lpjYears,
-             file = "NPPpot.mz")
-
-  calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
-             lpjml = lpjml, climatetype = climatetype,
-             aggregate = FALSE,
-             file = "NPPpreind_0.5.mz")
-  calcOutput("NPPyearly", subtype = "pnv", unit = "tC/m2",
-             lpjml = lpjml, climatetype = climatetype,
-             aggregate = FALSE, years = lpjYears,
-             file = "NPPpot_0.5.mz")
+  # To Do: Ask Jens for missing picontrol run and then uncomment the following lines
+  # calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
+  #            lpjml = lpjml, climatetype = climatetype,
+  #            aggregate = "cluster",
+  #            file = "NPPpreind.mz")
+  # calcOutput("NPPyearly", subtype = "pnv", unit = "tC/m2",
+  #            lpjml = lpjml, climatetype = climatetype,
+  #            aggregate = "cluster", years = lpjYears,
+  #            file = "NPPpot.mz")
+  #
+  # calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
+  #            lpjml = lpjml, climatetype = climatetype,
+  #            aggregate = FALSE,
+  #            file = "NPPpreind_0.5.mz")
+  # calcOutput("NPPyearly", subtype = "pnv", unit = "tC/m2",
+  #            lpjml = lpjml, climatetype = climatetype,
+  #            aggregate = FALSE, years = lpjYears,
+  #            file = "NPPpot_0.5.mz")
 
   ##### AGGREGATION ######
 
