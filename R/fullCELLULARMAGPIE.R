@@ -682,43 +682,6 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   calcOutput("SOCLossShare", aggregate = "cluster", rate = "loss", round = 6,
              outputStatistics = stats, file = paste0("cshare_released_", ctype, ".mz"))
 
-  if (grepl("newSOC", dev)) {
-
-    if (grepl("region", dev)) {
-      aggregateLevel <- "region"
-      cellular <- FALSE
-    } else if (grepl("cluster", dev)) {
-      aggregateLevel <- "cluster"
-      cellular <- TRUE
-    } else {
-      stop("Undefined aggregation level.")
-    }
-    histClimatetype <- toolLPJmLVersion(version     = lpjml[["natveg"]],
-                                        climatetype = climatetype)$baseline_hist
-    calcOutput("LanduseInitialisation", nclasses = "seven",
-               aggregate = aggregateLevel, cellular = cellular,
-               input_magpie = TRUE, selectyears = "y1990",
-               round = roundArea, outputStatistics = stats, file = "f59_land_y1990.cs3")
-    calcOutput("CarbonInputMultiplier", aggregate = aggregateLevel,
-               round = 6, outputStatistics = stats, file = "f59_cinput_multiplier.cs3")
-    calcOutput("CarbonInputMultiplier", inputType = "kcr", aggregate = aggregateLevel,
-               round = 6, outputStatistics = stats, file = "f59_cinput_multiplier_residue.cs3")
-    calcOutput("CarbonInputMultiplier", inputType = "kli", aggregate = aggregateLevel,
-               round = 6, outputStatistics = stats, file = "f59_cinput_multiplier_manure.cs3")
-    calcOutput("LitterSoilinput", aggregate = aggregateLevel, years = lpjYears,
-               lpjmlNatveg = lpjml[["natveg"]], climatetype = climatetype,
-               fixFpc = TRUE, round = 6, outputStatistics = stats, file = "f59_litter_input.cs3")
-    calcOutput("DecayFuture", aggregate = aggregateLevel, years = lpjYears,
-               lpjmlNatveg = lpjml[["natveg"]], climatetype = climatetype,
-               round = 6, outputStatistics = stats, file = "f59_topsoilc_decay.cs3")
-    calcOutput("SoilCarbon", aggregate = aggregateLevel, years = "y1990", output = "actualstate",
-               lpjmlNatveg = lpjml[["natveg"]], climatetype = histClimatetype,
-               round = 6, outputStatistics = stats, file = "f59_topsoilc_actualstate.cs3")
-    calcOutput("SoilCarbon", aggregate = aggregateLevel, years = "y1990", output = "naturalstate",
-               lpjmlNatveg = lpjml[["natveg"]], climatetype = histClimatetype,
-               round = 6, outputStatistics = stats, file = "f59_topsoilc_naturalstate.cs3")
-  }
-
   ### Preprocessing outputs needed for post-processing and indicator calculation ###
   calcOutput("NPPyearly", subtype = "preind", unit = "tC/m2",
              lpjml = lpjml, climatetype = climatetype,
