@@ -1,8 +1,8 @@
 Type: Package
 Package: mrmagpie
 Title: madrat based MAgPIE Input Data Library
-Version: 1.66.3
-Date: 2026-08-07
+Version: 1.66.4
+Date: 2026-09-10
 Authors@R: c(
     person("Kristine", "Karstens", , "karstens@pik-potsdam.de", role = c("aut", "cre")),
     person("Jan Philipp", "Dietrich", , "dietrich@pik-potsdam.de", role = "aut"),
@@ -58,4 +58,4 @@ Suggests:
 Encoding: UTF-8
 LazyData: no
 Config/Needs/website: tidyverse/tidytemplate
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
