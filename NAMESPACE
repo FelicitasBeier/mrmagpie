@@ -12,63 +12,81 @@ importFrom(digest,digest)
 importFrom(dplyr,"%>%")
 importFrom(ggplot2,ggsave)
 importFrom(luplot,plotregionscluster)
-importFrom(madrat,calcOutput)
-importFrom(madrat,getConfig)
-importFrom(madrat,readSource)
-importFrom(madrat,regionscode)
-importFrom(madrat,setConfig)
-importFrom(madrat,toolAggregate)
-importFrom(madrat,toolConditionalReplace)
-importFrom(madrat,toolCountryFill)
-importFrom(madrat,toolGetMapping)
-importFrom(magclass,add_dimension)
-importFrom(magclass,as.magpie)
-importFrom(magclass,clean_magpie)
-importFrom(magclass,collapseDim)
-importFrom(magclass,collapseNames)
-importFrom(magclass,dimSums)
-importFrom(magclass,getCells)
-importFrom(magclass,getItems)
-importFrom(magclass,getNames)
-importFrom(magclass,getSets)
-importFrom(magclass,getYears)
-importFrom(magclass,mbind)
-importFrom(magclass,ndata)
-importFrom(magclass,new.magpie)
-importFrom(magclass,read.magpie)
-importFrom(magclass,where)
-importFrom(magclass,wrap)
-importFrom(magpiesets,addLocation)
-importFrom(magpiesets,findset)
+importFrom(madrat,
+  calcOutput,
+  getConfig,
+  readSource,
+  regionscode,
+  setConfig,
+  toolAggregate,
+  toolConditionalReplace,
+  toolCountryFill,
+  toolGetMapping
+)
+importFrom(magclass,
+  add_dimension,
+  as.magpie,
+  clean_magpie,
+  collapseDim,
+  collapseNames,
+  dimSums,
+  getCells,
+  getItems,
+  getNames,
+  getSets,
+  getYears,
+  mbind,
+  ndata,
+  new.magpie,
+  read.magpie,
+  where,
+  wrap
+)
+importFrom(magpiesets,
+  addLocation,
+  findset
+)
 importFrom(mrland,spatial_header)
 importFrom(mrlandcore,toolLPJmLVersion)
-importFrom(mstools,toolCell2isoCell)
-importFrom(mstools,toolCoord2Isocell)
-importFrom(mstools,toolCoord2Isocoord)
-importFrom(mstools,toolGetMappingCoord2Country)
-importFrom(mstools,toolHarmonize2Baseline)
-importFrom(mstools,toolHoldConstant)
-importFrom(mstools,toolIso2CellCountries)
-importFrom(ncdf4,nc_open)
-importFrom(ncdf4,ncvar_get)
-importFrom(raster,brick)
-importFrom(raster,extent)
-importFrom(raster,extract)
+importFrom(mstools,
+  toolCell2isoCell,
+  toolCoord2Isocell,
+  toolCoord2Isocoord,
+  toolGetMappingCoord2Country,
+  toolHarmonize2Baseline,
+  toolHoldConstant,
+  toolIso2CellCountries
+)
+importFrom(ncdf4,
+  nc_open,
+  ncvar_get
+)
+importFrom(raster,
+  brick,
+  extent,
+  extract
+)
 importFrom(readxl,read_xls)
 importFrom(rlang,.data)
 importFrom(stats,quantile)
-importFrom(terra,aggregate)
-importFrom(terra,classify)
-importFrom(terra,crds)
-importFrom(terra,ext)
-importFrom(terra,focal)
-importFrom(terra,global)
-importFrom(terra,project)
-importFrom(terra,rast)
-importFrom(terra,values)
-importFrom(utils,bibentry)
-importFrom(utils,download.file)
-importFrom(utils,person)
-importFrom(utils,unzip)
-importFrom(withr,local_options)
-importFrom(withr,with_options)
+importFrom(terra,
+  aggregate,
+  classify,
+  crds,
+  ext,
+  focal,
+  global,
+  project,
+  rast,
+  values
+)
+importFrom(utils,
+  bibentry,
+  download.file,
+  person,
+  unzip
+)
+importFrom(withr,
+  local_options,
+  with_options
+)
