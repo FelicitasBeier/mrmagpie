@@ -91,7 +91,6 @@ importFrom(magpiesets,
   findset
 )
 importFrom(mrland,spatial_header)
-importFrom(mrlandcore,toolLPJmLVersion)
 importFrom(mstools,
   toolCell2isoCell,
   toolCoord2Isocell,
