@@ -36,6 +36,8 @@
   calcGrasslandBiomass
 - [`calcGrasslandsYields()`](calcGrasslandsYields.md) :
   calcGrasslandsYields
+- [`calcGrassyEcoregions()`](calcGrassyEcoregions.md) :
+  calcGrassyEcoregions
 - [`calcGridPop()`](calcGridPop.md) : calcGridPop
 - [`calcIrrigation()`](calcIrrigation.md) : calcIrrigation
 - [`calcLabourProdImpact()`](calcLabourProdImpact.md) :
@@ -74,6 +76,8 @@
 - [`correctAvlLandSi()`](correctAvlLandSi.md) : correctAvlLandSi
 - [`correctBendingTheCurve()`](correctBendingTheCurve.md) :
   readBendingTheCurve
+- [`correctDinerstein2017()`](correctDinerstein2017.md) :
+  correctDinerstein2017
 - [`correctGAMI()`](correctGAMI.md) : correctGAMI
 - [`correctGFAD()`](correctGFAD.md) : correctGFAD
 - [`correctGPM2()`](correctGPM2.md) : correctGPM2
@@ -86,6 +90,8 @@
   correctTransportDistance
 - [`correctWindisch2021()`](correctWindisch2021.md) :
   correctWindisch2021
+- [`downloadDinerstein2017()`](downloadDinerstein2017.md) :
+  downloadDinerstein2017
 - [`downloadGAMI()`](downloadGAMI.md) : downloadGAMI
 - [`downloadMAPSPAM()`](downloadMAPSPAM.md) : downloadMAPSPAM
 - [`downloadMehta2024()`](downloadMehta2024.md) : downloadMehta2024
@@ -101,6 +107,7 @@
 - [`readAvlLandSi()`](readAvlLandSi.md) : readAvl_Land_Si
 - [`readBendingTheCurve()`](readBendingTheCurve.md) :
   readBendingTheCurve
+- [`readDinerstein2017()`](readDinerstein2017.md) : readDinerstein2017
 - [`readGAMI()`](readGAMI.md) : readGAMI
 - [`readGFAD()`](readGFAD.md) : readGFAD
 - [`readGPD()`](readGPD.md) : readGPD
