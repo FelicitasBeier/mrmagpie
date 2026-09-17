@@ -356,14 +356,30 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster", cells = cells,
              outputStatistics = stats, file = paste0("forestageclasses_gami_", ctype, ".mz"))
 
+  # potential forest area for module 35 (selected by c35_pot_forest_correction): grassland-ecoregion-corrected
+  # (default; RESOLVE 2017 biomes 7-10, where LPJmL overestimates forest cover) and the
+  # uncorrected variant. Emitted at BOTH 0.5 deg and cluster resolution so the two stay consistent.
   calcOutput("PotentialForestArea",
              refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
+             grassyCorrection = TRUE,
              aggregate = FALSE, round = NULL, outputStatistics = stats, file = "pot_forest_area_0.5.mz")
 
   calcOutput("PotentialForestArea",
              refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
+             grassyCorrection = TRUE,
              aggregate = "cluster", round = roundArea,
              outputStatistics = stats, file = paste0("pot_forest_area_", ctype, ".mz"))
+
+  calcOutput("PotentialForestArea",
+             refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
+             grassyCorrection = FALSE,
+             aggregate = FALSE, round = NULL, outputStatistics = stats, file = "pot_forest_area_uncorrected_0.5.mz")
+
+  calcOutput("PotentialForestArea",
+             refData = "lpj", cells = cells, lpjml = lpjml, climatetype = climatetype, years = lpjYears,
+             grassyCorrection = FALSE,
+             aggregate = "cluster", round = roundArea,
+             outputStatistics = stats, file = paste0("pot_forest_area_uncorrected_", ctype, ".mz"))
 
   # 37 labour prod
   calcOutput("LabourProdImpactEmu", aggregate = "cluster", cells = cells, subtype = "impact",
