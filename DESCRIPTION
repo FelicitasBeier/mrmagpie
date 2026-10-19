@@ -1,8 +1,8 @@
 Type: Package
 Package: mrmagpie
 Title: madrat based MAgPIE Input Data Library
-Version: 1.67.2
-Date: 2026-09-12
+Version: 1.68.0
+Date: 2026-10-02
 Authors@R: c(
     person("Kristine", "Karstens", , "karstens@pik-potsdam.de", role = c("aut", "cre")),
     person("Jan Philipp", "Dietrich", , "dietrich@pik-potsdam.de", role = "aut"),
@@ -28,7 +28,7 @@ Depends:
     magclass (>= 3.17),
     mrcommons (>= 1.41.0),
     mrdrivers (>= 7.1.1),
-    mrland (>= 0.59.0),
+    mrland (>= 0.78.0),
     mrlandcore (>= 1.1.0),
     mrsoil (>= 2.0.0),
     mrwater (>= 1.13.0),
