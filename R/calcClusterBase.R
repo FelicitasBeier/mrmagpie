@@ -10,7 +10,7 @@
 #' @importFrom magclass wrap read.magpie ndata
 #' @importFrom madrat toolGetMapping
 
-calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.9.5-m1") {
+calcClusterBase <- function(clusterdata = "yield_airrig", lpjml = "lpjml5.10.0-m4") {
 
   d <- list()
 
