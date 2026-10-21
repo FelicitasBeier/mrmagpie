@@ -29,7 +29,7 @@
 #' calcOutput("EFRSmakthin", aggregate = FALSE)
 #' }
 #'
-calcEFRSmakthin <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:ssp370",
+calcEFRSmakthin <- function(lpjml = "lpjml5.10.0-m4", climatetype = "MRI-ESM2-0:ssp370",
                             stage = "harmonized2020",
                             LFR_val = 0.1, HFR_LFR_less10 = 0.2, HFR_LFR_10_20 = 0.15, # nolint
                             HFR_LFR_20_30 = 0.07, HFR_LFR_more30 = 0.00,               # nolint
