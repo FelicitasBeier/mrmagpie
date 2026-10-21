@@ -12,7 +12,7 @@
 #' calcOutput("Carbon", aggregate = FALSE)
 #' }
 
-calcCarbon <- function(lpjml       = "lpjml5.9.5-m1",
+calcCarbon <- function(lpjml       = "lpjml5.10.0-m4",
                        climatetype = "MRI-ESM2-0:ssp370") {
 
   years <- paste0("y", seq(1950, 2100))
