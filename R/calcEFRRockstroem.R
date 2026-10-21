@@ -23,7 +23,7 @@
 #' }
 #'
 
-calcEFRRockstroem <- function(lpjml = "lpjml5.9.5-m1", climatetype = "MRI-ESM2-0:ssp370",
+calcEFRRockstroem <- function(lpjml = "lpjml5.10.0-m4", climatetype = "MRI-ESM2-0:ssp370",
                               stage = "harmonized2020", seasonality = "grper") {
   # extract LPJmL config information
   cfg <- toolLPJmLHarmonize(lpjmlversion = lpjml,
