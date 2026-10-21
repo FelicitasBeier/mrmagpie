@@ -46,7 +46,7 @@
 fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                                ctype = "c200",
                                climatetype = "MRI-ESM2-0:ssp370",
-                               lpjml = "lpjml5.9.5-m1",
+                               lpjml = "lpjml5.10.0-m4",
                                isimip = NULL,
                                clusterweight = NULL,
                                emu_id = NULL) { # nolint
