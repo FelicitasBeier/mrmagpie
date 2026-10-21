@@ -19,7 +19,7 @@
 #' @return A magpie object
 #' @author Jan Philipp Dietrich
 calcClusterTreeHierarchical <- function(regionscode, mode = "h", weight = NULL,
-                                        lpjml = "lpjml5.9.5-m1", clusterdata = "yield_airrig") {
+                                        lpjml = "lpjml5.10.0-m4", clusterdata = "yield_airrig") {
 
   # read in cluster base data
   cdata <- toolApplyRegionNames(cdata = calcOutput("ClusterBase", lpjml = lpjml,
