@@ -22,7 +22,7 @@
 #' @author Jan Philipp Dietrich
 #' @seealso \code{\link{toolClusterPerRegionManual}}, \code{\link{calcClusterHierarchical}}
 calcClusterKMeans <- function(regionscode, ncluster, weight = NULL, cpr = NULL, seed = 42,
-                              lpjml = "lpjml5.9.5-m1", clusterdata = "yield_airrig") {
+                              lpjml = "lpjml5.10.0-m4", clusterdata = "yield_airrig") {
   # read in clustering base data
   cdata <- toolApplyRegionNames(cdata = calcOutput("ClusterBase", aggregate = FALSE,
                                                    lpjml = lpjml, clusterdata = clusterdata),
