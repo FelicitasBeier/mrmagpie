@@ -12,7 +12,7 @@
 #' calcOutput("TopsoilCarbon", aggregate = FALSE)
 #' }
 
-calcTopsoilCarbon <- function(lpjml       = "lpjml5.9.5-m1",
+calcTopsoilCarbon <- function(lpjml       = "lpjml5.10.0-m4",
                               climatetype = "MRI-ESM2-0:ssp370") {
 
   soilcLayerShare <- calcOutput("LPJmLHarmonize",
