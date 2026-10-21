@@ -18,7 +18,7 @@
 #' calcOutput("EnvmtlFlow", aggregate = FALSE)
 #' }
 #'
-calcEnvmtlFlow <- function(lpjml = "lpjml5.9.5-m1",  climatetype = "GSWP3-W5E5:historical", seasonality = "grper") {
+calcEnvmtlFlow <- function(lpjml = "lpjml5.10.0-m4",  climatetype = "GSWP3-W5E5:historical", seasonality = "grper") {
 
   ### Environemtal flow requirements (EFR) based on Smakthin (2004) method ###
   # EFRs that maintain a "fair ecosystem status", i.e. with Q90 low flow requirements (LFR)
