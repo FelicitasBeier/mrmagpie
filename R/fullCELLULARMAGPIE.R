@@ -242,10 +242,10 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   ### As part of mrwater/multiple cropping integration: Change to this function.
   #calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
   #           scenario = "crop", sectoral = "kcr",
-  #           outputStatistics = stats, file = "fm_multicropping_j.cs3",
+  #           outputStatistics = stats, file = "fm_multicropping.cs3",
   #           aggregate = "cluster")
   calcOutput("Multicropping", years = magYears, round = 4,
-             outputStatistics = stats, file = "fm_multicropping_j.cs3",
+             outputStatistics = stats, file = "fm_multicropping.cs3",
              aggregate = "cluster")
 
   ## For cellular comparison
