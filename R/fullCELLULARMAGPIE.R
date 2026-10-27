@@ -260,7 +260,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                outputStatistics = stats, file = "lpj_yields_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev),
                                   gsub("YieldWeights_", "", dev),
-                                  "avlCropland+potentiallyIrrigatedAreas"))
+                                  "avlCropland+potIrrig+avlPasture"))
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
@@ -269,7 +269,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                outputStatistics = stats, file = paste0("lpj_yields_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev),
                                   gsub("YieldWeights_", "", dev),
-                                  "avlCropland+potentiallyIrrigatedAreas"))
+                                  "avlCropland+potIrrig+avlPasture"))
 
     # no growing period adaptation
     calcOutput("YieldsMAgPIE", aggregate = FALSE,
@@ -279,7 +279,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                outputStatistics = stats, file = "lpj_yields_constgsadapt_0.5.mz",
                weighting = ifelse(grepl("YieldWeights_", dev),
                                   gsub("YieldWeights_", "", dev),
-                                  "avlCropland+potentiallyIrrigatedAreas"))
+                                  "avlCropland+potIrrig+avlPasture"))
 
     calcOutput("YieldsMAgPIE", aggregate = "cluster",
                multicropping = multicropping,
@@ -288,7 +288,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                outputStatistics = stats, file = paste0("lpj_yields_constgsadapt_", ctype, ".mz"),
                weighting = ifelse(grepl("YieldWeights_", dev),
                                   gsub("YieldWeights_", "", dev),
-                                  "avlCropland+potentiallyIrrigatedAreas"))
+                                  "avlCropland+potIrrig+avlPasture"))
 
   }
 

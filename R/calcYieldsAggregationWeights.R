@@ -102,17 +102,37 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
 
     cropAreaWeight[, , ] <- avlCrop
 
-  } else if (weighting == "avlCropland+potentiallyIrrigatedAreas") {
-    # available cropland as weight for all rainfed crops and pasture areas
+  } else if (weighting == "avlCropland+potIrrig+avlPasture") {
+
+    # Available cropland as weight for all rainfed crops
     avlCrop <- setNames(calcOutput("AvlCropland", marginal_land = marginal_land,
                                    country_level = FALSE, aggregate = FALSE),
                         NULL)
-    # potentially irrigated areas as weight for irrigated crops and pasture areas
+
+    # Potentially irrigated areas in the initialization year are used as weight
+    # for irrigated crops and pastures.
+    # It is a static (non-scenario dependent) weight that ensures that
+    # biophysical potential yields from LPJmL at 0.5 degree spatial resolution
+    # are aggregated to MAgPIE cluster-level resolution under consideration
+    # of not only available cropland (as in the case of rainfed yields),
+    # but also criteria that determine whether irrigation is possible in the
+    # specific location. This includes water availability and yield gain through
+    # irrigation.
+    # It is not equivalent to currently irrigated areas in 1995. It considers
+    # where irrigation would be possible under the climatic conditions in 1995
+    # and the given scenario assumptions.
+    # The weight has to be the same for the different yield scenarios (gsadapt vs.
+    # constgsadapt) that enter MAgPIE because their difference should merely
+    # capture the different assumptions in terms of growing period, not differences
+    # in irrigated areas that affect yields. This is a separate management decision
+    # that is handled via potentially irrigated areas within MAgPIE and should
+    # not enter the weighting.
     pia <- calcOutput("PotIrrigAreas", cropAggregation = TRUE,
-                      lpjml = lpjml, climatetype = climatetype,
+                      lpjml = gsub("+scen_constgsadapt_crops", "", lpjml, fixed = TRUE),
+                      climatetype = climatetype,
                       multicropping = multicropping,
-                      # standard options (Question (Jan): How to hand them over more elegantly?)
-                      # To Do: create new function (calcPotIrrigAreasMAgPIE)
+                      # To Do: (as part of mrwater integration)
+                      #        create new function (calcPotIrrigAreasMAgPIE)
                       #        that returns PIA as required by MAgPIE
                       #        and set standard settings there. Then call here and select
                       #        BAU and iniyear.
@@ -125,12 +145,29 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
                       landScen = "potCropland:NULL", cropmix = "hist_total",
                       aggregate = FALSE)[, "y1995", "off"][, , "ssp2"]
 
-    cropAreaWeight[, , "rainfed"] <- avlCrop
+    # Read in land use classes in 1995 for pasture area weight
+    lu1995  <- setYears(calcOutput("LanduseInitialisation", aggregate = FALSE,
+                                   cellular = TRUE, nclasses = "seven",
+                                   input_magpie = TRUE, years = "y1995", round = 6),
+                        NULL)
+
+    # Use available cropland for all rainfed crops
+    cropAreaWeight[, , kcr][, , "rainfed"] <- avlCrop
+    # Use available cropland or other land use classes in 1995 if these exceed
+    # available cropland for pasture yields
+    cropAreaWeight[, , "pasture"] <- pmax(avlCrop,
+                                          dimSums(lu1995[, , c("crop",
+                                                               "primforest",
+                                                               "secdforest",
+                                                               "forestry",
+                                                               "past")],
+                                                  dim = 3))
+    # Use potentially irrigated areas for irrigated crop and pasutre yields
     cropAreaWeight[, , "irrigated"] <- pia
 
-    # Question: How to handle pasture area? As below? Or treat same as crops?
-
-    ## To Do: add additional if here
+    ## To Do: (as part of cropare downscaling improvement)
+    # add additional if here that excludes protected areas
+    # and use new croparea suitability rules
     # calcOutput("ProtectedAreaBaseline", nclasses = "seven",
     # magpie_input = TRUE,
     # aggregate = FALSE, round = NULL
@@ -150,7 +187,11 @@ calcYieldsAggregationWeights <- function(weighting = "totalCrop",
 
     # weight for pasture is available cropland or other land use classes in 1995 if these exceed available cropland
     cropAreaWeight[, , "pasture"] <- pmax(avlCrop,
-                                          dimSums(lu1995[, , c("primforest", "secdforest", "forestry", "past")],
+                                          dimSums(lu1995[, , c("crop",
+                                                               "primforest",
+                                                               "secdforest",
+                                                               "forestry",
+                                                               "past")],
                                                   dim = 3))
 
   } else {
