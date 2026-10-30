@@ -84,6 +84,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   magYearsPastLong <- c("y1995", "y2000", "y2005", "y2010", "y2015")
   magYears         <- findset("time")
   shortYears       <- findset("t_all")
+  pastTil2015      <- c(findset("past"), "y2015")
   lpjYears         <- seq(1995, 2100, by = 5)
   iniyear          <- 1995
   roundArea        <- 5
@@ -310,6 +311,12 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
              aggregate = "cluster", round = roundArea,
              outputStatistics = stats, file = paste0("consv_prio_areas_", ctype, ".mz"))
 
+  # intact and non-intact forest (Grassi et al. 2023), not read by GAMS, for reporting
+  calcOutput("ForestGrassi2023", aggregate = FALSE, round = NULL,
+             outputStatistics = stats, file = "forest_grassi2023_0.5.mz")
+  calcOutput("ForestGrassi2023", aggregate = "cluster", round = roundArea,
+             outputStatistics = stats, file = paste0("forest_grassi2023_", ctype, ".mz"))
+
   calcOutput("ProtectArea", bhifl = TRUE,
              aggregate = "cluster", round = roundArea,
              outputStatistics = stats, file = paste0("protect_area_", ctype, ".mz"))
@@ -319,46 +326,23 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
   # LUH-based croparea for initialisation
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = FALSE, round = roundArea,
+             years = pastTil2015,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_initialisation_", ctype, ".mz"))
   calcOutput("Croparea", sectoral = "kcr", physical = TRUE,
              cellular = TRUE, irrigation = TRUE, round = roundArea,
+             years = pastTil2015,
              aggregate = "cluster", outputStatistics = stats,
              file = paste0("f30_croparea_w_initialisation_", ctype, ".mz"))
 
-  # LandInG-based croparea for initialization
-  calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
-             cellular = TRUE, irrigation = FALSE, selectyears = "all",
-             climatetype = climatetype,
-             aggregate = "cluster", outputStatistics = stats,
-             file = paste0("f30_croparea_LandInG_phys_", ctype, ".mz"))
-  calcOutput("CropareaLandInG", sectoral = "kcr", physical = TRUE,
-             cellular = TRUE, irrigation = TRUE, selectyears = "all",
-             climatetype = climatetype,
-             aggregate = "cluster", outputStatistics = stats,
-             file = paste0("f30_croparea_w_LandInG_phys_", ctype, ".mz"))
-
-  calcOutput("CropareaLandInG", sectoral = "kcr", physical = FALSE,
-             cellular = TRUE, irrigation = FALSE, selectyears = "all",
-             climatetype = climatetype,
-             aggregate = "cluster", outputStatistics = stats,
-             file = paste0("f30_croparea_LandInG_harv_", ctype, ".mz"))
-
-  calcOutput("CropareaLandInG", sectoral = "kcr", physical = FALSE,
-             cellular = TRUE, irrigation = TRUE, selectyears = "all",
-             climatetype = climatetype,
-             aggregate = "cluster", outputStatistics = stats,
-             file = paste0("f30_croparea_w_LandInG_harv_", ctype, ".mz"))
-
-  ### BENNI: How should we solve the multiple cropping issue (for current multiple cropping)
-  # To Do: read in multiple cropping area per cluster and crop and irrigation type
-  # based on CropareaLandInG: harvest - physical
-  # --> these areas should get multiple cropping yield (two different yields being read in)
-  # To Do: Double-check: Or should it all be captured by yields? i.e., yields according to
-  # current multiple cropping share (grid cells with higher multiple cropping share have just higher yields)
-  # but then cannot be isolated the effect, maybe harder to extend multiple cropping
-  # Note: for now use multicropping yields instead of making area distinction,
-  # but to be discussed.
+  ### As part of mrwater/multiple cropping integration: Change to this function.
+  #calcOutput("MulticroppingIntensity", selectyears = magYears, round = 4,
+  #           scenario = "crop", sectoral = "kcr",
+  #           outputStatistics = stats, file = "fm_multicropping.cs3",
+  #           aggregate = "cluster")
+  calcOutput("Multicropping", years = magYears, round = 4,
+             outputStatistics = stats, file = "fm_multicropping.cs3",
+             aggregate = "cluster")
 
   ## For cellular comparison
   calcOutput("MAPSPAM", subtype = "physical",  aggregate = FALSE, round = NULL,
