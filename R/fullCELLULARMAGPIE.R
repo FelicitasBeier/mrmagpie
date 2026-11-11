@@ -504,11 +504,11 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
     calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
                lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
                irrigationsystem = irrigationsystem, multicropping = FALSE,
-               aggregate = "cluster", file = paste0("irrig_req_crop_main", ctype, ".mz"))
+               aggregate = "cluster", file = paste0("irrig_req_crop_main_", ctype, ".mz"))
     calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
                lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
                irrigationsystem = irrigationsystem, multicropping = "TRUE:potential:endogenous",
-               aggregate = "cluster", file = paste0("irrig_req_crop_annualMC", ctype, ".mz"))
+               aggregate = "cluster", file = paste0("irrig_req_crop_annualMC_", ctype, ".mz"))
   }
   # keep during development stage for comparison purpose, but delete once mrwater is only realization
   calcOutput("Irrigation", lpjml = lpjml, years = lpjYears, climatetype = climatetype,
