@@ -92,28 +92,9 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   if (grepl("mrwater", dev)) {
     # default settings for mrwater
+    # (scenario settings of the water inputs: mrwater::calcIrrigationDataMAgPIE)
     irrigationsystem  <- "initialization"
-    efrMethod         <- "VMF:fair"
     multicropping     <- "TRUE:actual:irrig_crop"
-
-    accessibilityrule <- "CV:2"
-    rankmethod        <- "USD_m3:GLO:TRUE"
-    # to remove unproductive areas form potential irrigation
-    # (Note: temporary until we found solution for accounting for regional costs)
-    gainthreshold     <- 10
-    allocationrule    <- "optimization"
-
-    comAg             <- TRUE # potential includes priority for committed agricultural areas
-    yieldcalib        <- FALSE
-    # Question: should we activate yield-calibration for determination of PIWW?
-    #           In MAgPIE, yields are being calibrated, so I guess it would be more consistent
-    #           If so: global or country-level calibration (MAgPIE is regional)
-    fossilGW  <- TRUE
-    transDist <- 100
-
-    cropmix   <- "hist_total" # cropmix as of LandInG
-    landScen  <- "potCropland:NULL" # potential cropland and no land protection (for testing)
-    # To Do: different area protection scenario settings for different scenarios
   } else {
     multicropping <- FALSE
   }
@@ -505,6 +486,11 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
                irrigationsystem = irrigationsystem, multicropping = FALSE,
                aggregate = "cluster", file = paste0("irrig_req_crop_main_", ctype, ".mz"))
+    # irrigation water requirements with current multiple cropping pattern (used in MAgPIE)
+    calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
+               lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
+               irrigationsystem = irrigationsystem, multicropping = "TRUE:actual:irrig_crop",
+               aggregate = "cluster", file = paste0("irrig_req_crop_actualMC_", ctype, ".mz"))
     calcOutput("ActualIrrigWatRequirements", selectyears = lpjYears, iniyear = iniyear,
                lpjml = lpjml, climatetype = climatetype, usagetype = "withdrawal",
                irrigationsystem = irrigationsystem, multicropping = "TRUE:potential:endogenous",
@@ -539,33 +525,45 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
 
-    # Water withdrawals associated with potentially irrigated areas
-    ### To Do: change function call: return PIWW for ag by sources
-    ## also return total (for indicator calculation)
+    # Potential irrigation water withdrawals and consumption from renewable sources
     calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
 
-    ### To Do: either remove (if weight no longer needed after argument clean up)
-    ### or integration iso-functionality in calcIrrigationMAgPIE
-    calcOutput("WaterAvlMAgPIE", lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
-               efrMethod = efrMethod, irrigationsystem = irrigationsystem,
-               accessibilityrule = accessibilityrule, rankmethod = rankmethod,
-               gainthreshold = gainthreshold, allocationrule = allocationrule,
-               yieldcalib = yieldcalib, comAg = comAg,
-               fossilGW = fossilGW, transDist = transDist,
-               multicropping = multicropping,
-               landScen = landScen, cropmix = cropmix,
-               usagetype = "withdrawal", countryAggregation = TRUE,
-               aggregate = FALSE, file = paste0("pot_irr_wat", "_iso", ".cs3"))
+    ### To Do: country-level water input (e.g. as weights in module 25), if needed:
+    ### use argument countryAggregation of IrrigationDataMAgPIE (consistent with the
+    ### cluster files; replaces the former pot_irr_wat_iso.cs3)
 
     calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
+    # Non-renewable groundwater pool for agriculture and non-agricultural uses (withdrawal)
+    calcOutput("IrrigationDataMAgPIE", output = "NonrenGW",
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               aggregate = "cluster", file = paste0("nonren_gw_", ctype, ".mz"))
+
+    # Non-agricultural water demand, demand served from renewable sources and unmet demand
+    calcOutput("IrrigationDataMAgPIE", output = "NonAgWater",
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               aggregate = "cluster", file = paste0("wat_nonag_", ctype, ".mz"))
+
+    # Environmental flow requirements (discharge-based, not additive across cells:
+    # only at 0.5 degree for postprocessing and disaggregation)
+    calcOutput("IrrigationDataMAgPIE", output = "EFR",
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               aggregate = FALSE, file = paste0("efr", "_0.5", ".mz"))
+
+    # End of the harmonization period of the water inputs (checked against sm_fix_SSP2 in MAgPIE)
+    calcOutput("IrrigationDataMAgPIE", output = "HarmonizationYear",
+               lpjml = lpjml, climatetype = climatetype,
+               selectyears = lpjYears, iniyear = iniyear,
+               aggregate = FALSE, file = "f25_harmonization_year.csv")
   }
 
   # 43 water availability
