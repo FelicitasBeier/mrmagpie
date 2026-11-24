@@ -92,7 +92,7 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   if (grepl("mrwater", dev)) {
     # default settings for mrwater
-    # (scenario settings of the water inputs: mrwater::calcIrrigationDataMAgPIE)
+    # (scenario settings of the water inputs: mrwater::toolWaterScenarios25)
     irrigationsystem  <- "initialization"
     multicropping     <- "TRUE:actual:irrig_crop"
   } else {
@@ -515,55 +515,51 @@ fullCELLULARMAGPIE <- function(rev = numeric_version("0.1"), dev = "",
 
   if (grepl("mrwater", dev)) {
     # Potentially irrigated areas based on river routing and yield gain ranking
-    calcOutput("IrrigationDataMAgPIE", output = "PotIrrigAreas",
+    calcOutput("WaterDataMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("area_pot_irrig_", ctype, ".mz"))
 
-    calcOutput("IrrigationDataMAgPIE", output = "PotIrrigAreas",
+    calcOutput("WaterDataMAgPIE", output = "PotIrrigAreas",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("area_pot_irrig", "_0.5", ".mz"))
 
     # Potential irrigation water withdrawals and consumption from renewable sources
-    calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
+    calcOutput("WaterDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = FALSE, file = paste0("pot_irr_wat", "_0.5", ".mz"))
 
     ### To Do: country-level water input (e.g. as weights in module 25), if needed:
-    ### use argument countryAggregation of IrrigationDataMAgPIE (consistent with the
+    ### use argument countryAggregation of WaterDataMAgPIE (consistent with the
     ### cluster files; replaces the former pot_irr_wat_iso.cs3)
 
-    calcOutput("IrrigationDataMAgPIE", output = "WaterAvlMAgPIE",
+    calcOutput("WaterDataMAgPIE", output = "WaterAvlMAgPIE",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("pot_irr_wat_", ctype, ".mz"))
 
     # Non-renewable groundwater pool for agriculture and non-agricultural uses (withdrawal)
-    calcOutput("IrrigationDataMAgPIE", output = "NonrenGW",
+    calcOutput("WaterDataMAgPIE", output = "NonrenGW",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("nonren_gw_", ctype, ".mz"))
 
     # Non-agricultural water demand, demand served from renewable sources and unmet demand
-    calcOutput("IrrigationDataMAgPIE", output = "NonAgWater",
+    calcOutput("WaterDataMAgPIE", output = "NonAgWater",
                lpjml = lpjml, climatetype = climatetype,
                selectyears = lpjYears, iniyear = iniyear,
                aggregate = "cluster", file = paste0("wat_nonag_", ctype, ".mz"))
 
     # Environmental flow requirements (discharge-based, not additive across cells:
     # only at 0.5 degree for postprocessing and disaggregation)
-    calcOutput("IrrigationDataMAgPIE", output = "EFR",
-               lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
+    calcOutput("EFRMAgPIE",
+               lpjml = lpjml, climatetype = climatetype, selectyears = lpjYears,
                aggregate = FALSE, file = paste0("efr", "_0.5", ".mz"))
 
     # End of the harmonization period of the water inputs (checked against sm_fix_SSP2 in MAgPIE)
-    calcOutput("IrrigationDataMAgPIE", output = "HarmonizationYear",
-               lpjml = lpjml, climatetype = climatetype,
-               selectyears = lpjYears, iniyear = iniyear,
-               aggregate = FALSE, file = "f25_harmonization_year.csv")
+    calcOutput("HarmonizationYearMAgPIE", aggregate = FALSE, file = "f25_harmonization_year.csv")
   }
 
   # 43 water availability
